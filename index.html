@@ -7,6 +7,48 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+@font-face {
+  font-family: 'Polymath Text';
+  src: url('fonts/PolymathTextDemo-Medium.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Polymath Text';
+  src: url('fonts/PolymathTextDemo-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Polymath Text';
+  src: url('fonts/PolymathTextDemo-Bold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Polymath Text';
+  src: url('fonts/PolymathTextDemo-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Polymath Text';
+  src: url('fonts/PolymathTextDemo-Bold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Polymath Text';
+  src: url('fonts/PolymathTextDemo-Bold.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 :root {
   --blue: #B8D4C8;
   --blue-dark: #8FBAAa;
@@ -19,9 +61,9 @@
   --orange-light: #FDF5E6;
   --green: #B8D4C8;
   --green-light: #EFF6F3;
-  --bg: #FAF8F5;
+  --bg: #FFFFF5;
   --surface: #FFFFFF;
-  --surface2: #FAF8F5;
+  --surface2: #FFFFF5;
   --border: #E8E4DF;
   --border-strong: #D4CFC9;
   --text: #1A1A1A;
@@ -41,7 +83,7 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-family: 'Polymath Text', 'DM Sans', -apple-system, sans-serif;
   min-height: 100vh;
   font-size: 14px;
   line-height: 1.5;
@@ -53,15 +95,15 @@ body {
 /* ── SIDEBAR ── */
 .sidebar {
   width: 256px; min-width: 256px;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
+  background: #1A1A1D;
+  border-right: 1px solid rgba(255,255,255,0.08);
   display: flex; flex-direction: column;
   position: fixed; top: 0; left: 0; bottom: 0;
   z-index: 100; overflow: hidden;
 }
 .sidebar-head {
   padding: 22px 20px 18px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   flex-shrink: 0;
 }
 .tp-logo {
@@ -80,7 +122,7 @@ body {
 .tp-logo-txt span { color: var(--teal); }
 .live-pill {
   display: inline-flex; align-items: center; gap: 7px;
-  background: var(--blue-light); border: 1px solid rgba(184,212,200,0.3);
+  background: rgba(184,212,200,0.12); border: 1px solid rgba(184,212,200,0.2);
   border-radius: 100px; padding: 5px 12px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.4px;
   text-transform: uppercase; color: var(--blue);
@@ -99,32 +141,32 @@ body {
   cursor: pointer; transition: all 0.18s; margin-bottom: 1px;
   border: 1px solid transparent;
 }
-.nav-item:hover:not(.locked) { background: var(--bg); }
-.nav-item.active { background: var(--blue-light); border-color: rgba(184,212,200,0.3); }
+.nav-item:hover:not(.locked) { background: rgba(255,255,255,0.06); }
+.nav-item.active { background: rgba(184,212,200,0.12); border-color: rgba(184,212,200,0.2); }
 .nav-item.locked { opacity: 0.35; cursor: not-allowed; }
 .nav-circle {
   width: 26px; height: 26px; min-width: 26px; border-radius: 50%;
-  border: 1.5px solid var(--border-strong);
+  border: 1.5px solid rgba(255,255,255,0.2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: var(--muted);
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
   transition: all 0.18s; flex-shrink: 0;
 }
 .nav-item.active .nav-circle { background: var(--blue); border-color: var(--blue); color: #fff; }
 .nav-item.done .nav-circle { background: var(--teal); border-color: var(--teal); color: #fff; font-size: 13px; }
-.nav-label { font-size: 12.5px; font-weight: 500; color: var(--text-mid); transition: color 0.18s; }
+.nav-label { font-size: 12.5px; font-weight: 500; color: rgba(255,255,255,0.55); transition: color 0.18s; }
 .nav-item.active .nav-label { color: var(--blue); font-weight: 600; }
-.nav-item.done .nav-label { color: var(--text); }
+.nav-item.done .nav-label { color: rgba(255,255,255,0.85); }
 
 .sidebar-foot {
-  padding: 14px 20px; border-top: 1px solid var(--border); flex-shrink: 0;
+  padding: 14px 20px; border-top: 1px solid rgba(255,255,255,0.08); flex-shrink: 0;
 }
 .lang-row { display: flex; gap: 6px; align-items: center; }
-.lang-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-right: 4px; }
-.lang-toggle { display: flex; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+.lang-label { font-size: 11px; font-weight: 600; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.4px; margin-right: 4px; }
+.lang-toggle { display: flex; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 7px; overflow: hidden; }
 .lang-btn {
   padding: 5px 14px; font-size: 12px; font-weight: 600;
-  font-family: 'DM Sans', sans-serif; cursor: pointer;
-  border: none; background: transparent; color: var(--muted); transition: all 0.18s;
+  font-family: 'Polymath Text', 'DM Sans', sans-serif; cursor: pointer;
+  border: none; background: transparent; color: rgba(255,255,255,0.45); transition: all 0.18s;
 }
 .lang-btn.active { background: var(--blue); color: #fff; }
 
@@ -152,7 +194,7 @@ body {
 /* ── CARDS ── */
 .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px,1fr)); gap: 9px; margin-bottom: 28px; }
 .card {
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 16px 14px;
   cursor: pointer; transition: all 0.18s; position: relative;
   box-shadow: var(--shadow-card);
@@ -171,7 +213,7 @@ body {
 
 /* ── SKILLS ── */
 .skills-panel {
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 18px 22px;
   margin-bottom: 18px; display: flex; gap: 24px; flex-wrap: wrap;
   box-shadow: var(--shadow-card);
@@ -185,7 +227,7 @@ body {
 .tier-row {
   display: flex; align-items: center; gap: 10px;
   padding: 8px 12px; border-radius: 8px;
-  border: 1.5px solid var(--border); background: var(--surface2);
+  border: 1px solid var(--border); background: var(--surface2);
   transition: all 0.2s;
 }
 .tier-row.active { border-color: var(--blue); background: var(--blue-light); }
@@ -195,7 +237,7 @@ body {
 
 .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 7px; margin-bottom: 22px; }
 .skill-chip {
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 11px 13px;
   cursor: pointer; transition: all 0.18s;
   display: flex; align-items: flex-start; gap: 9px;
@@ -217,7 +259,7 @@ body {
 
 /* ── QUESTION SELECTION (step 3) ── */
 .q-select-panel {
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 18px 22px; margin-bottom: 18px;
   box-shadow: var(--shadow-card);
 }
@@ -243,7 +285,7 @@ body {
 .q-item {
   display: flex; align-items: flex-start; gap: 12px;
   padding: 12px 14px; border-radius: var(--radius);
-  border: 1.5px solid var(--border); background: var(--surface2);
+  border: 1px solid var(--border); background: var(--surface2);
   cursor: pointer; transition: all 0.18s;
 }
 .q-item:hover { border-color: var(--blue); background: var(--surface); }
@@ -282,7 +324,7 @@ body {
 /* ── PERSONA ── */
 .persona-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(192px,1fr)); gap: 9px; margin-bottom: 28px; }
 .persona-card {
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 16px; cursor: pointer;
   transition: all 0.18s; position: relative; box-shadow: var(--shadow-card);
 }
@@ -304,7 +346,7 @@ body {
 
 /* ── SUMMARY ── */
 .sum-card {
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius-lg); padding: 20px 22px; margin-bottom: 22px;
   box-shadow: var(--shadow-card);
 }
@@ -321,17 +363,17 @@ body {
 /* ── BUTTONS ── */
 .btn-primary {
   display: inline-flex; align-items: center; gap: 7px;
-  background: var(--blue); border: none; border-radius: 9px;
-  padding: 11px 22px; color: #fff; font-family: 'DM Sans', sans-serif;
-  font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all 0.18s;
+  background: var(--blue); border: none; border-radius: var(--radius);
+  padding: 11px 22px; color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
+  font-size: 13.5px; font-weight: 700; cursor: pointer; transition: all 0.18s;
 }
 .btn-primary:hover { background: var(--blue-dark); }
 .btn-primary:disabled { opacity: 0.38; cursor: not-allowed; }
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 7px;
-  background: var(--surface); border: 1.5px solid var(--border);
-  border-radius: 9px; padding: 11px 22px; color: var(--text-mid);
-  font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 11px 22px; color: var(--text-mid);
+  font-family: 'Polymath Text', 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 700;
   cursor: pointer; transition: all 0.18s;
 }
 .btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
@@ -339,8 +381,8 @@ body {
 
 .btn-gen {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: 9px;
-  background: var(--blue); border: none; border-radius: 11px;
-  padding: 15px 28px; color: #fff; font-family: 'DM Sans', sans-serif;
+  background: var(--blue); border: none; border-radius: var(--radius);
+  padding: 15px 28px; color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
   font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.22s;
 }
 .btn-gen:hover { background: var(--blue-dark); }
@@ -357,15 +399,15 @@ body {
   border-radius: 100px; padding: 7px 16px; font-size: 13px; font-weight: 600; color: #3D7A5E;
 }
 .restart-btn {
-  padding: 7px 16px; background: var(--surface); border: 1.5px solid var(--border);
-  border-radius: 8px; font-size: 12.5px; font-weight: 500; color: var(--text-mid);
-  cursor: pointer; transition: all 0.18s; font-family: 'DM Sans', sans-serif;
+  padding: 7px 16px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: 12.5px; font-weight: 500; color: var(--text-mid);
+  cursor: pointer; transition: all 0.18s; font-family: 'Polymath Text', 'DM Sans', sans-serif;
 }
 .restart-btn:hover { border-color: var(--blue); color: var(--blue); }
 
 .out-blocks { display: flex; flex-direction: column; gap: 10px; }
 .out-block {
-  background: var(--surface); border: 1.5px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-card);
   transition: border-color 0.18s;
 }
@@ -389,7 +431,7 @@ body {
   display: flex; align-items: center; gap: 4px; padding: 4px 11px;
   background: #fff; border: 1px solid var(--border); border-radius: 6px;
   color: var(--muted); font-size: 11px; font-weight: 600; cursor: pointer;
-  transition: all 0.18s; font-family: 'DM Sans', sans-serif;
+  transition: all 0.18s; font-family: 'Polymath Text', 'DM Sans', sans-serif;
 }
 .cp-btn:hover { border-color: var(--blue); color: var(--blue); }
 .cp-btn.ok { border-color: var(--teal); color: var(--teal-dark); }
@@ -402,7 +444,7 @@ body {
 .out-content {
   padding: 16px 18px; font-size: 12.5px; line-height: 1.75; color: var(--text-mid);
   white-space: pre-wrap; word-break: break-word;
-  max-height: 420px; overflow-y: auto; font-family: 'DM Sans', sans-serif;
+  max-height: 420px; overflow-y: auto; font-family: 'Polymath Text', 'DM Sans', sans-serif;
 }
 .out-content.collapsed { display: none; }
 .out-content::-webkit-scrollbar { width: 4px; }
@@ -410,11 +452,63 @@ body {
 
 .copy-all {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 12px 24px; background: #fff; border: 1.5px solid var(--teal);
-  border-radius: 10px; color: var(--teal-dark); font-family: 'DM Sans', sans-serif;
+  padding: 12px 24px; background: #fff; border: 1px solid var(--teal);
+  border-radius: var(--radius); color: var(--teal-dark); font-family: 'Polymath Text', 'DM Sans', sans-serif;
   font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.18s; margin-top: 10px;
 }
 .copy-all:hover { background: var(--teal-light); }
+
+/* ── TEST INTERVIEW ── */
+.test-section {
+  margin-top: 24px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.test-header {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 6px;
+}
+.test-title {
+  font-size: 14.5px; font-weight: 700; color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+}
+.test-desc {
+  font-size: 12px; color: var(--muted); margin-bottom: 18px; line-height: 1.5;
+}
+.test-call-btn {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 28px; background: var(--blue); border: none; border-radius: var(--radius);
+  color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.22s;
+}
+.test-call-btn:hover { background: var(--blue-dark); }
+.test-call-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.test-active {
+  display: none; flex-direction: column; align-items: center; gap: 18px;
+  padding: 28px 24px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.test-active.on { display: flex; }
+.test-status {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; font-weight: 600; color: var(--text);
+}
+.test-status-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--muted); transition: background 0.2s;
+}
+.test-status-dot.connecting { background: var(--orange); animation: pulse 1s ease-in-out infinite; }
+.test-status-dot.listening { background: var(--blue); }
+.test-status-dot.speaking { background: var(--teal); animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.test-timer {
+  font-size: 28px; font-weight: 700; color: var(--text);
+  font-family: 'Space Grotesk', sans-serif; letter-spacing: 1px;
+}
+.test-end-btn {
+  padding: 10px 32px; background: #E57373; border: none; border-radius: var(--radius);
+  color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.18s;
+}
+.test-end-btn:hover { background: #EF5350; }
 
 .gen-loading {
   display: none; flex-direction: column; align-items: center; gap: 14px;
@@ -601,6 +695,25 @@ body {
   </div>
   <div class="out-blocks" id="out-blocks"></div>
   <button class="copy-all" onclick="copyAll()" id="copy-all-txt">📋 Copy Complete System Prompt</button>
+
+  <!-- Test Interview Section -->
+  <div class="test-section" id="test-section">
+    <div class="test-header">
+      <div class="test-title" id="test-title">🎙️ Test Your Interview</div>
+      <div class="test-desc" id="test-desc">Try a live voice call with the AI interviewer using the prompt you just built.</div>
+    </div>
+    <button class="test-call-btn" id="test-call-btn" onclick="startTestInterview()">
+      <span id="test-call-txt">📞 Start Test Interview</span>
+    </button>
+    <div class="test-active" id="test-active" style="display:none">
+      <div class="test-status" id="test-status">
+        <span class="test-status-dot connecting" id="test-dot"></span>
+        <span id="test-status-txt">Connecting…</span>
+      </div>
+      <div class="test-timer" id="test-timer">00:00</div>
+      <button class="test-end-btn" id="test-end-btn" onclick="endTestInterview()">End Call</button>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -638,6 +751,15 @@ const T = {
     qSelCount:'questions selected',
     qMaxTxt:(n,max)=>`Select ${n} to ${max} questions`,
     qCountBadge:(n)=>`${n} selected`,
+    testTitle:'🎙️ Test Your Interview',
+    testDesc:'Try a live voice call with the AI interviewer using the prompt you just built.',
+    testCallBtn:'📞 Start Test Interview',
+    testConnecting:'Connecting…',
+    testListening:'Listening…',
+    testSpeaking:'AI is speaking…',
+    testEndBtn:'End Call',
+    testError:'Call failed. Please try again.',
+    testMicDenied:'Microphone access is required for the test call.',
   },
   es: {
     live: 'Demo en Vivo',
@@ -664,6 +786,15 @@ const T = {
     qSelCount:'preguntas seleccionadas',
     qMaxTxt:(n,max)=>`Selecciona de ${n} a ${max} preguntas`,
     qCountBadge:(n)=>`${n} seleccionadas`,
+    testTitle:'🎙️ Prueba tu Entrevista',
+    testDesc:'Realiza una llamada de voz en vivo con el entrevistador IA usando el prompt que acabas de crear.',
+    testCallBtn:'📞 Iniciar Entrevista de Prueba',
+    testConnecting:'Conectando…',
+    testListening:'Escuchando…',
+    testSpeaking:'La IA está hablando…',
+    testEndBtn:'Finalizar Llamada',
+    testError:'La llamada falló. Inténtalo de nuevo.',
+    testMicDenied:'Se requiere acceso al micrófono para la llamada de prueba.',
   }
 };
 function t(k,...a){ const v=T[CUR.lang][k]; return typeof v==='function'?v(...a):v; }
@@ -1350,12 +1481,144 @@ function copyAll(){
 }
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function restart(){
+  if(testConversation) endTestInterview();
   Object.assign(S,{step:0,role:null,skills:[],qStyle:null,questions:[],selectedQs:[],persona:null,output:null});
   const gl=document.getElementById('gen-loading');
   const gb=document.getElementById('btn-gen');
   if(gl) gl.classList.remove('on');
   if(gb) gb.style.display='flex';
   renderStep(0);
+}
+
+// ═══════════════════════════════
+//  TEST INTERVIEW (ElevenLabs)
+// ═══════════════════════════════
+let testConversation = null;
+let testTimerInterval = null;
+let testStartTime = null;
+
+async function getSignedUrl() {
+  const res = await fetch('/api/elevenlabs-signed-url');
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Failed to get signed URL');
+  }
+  const data = await res.json();
+  return data.signedUrl;
+}
+
+async function startTestInterview() {
+  const callBtn = document.getElementById('test-call-btn');
+  const activePanel = document.getElementById('test-active');
+  const dot = document.getElementById('test-dot');
+  const statusTxt = document.getElementById('test-status-txt');
+
+  // Disable button while connecting
+  callBtn.disabled = true;
+  callBtn.style.opacity = '0.6';
+
+  try {
+    // Request microphone access
+    await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (e) {
+    callBtn.disabled = false;
+    callBtn.style.opacity = '1';
+    alert(t('testMicDenied'));
+    return;
+  }
+
+  try {
+    // Get signed URL from our proxy
+    const signedUrl = await getSignedUrl();
+
+    // Dynamically load the ElevenLabs SDK
+    const { Conversation } = await import('https://esm.sh/@elevenlabs/client@latest');
+
+    // Start the conversation session with the generated prompt as override
+    testConversation = await Conversation.startSession({
+      signedUrl,
+      overrides: {
+        agent: {
+          prompt: {
+            prompt: S.output
+          }
+        }
+      },
+      onConnect: () => {
+        // Show active call UI
+        callBtn.style.display = 'none';
+        activePanel.style.display = 'flex';
+        dot.className = 'test-status-dot listening';
+        statusTxt.textContent = t('testListening');
+        startTimer();
+      },
+      onDisconnect: () => {
+        cleanupCall();
+      },
+      onError: (error) => {
+        console.error('ElevenLabs error:', error);
+        cleanupCall();
+        alert(t('testError'));
+      },
+      onModeChange: ({ mode }) => {
+        if (mode === 'speaking') {
+          dot.className = 'test-status-dot speaking';
+          statusTxt.textContent = t('testSpeaking');
+        } else {
+          dot.className = 'test-status-dot listening';
+          statusTxt.textContent = t('testListening');
+        }
+      }
+    });
+  } catch (err) {
+    console.error('Test interview error:', err);
+    callBtn.disabled = false;
+    callBtn.style.opacity = '1';
+    alert(t('testError'));
+  }
+}
+
+async function endTestInterview() {
+  if (testConversation) {
+    try { await testConversation.endSession(); } catch (e) { /* ignore */ }
+    testConversation = null;
+  }
+  cleanupCall();
+}
+
+function cleanupCall() {
+  stopTimer();
+  testConversation = null;
+  const callBtn = document.getElementById('test-call-btn');
+  const activePanel = document.getElementById('test-active');
+  if (callBtn) {
+    callBtn.style.display = '';
+    callBtn.disabled = false;
+    callBtn.style.opacity = '1';
+  }
+  if (activePanel) activePanel.style.display = 'none';
+  document.getElementById('test-timer').textContent = '00:00';
+}
+
+function startTimer() {
+  testStartTime = Date.now();
+  testTimerInterval = setInterval(updateTimerDisplay, 1000);
+}
+
+function stopTimer() {
+  if (testTimerInterval) {
+    clearInterval(testTimerInterval);
+    testTimerInterval = null;
+  }
+  testStartTime = null;
+}
+
+function updateTimerDisplay() {
+  if (!testStartTime) return;
+  const elapsed = Math.floor((Date.now() - testStartTime) / 1000);
+  const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
+  const s = String(elapsed % 60).padStart(2, '0');
+  document.getElementById('test-timer').textContent = `${m}:${s}`;
 }
 
 // ═══════════════════════════════
