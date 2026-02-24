@@ -1006,7 +1006,7 @@ Generate all 10 questions now:`;
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         model:"gpt-5.2",
-        max_tokens:2048,
+        max_completion_tokens:2048,
         messages:[{role:"user",content:prompt}]
       })
     });
@@ -1261,7 +1261,7 @@ Write everything in ${outputLang}. Be thorough, specific, and production-ready.`
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         model:"gpt-5.2",
-        max_tokens:8192,
+        max_completion_tokens:8192,
         messages:[{role:"user",content:prompt}]
       })
     });

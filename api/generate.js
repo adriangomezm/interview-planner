@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { model, max_tokens, messages } = req.body;
+  const { model, max_tokens, max_completion_tokens, messages } = req.body;
 
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: "Missing or invalid messages" });
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
   try {
     const response = await client.chat.completions.create({
       model: model || "gpt-5.2",
-      max_tokens: max_tokens || 4096,
+      max_completion_tokens: max_completion_tokens || max_tokens || 4096,
       messages,
     });
 
