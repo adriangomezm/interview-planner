@@ -1498,7 +1498,7 @@ let testTimerInterval = null;
 let testStartTime = null;
 
 async function getSignedUrl() {
-  const res = await fetch('/api/elevenlabs-signed-url');
+  const res = await fetch(`/api/elevenlabs-signed-url?lang=${CUR.lang}`);
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err.error || 'Failed to get signed URL');

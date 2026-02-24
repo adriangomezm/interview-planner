@@ -3,11 +3,17 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const agentId = process.env.ELEVENLABS_AGENT_ID;
+  const lang = (req.query.lang || "en").toLowerCase();
+  const agentId =
+    lang === "es"
+      ? process.env.ELEVENLABS_AGENT_ID_ES
+      : process.env.ELEVENLABS_AGENT_ID_EN;
   const apiKey = process.env.ELEVENLABS_API_KEY;
 
   if (!agentId || !apiKey) {
-    return res.status(500).json({ error: "ElevenLabs credentials not configured" });
+    return res.status(500).json({
+      error: `ElevenLabs credentials not configured for language: ${lang}`,
+    });
   }
 
   try {
