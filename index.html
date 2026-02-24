@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Interview Builder — Talkpush</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #B8D4C8;
+  --blue-dark: #8FBAAa;
+  --blue-light: #EFF6F3;
+  --blue-mid: rgba(184,212,200,0.12);
+  --teal: #C5CAE9;
+  --teal-light: #ECEEF7;
+  --teal-dark: #7A82B3;
+  --orange: #F0A830;
+  --orange-light: #FDF5E6;
+  --green: #B8D4C8;
+  --green-light: #EFF6F3;
+  --bg: #FAF8F5;
+  --surface: #FFFFFF;
+  --surface2: #FAF8F5;
+  --border: #E8E4DF;
+  --border-strong: #D4CFC9;
+  --text: #1A1A1A;
+  --text-mid: #4A4A4A;
+  --muted: #8A8A8A;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --shadow: none;
+  --shadow-hover: none;
+  --shadow-card: none;
+  --pink: #F0B8D0;
+  --pink-light: #FCF0F5;
+  --lavender: #C5CAE9;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── LAYOUT ── */
+.shell { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 256px; min-width: 256px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  position: fixed; top: 0; left: 0; bottom: 0;
+  z-index: 100; overflow: hidden;
+}
+.sidebar-head {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.tp-logo {
+  display: flex; align-items: center; gap: 0;
+  margin-bottom: 14px;
+}
+.tp-logo img {
+  height: 24px;
+  display: block;
+}
+.tp-logo-txt {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: var(--blue);
+  line-height: 1;
+}
+.tp-logo-txt span { color: var(--teal); }
+.live-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--blue-light); border: 1px solid rgba(184,212,200,0.3);
+  border-radius: 100px; padding: 5px 12px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.4px;
+  text-transform: uppercase; color: var(--blue);
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--teal);
+  animation: livepulse 2s infinite;
+  flex-shrink: 0;
+}
+@keyframes livepulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.65)} }
+
+.sidebar-nav { flex: 1; padding: 16px 10px; overflow-y: auto; }
+.nav-item {
+  display: flex; align-items: center; gap: 11px;
+  padding: 9px 12px; border-radius: 9px;
+  cursor: pointer; transition: all 0.18s; margin-bottom: 1px;
+  border: 1px solid transparent;
+}
+.nav-item:hover:not(.locked) { background: var(--bg); }
+.nav-item.active { background: var(--blue-light); border-color: rgba(184,212,200,0.3); }
+.nav-item.locked { opacity: 0.35; cursor: not-allowed; }
+.nav-circle {
+  width: 26px; height: 26px; min-width: 26px; border-radius: 50%;
+  border: 1.5px solid var(--border-strong);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  transition: all 0.18s; flex-shrink: 0;
+}
+.nav-item.active .nav-circle { background: var(--blue); border-color: var(--blue); color: #fff; }
+.nav-item.done .nav-circle { background: var(--teal); border-color: var(--teal); color: #fff; font-size: 13px; }
+.nav-label { font-size: 12.5px; font-weight: 500; color: var(--text-mid); transition: color 0.18s; }
+.nav-item.active .nav-label { color: var(--blue); font-weight: 600; }
+.nav-item.done .nav-label { color: var(--text); }
+
+.sidebar-foot {
+  padding: 14px 20px; border-top: 1px solid var(--border); flex-shrink: 0;
+}
+.lang-row { display: flex; gap: 6px; align-items: center; }
+.lang-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-right: 4px; }
+.lang-toggle { display: flex; background: var(--bg); border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
+.lang-btn {
+  padding: 5px 14px; font-size: 12px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  border: none; background: transparent; color: var(--muted); transition: all 0.18s;
+}
+.lang-btn.active { background: var(--blue); color: #fff; }
+
+/* ── MAIN ── */
+.main { margin-left: 256px; flex: 1; min-height: 100vh; }
+.main-inner { padding: 40px 48px 80px; max-width: 860px; }
+
+/* Steps */
+.step { display: none; }
+.step.on { display: block; animation: stepIn 0.3s ease; }
+@keyframes stepIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* Page header */
+.phead { margin-bottom: 30px; }
+.step-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  color: var(--blue); background: var(--blue-light); border-radius: 100px;
+  padding: 4px 12px; margin-bottom: 12px;
+}
+.ptitle { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.4px; color: var(--text); margin-bottom: 6px; line-height: 1.25; }
+.ptitle em { font-style: normal; color: var(--blue); }
+.pdesc { font-size: 13.5px; color: var(--muted); line-height: 1.6; max-width: 500px; }
+
+/* ── CARDS ── */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px,1fr)); gap: 9px; margin-bottom: 28px; }
+.card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 16px 14px;
+  cursor: pointer; transition: all 0.18s; position: relative;
+  box-shadow: var(--shadow-card);
+}
+.card:hover { border-color: var(--blue); }
+.card.sel { border-color: var(--blue); background: var(--blue-light); }
+.card.sel::after {
+  content: '✓'; position: absolute; top: 9px; right: 10px;
+  background: var(--blue); color: #fff; width: 19px; height: 19px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800;
+}
+.card-ico { font-size: 22px; margin-bottom: 9px; }
+.card-title { font-weight: 700; font-size: 12.5px; color: var(--text); margin-bottom: 3px; }
+.card-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* ── SKILLS ── */
+.skills-panel {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg); padding: 18px 22px;
+  margin-bottom: 18px; display: flex; gap: 24px; flex-wrap: wrap;
+  box-shadow: var(--shadow-card);
+}
+.sp-count-col { flex-shrink: 0; }
+.sp-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 6px; }
+.sp-big { font-size: 48px; font-weight: 900; color: var(--blue); line-height: 1; letter-spacing: -3px; margin-bottom: 3px; }
+.sp-sub { font-size: 11px; color: var(--muted); }
+.sp-tiers-col { flex: 1; min-width: 250px; }
+.tiers { display: flex; flex-direction: column; gap: 5px; }
+.tier-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 12px; border-radius: 8px;
+  border: 1.5px solid var(--border); background: var(--surface2);
+  transition: all 0.2s;
+}
+.tier-row.active { border-color: var(--blue); background: var(--blue-light); }
+.tier-badge { font-size: 11.5px; font-weight: 700; color: var(--blue); min-width: 68px; }
+.tier-detail { font-size: 11.5px; color: var(--muted); }
+.tier-detail b { color: var(--text); font-weight: 600; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 7px; margin-bottom: 22px; }
+.skill-chip {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 11px 13px;
+  cursor: pointer; transition: all 0.18s;
+  display: flex; align-items: flex-start; gap: 9px;
+  box-shadow: var(--shadow-card);
+}
+.skill-chip:hover { border-color: var(--blue); }
+.skill-chip.sel { border-color: var(--blue); background: var(--blue-light); }
+.skill-checkbox {
+  width: 17px; height: 17px; min-width: 17px;
+  border: 2px solid var(--border-strong); border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 1px; transition: all 0.18s;
+}
+.skill-chip.sel .skill-checkbox { background: var(--blue); border-color: var(--blue); }
+.skill-check-mark { display: none; color: #fff; font-size: 9px; font-weight: 800; }
+.skill-chip.sel .skill-check-mark { display: block; }
+.sk-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.sk-desc { font-size: 10.5px; color: var(--muted); line-height: 1.4; }
+
+/* ── QUESTION SELECTION (step 3) ── */
+.q-select-panel {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg); padding: 18px 22px; margin-bottom: 18px;
+  box-shadow: var(--shadow-card);
+}
+.q-select-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.q-select-title { font-size: 14px; font-weight: 700; color: var(--text); }
+.q-count-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--teal-light); border: 1px solid rgba(0,201,192,0.25);
+  border-radius: 100px; padding: 4px 12px;
+  font-size: 11px; font-weight: 700; color: var(--teal-dark);
+}
+.q-loading {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  padding: 36px 20px; color: var(--muted);
+}
+.q-mini-spinner {
+  width: 28px; height: 28px; border: 2px solid var(--blue-light);
+  border-top-color: var(--blue); border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.q-loading-text { font-size: 13px; }
+.q-list { display: flex; flex-direction: column; gap: 7px; }
+.q-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; border-radius: var(--radius);
+  border: 1.5px solid var(--border); background: var(--surface2);
+  cursor: pointer; transition: all 0.18s;
+}
+.q-item:hover { border-color: var(--blue); background: var(--surface); }
+.q-item.sel { border-color: var(--blue); background: var(--blue-light); }
+.q-item.disabled { opacity: 0.38; cursor: not-allowed; pointer-events: none; }
+.q-num {
+  width: 26px; height: 26px; min-width: 26px; border-radius: 50%;
+  background: var(--blue-light); color: var(--blue);
+  font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px; transition: all 0.18s;
+}
+.q-item.sel .q-num { background: var(--blue); color: #fff; }
+.q-text { font-size: 12.5px; color: var(--text); line-height: 1.5; }
+.q-skill-tag {
+  margin-top: 4px; display: inline-block;
+  font-size: 10px; font-weight: 700; color: var(--teal-dark);
+  background: var(--teal-light); border-radius: 4px; padding: 1px 7px;
+}
+
+.numq-hint {
+  font-size: 12.5px; color: var(--text-mid);
+  padding: 10px 14px; background: var(--teal-light);
+  border: 1px solid rgba(0,201,192,0.25); border-radius: 8px;
+  margin-bottom: 14px; line-height: 1.55;
+}
+.numq-hint b { color: var(--blue); }
+
+.q-select-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border);
+  flex-wrap: wrap; gap: 8px;
+}
+.q-sel-count { font-size: 12.5px; color: var(--muted); font-weight: 500; }
+.q-sel-count b { color: var(--blue); font-weight: 700; }
+
+/* ── PERSONA ── */
+.persona-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(192px,1fr)); gap: 9px; margin-bottom: 28px; }
+.persona-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius); padding: 16px; cursor: pointer;
+  transition: all 0.18s; position: relative; box-shadow: var(--shadow-card);
+}
+.persona-card:hover { border-color: var(--blue); }
+.persona-card.sel { border-color: var(--blue); background: var(--blue-light); }
+.persona-card.sel::after {
+  content: '✓'; position: absolute; top: 9px; right: 10px;
+  background: var(--blue); color: #fff; width: 19px; height: 19px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800;
+}
+.persona-ava {
+  width: 40px; height: 40px; border-radius: 50%; margin-bottom: 9px;
+  display: flex; align-items: center; justify-content: center; font-size: 18px;
+}
+.persona-name { font-weight: 700; font-size: 13.5px; color: var(--text); margin-bottom: 2px; }
+.persona-tone { font-size: 11px; font-weight: 600; margin-bottom: 5px; }
+.persona-traits { font-size: 10.5px; color: var(--muted); line-height: 1.5; }
+
+/* ── SUMMARY ── */
+.sum-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg); padding: 20px 22px; margin-bottom: 22px;
+  box-shadow: var(--shadow-card);
+}
+.sum-heading { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 12px; }
+.sum-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+.sum-tag {
+  padding: 5px 12px; border-radius: 100px; font-size: 12px; font-weight: 500;
+  background: var(--blue-light); border: 1px solid rgba(184,212,200,0.4); color: var(--text);
+}
+.sum-tag.teal { background: var(--teal-light); border-color: rgba(197,202,233,0.4); color: var(--teal-dark); }
+.sum-tag.orange { background: var(--orange-light); border-color: rgba(240,168,48,0.3); color: #B07A10; }
+.sum-tag.pink { background: var(--pink-light); border-color: rgba(240,184,208,0.4); color: #B05A80; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--blue); border: none; border-radius: 9px;
+  padding: 11px 22px; color: #fff; font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all 0.18s;
+}
+.btn-primary:hover { background: var(--blue-dark); }
+.btn-primary:disabled { opacity: 0.38; cursor: not-allowed; }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 11px 22px; color: var(--text-mid);
+  font-family: 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 500;
+  cursor: pointer; transition: all 0.18s;
+}
+.btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+.step-nav { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; }
+
+.btn-gen {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 9px;
+  background: var(--blue); border: none; border-radius: 11px;
+  padding: 15px 28px; color: #fff; font-family: 'DM Sans', sans-serif;
+  font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.22s;
+}
+.btn-gen:hover { background: var(--blue-dark); }
+.btn-gen:disabled { opacity: 0.38; cursor: not-allowed; }
+.btn-spin { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+.btn-gen.loading .btn-spin { display: block; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* ── OUTPUT ── */
+.out-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+.out-done {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: var(--green-light); border: 1px solid rgba(184,212,200,0.5);
+  border-radius: 100px; padding: 7px 16px; font-size: 13px; font-weight: 600; color: #3D7A5E;
+}
+.restart-btn {
+  padding: 7px 16px; background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 12.5px; font-weight: 500; color: var(--text-mid);
+  cursor: pointer; transition: all 0.18s; font-family: 'DM Sans', sans-serif;
+}
+.restart-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+.out-blocks { display: flex; flex-direction: column; gap: 10px; }
+.out-block {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-card);
+  transition: border-color 0.18s;
+}
+.out-block:hover { border-color: var(--blue); }
+.out-block-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 11px 16px; background: var(--surface2);
+  border-bottom: 1px solid var(--border); cursor: pointer;
+}
+.out-block-title { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 12.5px; color: var(--text); }
+.type-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 4px;
+}
+.type-blue { background: var(--blue-light); color: var(--blue); }
+.type-teal { background: var(--teal-light); color: var(--teal-dark); }
+.type-orange { background: var(--orange-light); color: var(--orange); }
+.type-green { background: var(--green-light); color: #3D7A5E; }
+.out-actions { display: flex; align-items: center; gap: 7px; }
+.cp-btn {
+  display: flex; align-items: center; gap: 4px; padding: 4px 11px;
+  background: #fff; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--muted); font-size: 11px; font-weight: 600; cursor: pointer;
+  transition: all 0.18s; font-family: 'DM Sans', sans-serif;
+}
+.cp-btn:hover { border-color: var(--blue); color: var(--blue); }
+.cp-btn.ok { border-color: var(--teal); color: var(--teal-dark); }
+.col-btn {
+  width: 22px; height: 22px; border-radius: 5px; border: 1px solid var(--border);
+  background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; color: var(--muted); transition: all 0.18s;
+}
+.col-btn:hover { border-color: var(--blue); color: var(--blue); }
+.out-content {
+  padding: 16px 18px; font-size: 12.5px; line-height: 1.75; color: var(--text-mid);
+  white-space: pre-wrap; word-break: break-word;
+  max-height: 420px; overflow-y: auto; font-family: 'DM Sans', sans-serif;
+}
+.out-content.collapsed { display: none; }
+.out-content::-webkit-scrollbar { width: 4px; }
+.out-content::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.copy-all {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 12px 24px; background: #fff; border: 1.5px solid var(--teal);
+  border-radius: 10px; color: var(--teal-dark); font-family: 'DM Sans', sans-serif;
+  font-weight: 700; font-size: 13px; cursor: pointer; transition: all 0.18s; margin-top: 10px;
+}
+.copy-all:hover { background: var(--teal-light); }
+
+.gen-loading {
+  display: none; flex-direction: column; align-items: center; gap: 14px;
+  padding: 56px 20px;
+}
+.gen-loading.on { display: flex; }
+.gen-spin { width: 38px; height: 38px; border: 3px solid var(--blue-light); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+.gen-txt { font-size: 13.5px; color: var(--muted); font-weight: 500; }
+
+/* ── Q STYLE ── */
+.qstyle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(185px,1fr)); gap: 9px; margin-bottom: 28px; }
+
+/* ── DIVIDER ── */
+.div { height: 1px; background: var(--border); margin: 24px 0; }
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .main { margin-left: 0; }
+  .main-inner { padding: 24px 18px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar">
+  <div class="sidebar-head">
+    <div class="tp-logo">
+      <img src="https://cdn.prod.website-files.com/5ec2c2fb42e4aba64cd548a9/64f7bc9f75a42a3f4f9ab600_logonew.svg"
+           alt="Talkpush"
+           onerror="this.style.display='none';document.getElementById('logo-fb').style.display='flex'">
+      <div id="logo-fb" class="tp-logo-txt" style="display:none">talk<span>push</span></div>
+    </div>
+    <div class="live-pill" id="live-pill-txt">
+      <div class="live-dot"></div>
+      <span id="live-txt">Live Demo</span>
+    </div>
+  </div>
+  <nav class="sidebar-nav" id="sidebar-nav"></nav>
+  <div class="sidebar-foot">
+    <div class="lang-row">
+      <span class="lang-label" id="lang-lbl">Lang</span>
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('en')" id="btn-en">EN</button>
+        <button class="lang-btn" onclick="setLang('es')" id="btn-es">ES</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<main class="main">
+<div class="main-inner">
+
+<!-- ── STEP 0: Job Role ── -->
+<div class="step" id="step-0">
+  <div class="phead">
+    <div class="step-pill" id="s0-pill">Step 1 of 6</div>
+    <h1 class="ptitle" id="s0-title">Choose the <em>Job Role</em></h1>
+    <p class="pdesc" id="s0-desc">What position is this AI interview designed to screen for?</p>
+  </div>
+  <div class="cards" id="jobrole-grid"></div>
+  <div class="step-nav">
+    <div></div>
+    <button class="btn-primary" id="btn-next-0" onclick="next(0)" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- ── STEP 1: Soft Skills ── -->
+<div class="step" id="step-1">
+  <div class="phead">
+    <div class="step-pill" id="s1-pill">Step 2 of 6</div>
+    <h1 class="ptitle" id="s1-title">Select <em>Soft Skills</em></h1>
+    <p class="pdesc" id="s1-desc">Choose the skills the AI will evaluate. More skills = deeper interview.</p>
+  </div>
+  <div class="skills-panel">
+    <div class="sp-count-col">
+      <div class="sp-label" id="sp-sel-lbl">Selected</div>
+      <div class="sp-big" id="sp-count">0</div>
+      <div class="sp-sub" id="sp-sub-lbl">Pick at least 1</div>
+    </div>
+    <div class="sp-tiers-col">
+      <div class="sp-label" id="sp-depth-lbl">Interview Depth</div>
+      <div class="tiers" id="tiers-display"></div>
+    </div>
+  </div>
+  <div class="skills-grid" id="skills-grid"></div>
+  <div class="step-nav">
+    <button class="btn-ghost" onclick="prev(1)">← Back</button>
+    <button class="btn-primary" id="btn-next-1" onclick="next(1)" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- ── STEP 2: Question Style ── -->
+<div class="step" id="step-2">
+  <div class="phead">
+    <div class="step-pill" id="s2-pill">Step 3 of 6</div>
+    <h1 class="ptitle" id="s2-title">Question <em>Style</em></h1>
+    <p class="pdesc" id="s2-desc">What type of questions should the AI interviewer ask?</p>
+  </div>
+  <div class="qstyle-grid" id="qstyle-grid"></div>
+  <div class="step-nav">
+    <button class="btn-ghost" onclick="prev(2)">← Back</button>
+    <button class="btn-primary" id="btn-next-2" onclick="next(2)" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- ── STEP 3: Select Questions ── -->
+<div class="step" id="step-3">
+  <div class="phead">
+    <div class="step-pill" id="s3-pill">Step 4 of 6</div>
+    <h1 class="ptitle" id="s3-title">Pick Your <em>Questions</em></h1>
+    <p class="pdesc" id="s3-desc">We'll generate 10 tailored questions. Select the ones that best fit your interview.</p>
+  </div>
+  <div id="numq-hint-box" class="numq-hint"></div>
+  <div class="q-select-panel">
+    <div class="q-select-header">
+      <div class="q-select-title" id="qs-title-txt">AI-Generated Interview Questions</div>
+      <div class="q-count-badge" id="qs-count-badge">0 selected</div>
+    </div>
+    <div id="q-content">
+      <div class="q-loading" id="q-loading-state">
+        <div class="q-mini-spinner"></div>
+        <div class="q-loading-text" id="q-loading-txt">Generating tailored questions…</div>
+      </div>
+      <div class="q-list" id="q-list" style="display:none"></div>
+    </div>
+    <div class="q-select-footer">
+      <div class="q-sel-count" id="q-sel-count-txt"><b id="q-sel-n">0</b> questions selected</div>
+      <div style="font-size:11px;color:var(--muted)" id="q-max-txt"></div>
+    </div>
+  </div>
+  <div class="step-nav">
+    <button class="btn-ghost" onclick="prev(3)">← Back</button>
+    <button class="btn-primary" id="btn-next-3" onclick="next(3)" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- ── STEP 4: Persona ── -->
+<div class="step" id="step-4">
+  <div class="phead">
+    <div class="step-pill" id="s4-pill">Step 5 of 6</div>
+    <h1 class="ptitle" id="s4-title">AI Agent <em>Persona</em></h1>
+    <p class="pdesc" id="s4-desc">Choose the tone and personality of your AI interviewer.</p>
+  </div>
+  <div class="persona-grid" id="persona-grid"></div>
+  <div class="step-nav">
+    <button class="btn-ghost" onclick="prev(4)">← Back</button>
+    <button class="btn-primary" id="btn-next-4" onclick="next(4)" disabled>Continue →</button>
+  </div>
+</div>
+
+<!-- ── STEP 5: Generate ── -->
+<div class="step" id="step-5">
+  <div class="phead">
+    <div class="step-pill" id="s5-pill">Step 6 of 6</div>
+    <h1 class="ptitle" id="s5-title">Review & <em>Generate</em></h1>
+    <p class="pdesc" id="s5-desc">Confirm your setup and generate the full AI interview configuration.</p>
+  </div>
+  <div class="sum-card">
+    <div class="sum-heading" id="sum-heading">Configuration Summary</div>
+    <div class="sum-tags" id="sum-tags"></div>
+  </div>
+  <div class="gen-loading" id="gen-loading">
+    <div class="gen-spin"></div>
+    <div class="gen-txt" id="gen-loading-txt">Building your interview configuration…</div>
+  </div>
+  <button class="btn-gen" id="btn-gen" onclick="generateInterview()">
+    <div class="btn-spin"></div>
+    <span id="btn-gen-txt">✨ Generate Interview Configuration</span>
+  </button>
+  <div class="step-nav" style="margin-top:16px">
+    <button class="btn-ghost" onclick="prev(5)">← Back</button>
+    <div></div>
+  </div>
+</div>
+
+<!-- ── STEP 6: Output ── -->
+<div class="step" id="step-6">
+  <div class="out-bar">
+    <div class="out-done" id="out-done-badge">✓ Interview Ready</div>
+    <button class="restart-btn" onclick="restart()" id="restart-txt">↩ Start Over</button>
+  </div>
+  <div class="out-blocks" id="out-blocks"></div>
+  <button class="copy-all" onclick="copyAll()" id="copy-all-txt">📋 Copy Complete System Prompt</button>
+</div>
+
+</div>
+</main>
+</div>
+
+<script>
+// ═══════════════════════════════
+//  I18N
+// ═══════════════════════════════
+const CUR = { lang: 'en' };
+const T = {
+  en: {
+    live: 'Live Demo',
+    langLbl: 'Lang',
+    navLabels: ['Job Role','Soft Skills','Q. Style','Questions','Persona','Generate','Output'],
+    steps: [
+      { pill:'Step 1 of 6', title:'Choose the <em>Job Role</em>', desc:'What position is this AI interview designed to screen for?' },
+      { pill:'Step 2 of 6', title:'Select <em>Soft Skills</em>', desc:'Choose the skills the AI will evaluate. More skills = deeper interview.' },
+      { pill:'Step 3 of 6', title:'Question <em>Style</em>', desc:'What type of questions should the AI interviewer ask?' },
+      { pill:'Step 4 of 6', title:'Pick Your <em>Questions</em>', desc:'We generated 10 tailored questions. Select the ones you want included.' },
+      { pill:'Step 5 of 6', title:'AI Agent <em>Persona</em>', desc:'Choose the tone and personality of your AI interviewer.' },
+      { pill:'Step 6 of 6', title:'Review & <em>Generate</em>', desc:'Confirm your setup and generate the full AI interview configuration.' },
+    ],
+    spSel:'Selected', spSub:'Pick at least 1', spDepth:'Interview Depth',
+    sumHeading:'Configuration Summary',
+    genBtn:'✨ Generate Interview Configuration',
+    genLoading:'Building your interview configuration…',
+    outDone:'✓ Interview Ready', restart:'↩ Start Over',
+    copyAll:'📋 Copy Complete System Prompt',
+    copy:'Copy', copied:'Copied!',
+    continueBtn:'Continue →',
+    qGenTitle:'AI-Generated Interview Questions',
+    qLoading:'Generating tailored questions…',
+    qSelCount:'questions selected',
+    qMaxTxt:(n,max)=>`Select ${n} to ${max} questions`,
+    qCountBadge:(n)=>`${n} selected`,
+  },
+  es: {
+    live: 'Demo en Vivo',
+    langLbl: 'Idioma',
+    navLabels: ['Puesto','Habilidades','Estilo','Preguntas','Persona','Generar','Resultado'],
+    steps: [
+      { pill:'Paso 1 de 6', title:'Elige el <em>Puesto</em>', desc:'¿Para qué rol está diseñada esta entrevista de IA?' },
+      { pill:'Paso 2 de 6', title:'Selecciona <em>Habilidades Blandas</em>', desc:'Las habilidades elegidas determinan la profundidad de la entrevista.' },
+      { pill:'Paso 3 de 6', title:'Estilo de <em>Preguntas</em>', desc:'¿Qué tipo de preguntas debe hacer el agente de IA?' },
+      { pill:'Paso 4 de 6', title:'Elige tus <em>Preguntas</em>', desc:'Generamos 10 preguntas personalizadas. Selecciona las que quieres incluir.' },
+      { pill:'Paso 5 de 6', title:'Persona del <em>Agente IA</em>', desc:'Elige el tono y la personalidad de tu entrevistador virtual.' },
+      { pill:'Paso 6 de 6', title:'Revisar y <em>Generar</em>', desc:'Confirma tu configuración y genera el prompt completo de la entrevista.' },
+    ],
+    spSel:'Seleccionadas', spSub:'Elige al menos 1', spDepth:'Profundidad',
+    sumHeading:'Resumen de Configuración',
+    genBtn:'✨ Generar Configuración de Entrevista',
+    genLoading:'Construyendo tu configuración de entrevista…',
+    outDone:'✓ Entrevista Lista', restart:'↩ Comenzar de nuevo',
+    copyAll:'📋 Copiar Prompt Completo',
+    copy:'Copiar', copied:'¡Copiado!',
+    continueBtn:'Continuar →',
+    qGenTitle:'Preguntas Generadas por IA',
+    qLoading:'Generando preguntas personalizadas…',
+    qSelCount:'preguntas seleccionadas',
+    qMaxTxt:(n,max)=>`Selecciona de ${n} a ${max} preguntas`,
+    qCountBadge:(n)=>`${n} seleccionadas`,
+  }
+};
+function t(k,...a){ const v=T[CUR.lang][k]; return typeof v==='function'?v(...a):v; }
+
+// ═══════════════════════════════
+//  DATA
+// ═══════════════════════════════
+const DATA = {
+  roles:[
+    {id:'csr',icon:'🎧',en:'Customer Service Rep.',es:'Servicio al Cliente',dEn:'Front-line support: inquiries, complaints, and resolutions',dEs:'Soporte de primera línea: consultas, quejas y resoluciones'},
+    {id:'retail',icon:'🛍️',en:'Retail',es:'Comercio al por Menor',dEn:'In-store experience, floor sales, and product knowledge',dEs:'Experiencia en tienda, ventas y conocimiento de producto'},
+    {id:'collections',icon:'💳',en:'Collections Agent',es:'Agente de Cobranza',dEn:'Negotiating payment recovery with empathy and compliance',dEs:'Negociación de cobros con empatía y cumplimiento normativo'},
+    {id:'techsupport',icon:'🖥️',en:'Technical Support',es:'Soporte Técnico',dEn:'Troubleshooting software, hardware, and systems',dEs:'Diagnóstico y resolución de problemas técnicos'},
+    {id:'sales',icon:'📈',en:'Sales Agent',es:'Agente de Ventas',dEn:'Consultative inbound/outbound selling and pipeline management',dEs:'Ventas consultivas y gestión de pipeline'},
+    {id:'logistics',icon:'📦',en:'Logistics Assistant',es:'Asistente de Logística',dEn:'Supply chain coordination, shipments, and operations',dEs:'Coordinación de cadena de suministro y operaciones'},
+    {id:'hr',icon:'🤝',en:'HR / People Ops',es:'RRHH / Personas',dEn:'Talent acquisition, culture building, and employee experience',dEs:'Adquisición de talento, cultura y experiencia del empleado'},
+    {id:'callcenter',icon:'📞',en:'Call Center',es:'Call Center',dEn:'High-volume inbound and outbound phone interactions',dEs:'Interacciones telefónicas de alto volumen'},
+  ],
+  skills:{
+    csr:[
+      {id:'empathy',en:'Empathy',es:'Empatía',dEn:'Builds trust & de-escalates tense customer situations',dEs:'Genera confianza y reduce tensiones'},
+      {id:'patience',en:'Patience',es:'Paciencia',dEn:'Stays composed during frustrated or repetitive contacts',dEs:'Mantiene la calma ante contactos difíciles'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Clear speech and writing directly impact satisfaction scores',dEs:'La comunicación clara impacta la satisfacción'},
+      {id:'prob',en:'Problem Solving',es:'Resolución de Problemas',dEn:'Fast, accurate solutions drive first-contact resolution',dEs:'Las soluciones rápidas determinan la resolución en el primer contacto'},
+      {id:'active',en:'Active Listening',es:'Escucha Activa',dEn:'Prevents misdiagnosis and repeat contacts',dEs:'Previene errores y recontactos'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'Adjusts to different customer types and policy changes',dEs:'Se adapta a diferentes tipos de clientes'},
+      {id:'resilience',en:'Resilience',es:'Resiliencia',dEn:'Recovers emotionally between difficult interactions',dEs:'Se recupera emocionalmente entre interacciones difíciles'},
+      {id:'ownership',en:'Ownership',es:'Responsabilidad',dEn:'Follows through on issues rather than passing them along',dEs:'Da seguimiento en lugar de derivar problemas'},
+      {id:'teamwork',en:'Teamwork',es:'Trabajo en Equipo',dEn:'Complex cases need smooth handoffs with back-office teams',dEs:'Los casos complejos requieren coordinación fluida'},
+      {id:'stress',en:'Stress Management',es:'Manejo del Estrés',dEn:'High-volume environments require sustained composure',dEs:'Entornos de alto volumen exigen compostura sostenida'},
+    ],
+    retail:[
+      {id:'empathy',en:'Empathy',es:'Empatía',dEn:'Reads customer cues to personalize the shopping experience',dEs:'Lee las señales del cliente para personalizar la experiencia'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Friendly clarity drives conversions and satisfaction',dEs:'La claridad amigable impulsa conversiones y satisfacción'},
+      {id:'proact',en:'Proactivity',es:'Proactividad',dEn:'Anticipates customer needs without being asked',dEs:'Anticipa necesidades del cliente sin que pregunte'},
+      {id:'teamwork',en:'Teamwork',es:'Trabajo en Equipo',dEn:'Smooth shift handoffs keep floor operations running',dEs:'Los traspasos de turno mantienen las operaciones en marcha'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'Handles product changes, promotions, and peak seasons fast',dEs:'Gestiona cambios de producto y temporadas altas'},
+      {id:'patience',en:'Patience',es:'Paciencia',dEn:'Handles indecisive or demanding customers calmly',dEs:'Maneja clientes indecisos o exigentes con calma'},
+      {id:'salesori',en:'Sales Orientation',es:'Orientación a Ventas',dEn:'Motivated to upsell naturally and meet targets',dEs:'Motivado para cumplir metas y hacer upsell naturalmente'},
+      {id:'integrity',en:'Integrity',es:'Integridad',dEn:'Honest handling of cash, returns, and inventory',dEs:'Manejo honesto de caja, devoluciones e inventario'},
+      {id:'resilience',en:'Resilience',es:'Resiliencia',dEn:'Maintains energy through long shifts and high traffic',dEs:'Mantiene energía durante turnos largos y alto tráfico'},
+      {id:'initiative',en:'Initiative',es:'Iniciativa',dEn:'Resolves floor issues without waiting for management',dEs:'Resuelve problemas sin esperar dirección de la gerencia'},
+    ],
+    collections:[
+      {id:'negotiation',en:'Negotiation',es:'Negociación',dEn:'Core skill for reaching workable payment agreements',dEs:'Habilidad clave para acuerdos de pago viables'},
+      {id:'empathy',en:'Empathy',es:'Empatía',dEn:'Understanding financial stress prevents aggression',dEs:'Entender el estrés financiero evita agresividad'},
+      {id:'resilience',en:'Resilience',es:'Resiliencia',dEn:'Frequent rejection requires emotional strength',dEs:'El rechazo frecuente requiere fortaleza emocional'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Tone and word choice influence willingness to pay',dEs:'El tono influye en la disposición de pago'},
+      {id:'integrity',en:'Integrity',es:'Integridad',dEn:'Regulatory compliance requires ethical behavior always',dEs:'El cumplimiento normativo requiere ética constante'},
+      {id:'stress',en:'Stress Management',es:'Manejo del Estrés',dEn:'Emotionally charged calls demand self-regulation',dEs:'Las llamadas cargadas emocionalmente exigen autorregulación'},
+      {id:'persist',en:'Persistence',es:'Persistencia',dEn:'Consistent follow-up is tied to payment recovery rates',dEs:'El seguimiento constante está ligado a las tasas de recuperación'},
+      {id:'active',en:'Active Listening',es:'Escucha Activa',dEn:'Understanding the debtor\'s situation enables viable plans',dEs:'Entender la situación del deudor permite planes viables'},
+      {id:'prob',en:'Problem Solving',es:'Resolución de Problemas',dEn:'Flexible arrangements increase recovery likelihood',dEs:'Los acuerdos flexibles aumentan la probabilidad de recuperación'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'Each debtor is unique — scripts alone never work',dEs:'Cada deudor es único — los guiones solos no funcionan'},
+    ],
+    techsupport:[
+      {id:'prob',en:'Problem Solving',es:'Resolución de Problemas',dEn:'Methodical diagnosis is the core function of the role',dEs:'El diagnóstico metódico es la función central del rol'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Translating tech jargon for non-technical users',dEs:'Traducir jerga técnica para usuarios no técnicos'},
+      {id:'patience',en:'Patience',es:'Paciencia',dEn:'Walks frustrated users through complex troubleshooting',dEs:'Guía a usuarios frustrados en diagnósticos complejos'},
+      {id:'learn',en:'Learning Agility',es:'Agilidad de Aprendizaje',dEn:'Technology evolves fast — continuous learning is essential',dEs:'La tecnología evoluciona rápido — el aprendizaje continuo es clave'},
+      {id:'critical',en:'Critical Thinking',es:'Pensamiento Crítico',dEn:'Evaluating multiple root causes before jumping to solutions',dEs:'Evaluar múltiples causas raíz antes de llegar a soluciones'},
+      {id:'ownership',en:'Ownership',es:'Responsabilidad',dEn:'Follows incidents to full resolution rather than escalating',dEs:'Da seguimiento hasta la resolución completa'},
+      {id:'collab',en:'Collaboration',es:'Colaboración',dEn:'Complex issues need coordination with engineering teams',dEs:'Los problemas complejos requieren coordinación con ingeniería'},
+      {id:'empathy',en:'Empathy',es:'Empatía',dEn:'Technical issues cause real disruption — acknowledging builds trust',dEs:'Los problemas técnicos causan disrupciones — reconocerlo genera confianza'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'No two technical issues are identical — flexible thinking wins',dEs:'No hay dos problemas iguales — el pensamiento flexible triunfa'},
+      {id:'stress',en:'Stress Management',es:'Manejo del Estrés',dEn:'High-stakes outages demand clear thinking under pressure',dEs:'Las fallas críticas exigen pensamiento claro bajo presión'},
+    ],
+    sales:[
+      {id:'persuasion',en:'Persuasion',es:'Persuasión',dEn:'Influencing buying decisions with confidence drives revenue',dEs:'Influir en las decisiones de compra impulsa los ingresos'},
+      {id:'resilience',en:'Resilience',es:'Resiliencia',dEn:'Rejection is daily — recovery speed defines performance',dEs:'El rechazo es diario — la velocidad de recuperación define el desempeño'},
+      {id:'empathy',en:'Empathy',es:'Empatía',dEn:'Understanding pain points before pitching increases conversions',dEs:'Entender los puntos de dolor aumenta conversiones'},
+      {id:'goaldriven',en:'Goal-Driven Mindset',es:'Orientación a Resultados',dEn:'Intrinsic motivation to hit targets without supervision',dEs:'Motivación intrínseca para alcanzar metas sin supervisión'},
+      {id:'active',en:'Active Listening',es:'Escucha Activa',dEn:'Understanding needs before proposing any solution',dEs:'Entender necesidades antes de proponer soluciones'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'Adjusts pitch and tone to different buyer profiles',dEs:'Ajusta el discurso a diferentes perfiles de compradores'},
+      {id:'negotiation',en:'Negotiation',es:'Negociación',dEn:'Closing with mutual value requires skilled give-and-take',dEs:'Cerrar con valor mutuo requiere negociación hábil'},
+      {id:'proact',en:'Proactivity',es:'Proactividad',dEn:'Hunts new opportunities rather than waiting for inbound leads',dEs:'Busca oportunidades en lugar de esperar leads'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Compelling storytelling and clear value propositions are fundamental',dEs:'El storytelling convincente y la propuesta de valor son fundamentales'},
+      {id:'integrity',en:'Integrity',es:'Integridad',dEn:'Long-term relationships are built on honest, ethical selling',dEs:'Las relaciones duraderas se construyen con ventas honestas'},
+    ],
+    logistics:[
+      {id:'org',en:'Organization',es:'Organización',dEn:'Managing shipments and timelines without errors requires rigor',dEs:'Gestionar envíos y plazos sin errores requiere rigor'},
+      {id:'prob',en:'Problem Solving',es:'Resolución de Problemas',dEn:'Daily disruptions need contingency thinking to prevent delays',dEs:'Las interrupciones diarias requieren pensamiento de contingencia'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Coordinating clearly between suppliers, carriers, and teams',dEs:'Coordinar claramente entre proveedores, transportistas y equipos'},
+      {id:'teamwork',en:'Teamwork',es:'Trabajo en Equipo',dEn:'Logistics is cross-functional — silos cause costly errors',dEs:'La logística es multifuncional — los silos causan errores costosos'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'Supply chain disruptions require fast pivots and rerouting',dEs:'Las disrupciones requieren pivotes rápidos y enrutamiento creativo'},
+      {id:'stress',en:'Stress Management',es:'Manejo del Estrés',dEn:'Tight deadlines and unexpected delays create constant pressure',dEs:'Los plazos ajustados crean presión constante'},
+      {id:'attention',en:'Attention to Detail',es:'Atención al Detalle',dEn:'Small doc errors in logistics cause major downstream problems',dEs:'Los pequeños errores en documentos causan grandes problemas'},
+      {id:'proact',en:'Proactivity',es:'Proactividad',dEn:'Identifying bottlenecks before they escalate saves time and cost',dEs:'Identificar cuellos de botella antes de que escalen ahorra tiempo'},
+      {id:'ownership',en:'Ownership',es:'Responsabilidad',dEn:'Taking accountability when shipments fail accelerates resolution',dEs:'Asumir responsabilidad cuando hay errores acelera la resolución'},
+      {id:'critical',en:'Critical Thinking',es:'Pensamiento Crítico',dEn:'Evaluating routes, costs, and risks requires analytical judgment',dEs:'Evaluar rutas, costos y riesgos requiere juicio analítico'},
+    ],
+    hr:[
+      {id:'empathy',en:'Empathy',es:'Empatía',dEn:'Deep understanding of employee experience is HR\'s foundation',dEs:'La comprensión profunda de la experiencia del empleado es la base de RRHH'},
+      {id:'confid',en:'Confidentiality',es:'Confidencialidad',dEn:'Sensitive info requires constant discretion — trust is HR\'s currency',dEs:'La discreción constante es la moneda de RRHH'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Articulating policy and feedback at all organizational levels',dEs:'Articular políticas y retroalimentación en todos los niveles'},
+      {id:'influence',en:'Influence',es:'Influencia',dEn:'Driving change without formal authority is a core challenge',dEs:'Impulsar cambios sin autoridad formal es un desafío central'},
+      {id:'integrity',en:'Integrity',es:'Integridad',dEn:'Ethical conduct in hiring and reviews is non-negotiable',dEs:'La conducta ética en contratación y evaluaciones es fundamental'},
+      {id:'active',en:'Active Listening',es:'Escucha Activa',dEn:'Truly hearing employee concerns before proposing solutions',dEs:'Escuchar genuinamente antes de proponer soluciones'},
+      {id:'critical',en:'Critical Thinking',es:'Pensamiento Crítico',dEn:'Complex people situations require nuanced, fair judgment',dEs:'Las situaciones complejas requieren juicio analítico y justo'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'HR must pivot rapidly to restructuring, crises, and rapid growth',dEs:'RRHH debe adaptarse rápidamente a reestructuraciones y crisis'},
+      {id:'org',en:'Organization',es:'Organización',dEn:'Managing hiring, reviews, and training initiatives simultaneously',dEs:'Gestionar contratación, evaluaciones y formación simultáneamente'},
+      {id:'resilience',en:'Resilience',es:'Resiliencia',dEn:'Navigating emotionally intense situations without burning out',dEs:'Navegar situaciones emocionalmente intensas sin agotarse'},
+    ],
+    callcenter:[
+      {id:'active',en:'Active Listening',es:'Escucha Activa',dEn:'Understanding caller intent quickly enables efficient resolution',dEs:'Entender la intención del llamante rápidamente es esencial'},
+      {id:'resilience',en:'Resilience',es:'Resiliencia',dEn:'Recovering between back-to-back calls prevents quality drops',dEs:'Recuperarse entre llamadas consecutivas evita pérdidas de calidad'},
+      {id:'comm',en:'Communication',es:'Comunicación',dEn:'Voice tone, pacing, and clarity are the only available tools',dEs:'Tono de voz, ritmo y claridad son las únicas herramientas disponibles'},
+      {id:'empathy',en:'Empathy',es:'Empatía',dEn:'Callers often reach out stressed — empathy drives satisfaction',dEs:'Los llamantes contactan estresados — la empatía impulsa la satisfacción'},
+      {id:'multitask',en:'Multitasking',es:'Multitarea',dEn:'Navigating CRM while maintaining natural conversation',dEs:'Navegar el CRM mientras se mantiene la conversación'},
+      {id:'prob',en:'Problem Solving',es:'Resolución de Problemas',dEn:'Fast, accurate diagnosis while on-call minimizes handle time',dEs:'El diagnóstico rápido minimiza el tiempo de gestión'},
+      {id:'adapt',en:'Adaptability',es:'Adaptabilidad',dEn:'Scripts are a starting point — every caller is different',dEs:'Los guiones son un punto de partida — cada llamante es diferente'},
+      {id:'stress',en:'Stress Management',es:'Manejo del Estrés',dEn:'Back-to-back high-pressure calls demand emotional regulation',dEs:'Las llamadas de alta presión consecutivas demandan regulación emocional'},
+      {id:'patience',en:'Patience',es:'Paciencia',dEn:'Repetitive questions and difficult callers test composure every shift',dEs:'Las preguntas repetitivas prueban la compostura en cada turno'},
+      {id:'ownership',en:'Ownership',es:'Responsabilidad',dEn:'Following issues to resolution rather than transferring callers',dEs:'Dar seguimiento hasta la resolución en lugar de transferir llamadas'},
+    ],
+  },
+  tiers:[
+    {min:1,max:2,dur:'3–4 min',maxQ:'Max 3 Qs',minSel:1,maxSel:3},
+    {min:3,max:4,dur:'4–7 min',maxQ:'Max 4 Qs',minSel:1,maxSel:4},
+    {min:5,max:5,dur:'7–10 min',maxQ:'Max 5 Qs',minSel:1,maxSel:5},
+    {min:6,max:10,dur:'10+ min',maxQ:'Up to 10 Qs',minSel:1,maxSel:10},
+  ],
+  qStyles:[
+    {id:'situational',icon:'🎯',en:'Situational',es:'Situacional',dEn:'"What would you do if…" — scenario-based thinking',dEs:'¿Qué harías si…? — basadas en escenarios'},
+    {id:'behavioral',icon:'📖',en:'Behavioral (STAR)',es:'Conductual (STAR)',dEn:'"Tell me about a time…" — experience-based evidence',dEs:'Cuéntame de una vez que… — basadas en experiencias'},
+    {id:'skillsbased',icon:'🛠️',en:'Skills-Based',es:'Basado en Habilidades',dEn:'Direct assessment of job-specific capabilities',dEs:'Evaluación directa de habilidades del puesto'},
+    {id:'culture',icon:'🌱',en:'Culture Fit',es:'Ajuste Cultural',dEn:'Values, motivation, and long-term team alignment',dEs:'Valores, motivación y alineación con el equipo'},
+  ],
+  personas:[
+    {id:'alex',ico:'👔',bg:'#EFF6F3',col:'#3D7A5E',en:'Alex',es:'Alex',tEn:'Formal & Professional',tEs:'Formal y Profesional',trEn:'Structured and precise. Uses measured language and clear expectations. Best for corporate, managerial, and compliance-sensitive roles.',trEs:'Estructurado y preciso. Lenguaje medido. Ideal para roles corporativos y de gestión.'},
+    {id:'sam',ico:'😊',bg:'#ECEEF7',col:'#7A82B3',en:'Sam',es:'Sam',tEn:'Friendly & Warm',tEs:'Amigable y Cálido',trEn:'Conversational and encouraging. Puts candidates at ease with inclusive language. Great for culture-first or customer-facing roles.',trEs:'Conversacional y alentador. Usa lenguaje inclusivo. Ideal para roles con foco en cultura o atención al cliente.'},
+    {id:'jordan',ico:'⚡',bg:'#FDF5E6',col:'#D4920A',en:'Jordan',es:'Jordan',tEn:'Energetic & Dynamic',tEs:'Enérgico y Dinámico',trEn:'Fast-paced and enthusiastic. Mirrors high-performance environments like sales, retail, or call centers.',trEs:'Ritmo ágil y entusiasta. Refleja entornos de alto rendimiento como ventas o call center.'},
+    {id:'morgan',ico:'⚖️',bg:'#F4F6FB',col:'#3A5080',en:'Morgan',es:'Morgan',tEn:'Neutral & Objective',tEs:'Neutral y Objetivo',trEn:'Balanced and methodical. Removes emotional signals to evaluate on demonstrated skills. Ideal for technical or analytical roles.',trEs:'Equilibrado y metódico. Evalúa por habilidades demostradas. Ideal para roles técnicos.'},
+    {id:'luna',ico:'🌙',bg:'#F5EEFF',col:'#7B3FBE',en:'Luna',es:'Luna',tEn:'Empathetic & Supportive',tEs:'Empática y de Apoyo',trEn:'Patient and nurturing, creates psychological safety. Draws out authentic answers from nervous candidates. Best for HR or sensitive evaluations.',trEs:'Paciente y acogedora. Crea seguridad psicológica. Ideal para RRHH.'},
+    {id:'victor',ico:'🦅',bg:'#FFF5EC',col:'#E67E22',en:'Victor',es:'Víctor',tEn:'Direct & Decisive',tEs:'Directo y Decisivo',trEn:'No-nonsense and results-oriented. Doesn\'t let vague answers pass. Best for leadership, operations, and collections.',trEs:'Sin rodeos, orientado a resultados. No deja pasar respuestas vagas. Ideal para liderazgo y cobranza.'},
+    {id:'nova',ico:'🚀',bg:'#E5F9F3',col:'#00956A',en:'Nova',es:'Nova',tEn:'Innovative & Curious',tEs:'Innovadora y Curiosa',trEn:'Inquisitive and open-minded. Encourages creative thinking. Perfect for tech, logistics, or problem-solving roles.',trEs:'Inquisitiva y mente abierta. Fomenta el pensamiento creativo. Perfecta para tecnología y logística.'},
+    {id:'rios',ico:'🔥',bg:'#FEECEA',col:'#C0392B',en:'Rios',es:'Ríos',tEn:'Intense & Challenging',tEs:'Intenso y Retador',trEn:'Pushes boundaries and raises stakes. Doesn\'t accept surface-level answers. Best for collections and high-pressure roles.',trEs:'Desafiante y eleva las apuestas. No acepta respuestas superficiales. Ideal para cobranza y roles de alta presión.'},
+  ],
+};
+
+// ═══════════════════════════════
+//  STATE
+// ═══════════════════════════════
+const S = {
+  step: 0,
+  role: null,
+  skills: [],
+  qStyle: null,
+  questions: [],       // [{text, skill}] — all 10 from API
+  selectedQs: [],      // indexes the user picked
+  persona: null,
+  output: null,
+};
+
+// ═══════════════════════════════
+//  TIER HELPERS
+// ═══════════════════════════════
+function getTier(n){
+  if(n<=2) return DATA.tiers[0];
+  if(n<=4) return DATA.tiers[1];
+  if(n===5) return DATA.tiers[2];
+  return DATA.tiers[3];
+}
+
+// ═══════════════════════════════
+//  LANG
+// ═══════════════════════════════
+function setLang(l){
+  CUR.lang=l;
+  document.getElementById('btn-en').classList.toggle('active',l==='en');
+  document.getElementById('btn-es').classList.toggle('active',l==='es');
+  refreshStaticText();
+  renderStep(S.step);
+}
+function refreshStaticText(){
+  const L=CUR.lang;
+  document.getElementById('live-txt').textContent=t('live');
+  document.getElementById('lang-lbl').textContent=t('langLbl');
+  renderSidebar();
+}
+
+// ═══════════════════════════════
+//  SIDEBAR
+// ═══════════════════════════════
+function renderSidebar(){
+  const labels=t('navLabels');
+  document.getElementById('sidebar-nav').innerHTML=labels.map((lbl,i)=>{
+    let cls='nav-item';
+    let num=i+1;
+    let numStr=String(num);
+    if(i<S.step){cls+=' done';numStr='✓';}
+    else if(i===S.step) cls+=' active';
+    else cls+=' locked';
+    return `<div class="${cls}" onclick="jumpTo(${i})">
+      <div class="nav-circle">${numStr}</div>
+      <div class="nav-label">${lbl}</div>
+    </div>`;
+  }).join('');
+}
+function jumpTo(i){ if(i<=S.step){ S.step=i; renderStep(i); } }
+
+// ═══════════════════════════════
+//  RENDER STEP
+// ═══════════════════════════════
+function renderStep(n){
+  document.querySelectorAll('.step').forEach((el,i)=>el.classList.toggle('on',i===n));
+  renderSidebar();
+  const sd=t('steps')[n];
+  if(sd){
+    const pill=document.getElementById(`s${n}-pill`);
+    const title=document.getElementById(`s${n}-title`);
+    const desc=document.getElementById(`s${n}-desc`);
+    if(pill) pill.textContent=sd.pill;
+    if(title) title.innerHTML=sd.title;
+    if(desc) desc.textContent=sd.desc;
+  }
+  // update static labels
+  ['spSel','spDepth','sumHeading','genBtn','genLoading','outDone','restart','copyAll','qGenTitle','qLoading'].forEach(k=>{
+    const el=document.getElementById({
+      spSel:'sp-sel-lbl',spDepth:'sp-depth-lbl',sumHeading:'sum-heading',
+      genBtn:'btn-gen-txt',genLoading:'gen-loading-txt',outDone:'out-done-badge',
+      restart:'restart-txt',copyAll:'copy-all-txt',qGenTitle:'qs-title-txt',
+      qLoading:'q-loading-txt',
+    }[k]);
+    if(el) el.textContent=t(k);
+  });
+  const renderers=[r0,r1,r2,r3,r4,r5,r6];
+  if(renderers[n]) renderers[n]();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── STEP 0: Job Role ───
+function r0(){
+  const L=CUR.lang;
+  document.getElementById('jobrole-grid').innerHTML=DATA.roles.map(r=>`
+    <div class="card ${S.role===r.id?'sel':''}" onclick="pickRole('${r.id}')">
+      <div class="card-ico">${r.ico||r.icon}</div>
+      <div class="card-title">${r[L]||r.en}</div>
+      <div class="card-desc">${L==='es'?r.dEs:r.dEn}</div>
+    </div>`).join('');
+  document.getElementById('btn-next-0').disabled=!S.role;
+}
+function pickRole(id){ S.role=id; S.skills=[]; S.questions=[]; S.selectedQs=[]; r0(); document.getElementById('btn-next-0').disabled=false; }
+
+// ─── STEP 1: Skills ───
+function r1(){
+  const L=CUR.lang;
+  const skills=DATA.skills[S.role]||[];
+  const cnt=S.skills.length;
+  document.getElementById('sp-count').textContent=cnt;
+  document.getElementById('sp-sub-lbl').textContent=cnt===0?t('spSub'):(L==='es'?`${cnt} seleccionada${cnt!==1?'s':''}`:`${cnt} selected`);
+  const tier=getTier(cnt);
+  document.getElementById('tiers-display').innerHTML=DATA.tiers.map(tr=>{
+    const isActive=cnt>0&&getTier(cnt)===tr;
+    const range=tr.min>=6?'6+':tr.min===tr.max?`${tr.min}`:`${tr.min}–${tr.max}`;
+    return `<div class="tier-row ${isActive?'active':''}">
+      <div class="tier-badge">${range} skills</div>
+      <div class="tier-detail"><b>${tr.dur}</b> · ${tr.maxQ}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('skills-grid').innerHTML=skills.map(sk=>`
+    <div class="skill-chip ${S.skills.includes(sk.id)?'sel':''}" onclick="toggleSkill('${sk.id}')">
+      <div class="skill-checkbox"><div class="skill-check-mark">✓</div></div>
+      <div>
+        <div class="sk-name">${sk[L]||sk.en}</div>
+        <div class="sk-desc">${L==='es'?sk.dEs:sk.dEn}</div>
+      </div>
+    </div>`).join('');
+  document.getElementById('btn-next-1').disabled=cnt<1;
+}
+function toggleSkill(id){
+  S.skills=S.skills.includes(id)?S.skills.filter(s=>s!==id):[...S.skills,id];
+  S.questions=[]; S.selectedQs=[];
+  r1();
+}
+
+// ─── STEP 2: Q Style ───
+function r2(){
+  const L=CUR.lang;
+  document.getElementById('qstyle-grid').innerHTML=DATA.qStyles.map(q=>`
+    <div class="card ${S.qStyle===q.id?'sel':''}" onclick="pickQStyle('${q.id}')">
+      <div class="card-ico">${q.icon}</div>
+      <div class="card-title">${q[L]||q.en}</div>
+      <div class="card-desc">${L==='es'?q.dEs:q.dEn}</div>
+    </div>`).join('');
+  document.getElementById('btn-next-2').disabled=!S.qStyle;
+}
+function pickQStyle(id){ S.qStyle=id; S.questions=[]; S.selectedQs=[]; r2(); document.getElementById('btn-next-2').disabled=false; }
+
+// ─── STEP 3: Questions ───
+async function r3(){
+  const L=CUR.lang;
+  const tier=getTier(S.skills.length);
+  // Hint
+  document.getElementById('numq-hint-box').innerHTML=
+    L==='es'
+    ?`Con <b>${S.skills.length} habilidades seleccionadas</b>, la entrevista durará aproximadamente <b>${tier.dur}</b>. Puedes seleccionar hasta <b>${tier.maxSel} preguntas</b>.`
+    :`With <b>${S.skills.length} skills selected</b>, your interview will run approximately <b>${tier.dur}</b>. You can select up to <b>${tier.maxSel} questions</b>.`;
+
+  updateQSelCount();
+
+  // If we already have questions, just render them
+  if(S.questions.length>0){ renderQList(); return; }
+
+  // Otherwise fetch from API
+  showQLoading(true);
+  try {
+    const role=DATA.roles.find(r=>r.id===S.role);
+    const skills=DATA.skills[S.role].filter(sk=>S.skills.includes(sk.id));
+    const qStyle=DATA.qStyles.find(q=>q.id===S.qStyle);
+    const outputLang=L==='es'?'Spanish':'English';
+    const skillsList=skills.map(s=>s.en).join(', ');
+
+    const prompt=`You are an expert conversational AI interview designer for high-volume hiring.
+
+Generate exactly 10 interview questions for the following configuration:
+- Job Role: ${role?.en}
+- Soft Skills to evaluate: ${skillsList}
+- Question Style: ${qStyle?.en} (${qStyle?.dEn})
+- Output language: ${outputLang}
+
+Requirements:
+- Each question must directly evaluate one of the listed soft skills
+- Questions must be realistic, conversational, and specific to the job role (${role?.en})
+- Questions should feel like something a professional ${qStyle?.en}-style recruiter would actually ask
+- Avoid generic questions that could apply to any job
+- Use natural, everyday language — not corporate jargon
+- Distribute questions across different skills (don't repeat the same skill more than twice)
+
+Respond ONLY with a valid JSON array. No markdown, no explanation, no extra text. Example format:
+[
+  {"q":"Your question text here?","skill":"Skill Name"},
+  ...
+]
+
+Generate all 10 questions now:`;
+
+    const res=await fetch("/api/generate",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"gpt-5.2",
+        max_tokens:2048,
+        messages:[{role:"user",content:prompt}]
+      })
+    });
+    if(!res.ok){ const err=await res.json().catch(()=>({})); throw new Error(err.error||'API request failed'); }
+    const data=await res.json();
+    const raw=data.choices?.[0]?.message?.content||'[]';
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const parsed=JSON.parse(clean);
+    S.questions=Array.isArray(parsed)?parsed.slice(0,10):[];
+    S.selectedQs=[];
+  } catch(e){
+    S.questions=[{q:"Could not load questions — please go back and try again.",skill:"Error"}];
+  }
+  showQLoading(false);
+  renderQList();
+}
+function showQLoading(show){
+  document.getElementById('q-loading-state').style.display=show?'flex':'none';
+  document.getElementById('q-list').style.display=show?'none':'flex';
+}
+function renderQList(){
+  const tier=getTier(S.skills.length);
+  document.getElementById('q-list').innerHTML=S.questions.map((q,i)=>{
+    const isSelected=S.selectedQs.includes(i);
+    const atMax=S.selectedQs.length>=tier.maxSel&&!isSelected;
+    return `<div class="q-item ${isSelected?'sel':''} ${atMax?'disabled':''}" onclick="toggleQ(${i})">
+      <div class="q-num">${i+1}</div>
+      <div style="flex:1">
+        <div class="q-text">${escHtml(q.q||q.question||q.text||'')}</div>
+        <div class="q-skill-tag">${escHtml(q.skill||'')}</div>
+      </div>
+    </div>`;
+  }).join('');
+  updateQSelCount();
+  document.getElementById('btn-next-3').disabled=S.selectedQs.length<1;
+}
+function toggleQ(i){
+  const tier=getTier(S.skills.length);
+  if(S.selectedQs.includes(i)){
+    S.selectedQs=S.selectedQs.filter(x=>x!==i);
+  } else {
+    if(S.selectedQs.length>=tier.maxSel) return;
+    S.selectedQs=[...S.selectedQs,i].sort((a,b)=>a-b);
+  }
+  renderQList();
+}
+function updateQSelCount(){
+  const tier=getTier(S.skills.length);
+  const n=S.selectedQs.length;
+  document.getElementById('q-sel-n').textContent=n;
+  document.getElementById('qs-count-badge').textContent=t('qCountBadge',n);
+  document.getElementById('q-sel-count-txt').innerHTML=`<b id="q-sel-n">${n}</b> ${t('qSelCount')}`;
+  document.getElementById('q-max-txt').textContent=t('qMaxTxt',1,tier.maxSel);
+  document.getElementById('btn-next-3').disabled=n<1;
+}
+
+// ─── STEP 4: Persona ───
+function r4(){
+  const L=CUR.lang;
+  document.getElementById('persona-grid').innerHTML=DATA.personas.map(p=>`
+    <div class="persona-card ${S.persona===p.id?'sel':''}" onclick="pickPersona('${p.id}')">
+      <div class="persona-ava" style="background:${p.bg};color:${p.col}">${p.ico}</div>
+      <div class="persona-name">${p[L]||p.en}</div>
+      <div class="persona-tone" style="color:${p.col}">${L==='es'?p.tEs:p.tEn}</div>
+      <div class="persona-traits">${L==='es'?p.trEs:p.trEn}</div>
+    </div>`).join('');
+  document.getElementById('btn-next-4').disabled=!S.persona;
+}
+function pickPersona(id){ S.persona=id; r4(); document.getElementById('btn-next-4').disabled=false; }
+
+// ─── STEP 5: Summary ───
+function r5(){
+  const L=CUR.lang;
+  const role=DATA.roles.find(r=>r.id===S.role);
+  const skills=DATA.skills[S.role]?.filter(sk=>S.skills.includes(sk.id))||[];
+  const qStyle=DATA.qStyles.find(q=>q.id===S.qStyle);
+  const persona=DATA.personas.find(p=>p.id===S.persona);
+  const tier=getTier(S.skills.length);
+  const selQs=S.selectedQs.map(i=>S.questions[i]).filter(Boolean);
+  document.getElementById('sum-tags').innerHTML=[
+    role?`<span class="sum-tag">📋 ${role[L]||role.en}</span>`:'',
+    ...skills.map(s=>`<span class="sum-tag teal">✓ ${s[L]||s.en}</span>`),
+    qStyle?`<span class="sum-tag">❓ ${qStyle[L]||qStyle.en}</span>`:'',
+    selQs.length?`<span class="sum-tag orange">🔢 ${selQs.length} questions</span>`:'',
+    tier?`<span class="sum-tag">⏱ ${tier.dur}</span>`:'',
+    persona?`<span class="sum-tag teal">🤖 ${persona[L]||persona.en}</span>`:'',
+  ].join('');
+}
+
+// ─── STEP 6: Output ───
+function r6(){ if(S.output) renderOutput(S.output); }
+
+// ═══════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════
+function next(from){ S.step=from+1; renderStep(S.step); }
+function prev(from){ S.step=from-1; renderStep(S.step); }
+
+// ═══════════════════════════════
+//  GENERATE
+// ═══════════════════════════════
+async function generateInterview(){
+  const L=CUR.lang;
+  const role=DATA.roles.find(r=>r.id===S.role);
+  const skills=DATA.skills[S.role]?.filter(sk=>S.skills.includes(sk.id))||[];
+  const qStyle=DATA.qStyles.find(q=>q.id===S.qStyle);
+  const persona=DATA.personas.find(p=>p.id===S.persona);
+  const tier=getTier(S.skills.length);
+  const selQs=S.selectedQs.map(i=>S.questions[i]).filter(Boolean);
+  const outputLang=L==='es'?'Spanish':'English';
+
+  const skillsBlock=skills.map(s=>`- ${s.en}: ${L==='es'?s.dEs:s.dEn}`).join('\n');
+  const qBlock=selQs.map((q,i)=>`Q${i+1}: ${q.q||q.question||q.text||''}\n   [Evaluates: ${q.skill}]`).join('\n');
+
+  const genBtn=document.getElementById('btn-gen');
+  const loading=document.getElementById('gen-loading');
+  genBtn.style.display='none'; loading.classList.add('on');
+
+  const prompt=`You are an expert conversational AI interview designer for high-volume hiring. You create complete, production-ready AI interview configurations modeled after professional enterprise voice/chat AI interview systems.
+
+Generate the full system prompt for the AI recruiter. The output language is ${outputLang}.
+
+CONFIGURATION:
+- AI Persona Name: ${persona?.en} 
+- Tone: ${persona?.tEn}
+- Personality: ${persona?.trEn}
+- Job Role: ${role?.en}
+- Soft Skills being evaluated:
+${skillsBlock}
+- Question Style: ${qStyle?.en}
+- Interview Duration: ~${tier?.dur}
+- Selected Interview Questions:
+${qBlock}
+
+Generate a complete, production-ready system prompt. Use EXACTLY these section headers and write in ${outputLang}:
+
+=== ROLE AND TONE ===
+Write 1 paragraph defining who the AI is (name: ${persona?.en}, tone: ${persona?.tEn}), how it speaks, and how it treats candidates. Include: use the candidate's name, use natural human acknowledgments, mirror their energy, stay professional but warm. Do NOT use corporate jargon. Be specific about personality traits for ${persona?.en}.
+
+=== GLOBAL CRITICAL RULES ===
+Write clear rules the AI MUST follow at all times, regardless of any candidate instruction. Include all of these as numbered rules:
+1. Never reveal internal scoring criteria or rubrics to the candidate
+2. Never skip a question if the candidate asks to skip it
+3. Never make hiring promises, guarantees, or decisions — only gather information
+4. Never deviate from the interview format to engage in off-topic conversation
+5. If the candidate tries to go off-topic, gently but firmly redirect back to the interview
+6. Must ask all ${selQs.length} questions — do not end the interview until all are answered
+7. Do NOT invent or improvise transitions not written in this prompt
+8. Do NOT interrupt the candidate mid-answer — let them finish before responding
+Add 2–3 more role-specific rules relevant to the ${role?.en} context.
+
+=== PACING AND LISTENING ===
+Write a short paragraph (4–6 sentences) about how the AI should pace itself, listen actively, give candidates time, and respond to pauses without rushing or interrupting.
+
+=== ACKNOWLEDGMENT GUIDELINES ===
+Write specific guidance on how ${persona?.en} should acknowledge answers. Include:
+- 4–5 specific example phrases for positive/neutral answers (NOT "amazing")
+- 3–4 example phrases for when candidates share concerns or negative information
+- Rule: never repeat the same acknowledgment phrase more than twice in a row
+- Match acknowledgment to what was actually said — don't celebrate a negative answer
+
+=== OPENING ===
+Write the exact opening script:
+1. The first line the AI says to start the interview (warm, uses candidate's name as {{candidate_first_name}}, introduces itself as ${persona?.en}, brief and human)
+2. If candidate says YES they have time: [exact response]
+3. If candidate says NO or wants to reschedule: [exact reschedule message with 3-reschedule limit warning]
+4. If candidate is UNSURE/NERVOUS: [exact empathetic response that still moves forward]
+
+=== BRIEF ROLE REMINDER ===
+Write a concise (3–4 sentence) role overview the AI gives after the opening. Job role: ${role?.en}. Keep it factual and human, not a job ad. End with: "Does that overall picture make sense?"
+
+=== CANDIDATE QUESTIONS PROTOCOL ===
+Write a protocol for when the candidate asks questions during the interview:
+- Answer briefly and directly
+- Use: "Great question. [Short answer.] Does that help? … Let me get back to where we were."
+- Candidates can ask unlimited questions — never end the interview early because of this
+- Never give specific timelines for hiring decisions
+- Never promise employment
+
+=== IF CANDIDATE WANTS TO RESCHEDULE OR LEAVE ===
+Write exact verbatim scripts for:
+1. Candidate asks to reschedule: acknowledge → confirm rescheduling → warn about 3-reschedule max → warm close
+2. Candidate is no longer interested: acknowledge → warm close
+Both must feel human and non-pressuring.
+
+=== QUESTION FLOW ===
+For EACH of the ${selQs.length} selected questions, write the following (use this EXACT format):
+
+Q[N]: "[VERBATIM QUESTION TEXT]"
+Skill evaluated: [skill name]
+
+→ IF CANDIDATE GIVES A STRONG, DETAILED ANSWER (Good Path):
+[Exact words ${persona?.en} says to acknowledge warmly and transition naturally to the next question. 1–2 sentences. Match ${persona?.tEn} tone.]
+
+→ IF ANSWER IS VAGUE, SHORT, OR LACKS DETAIL (Shallow Path):
+[Exact words ${persona?.en} says to gently invite more depth without making the candidate feel judged. End with a specific follow-up question. 2 sentences.]
+
+→ IF CANDIDATE IS CONFUSED, NERVOUS, OR UNSURE HOW TO ANSWER (Uncertain Path):
+[Exact words ${persona?.en} says to reassure, rephrase, or simplify. Should feel human and supportive. 2 sentences.]
+
+→ IF CANDIDATE GOES OFF-TOPIC OR DOESN'T ANSWER THE QUESTION (Redirect Path):
+[Exact words ${persona?.en} says to kindly bring the candidate back. 1 sentence.]
+
+FOLLOW-UP LOGIC (GLOBAL): After any follow-up, if the candidate still can't answer, say: "[Affirm attempt]. That's okay — let's move on." Then go to the next question.
+
+=== CLOSING ===
+Write the exact closing script ${persona?.en} delivers after all ${selQs.length} questions are answered:
+1. Pre-close: "Before we wrap up, {{candidate_first_name}}, do you have any questions for me?"
+2. If YES, questions: [how to handle — answer briefly, check understanding, continue until no more questions]
+3. Final closing statement: warm, professional, tells candidate what happens next (no specific timelines), uses candidate's name. End naturally.
+4. Post-goodbye line: a natural, short friendly goodbye (e.g., "Take care!" / "Have a great day!")
+
+=== EVALUATION SCHEMA ===
+For each skill being evaluated, write:
+SKILL: [name]
+WHAT TO LISTEN FOR: [3–4 specific observable behaviors or answer elements that indicate this skill]
+SCORING RUBRIC:
+  1 – [No evidence / actively negative indicator]
+  2 – [Weak — mentioned but not demonstrated]  
+  3 – [Solid — clear example given, meets expectations]
+  4 – [Strong — specific, reflective, shows growth]
+  5 – [Exceptional — detailed, proactive insight, role-specific depth]
+RED FLAGS: [1–2 specific answer patterns that should concern the hiring team]
+PROBE QUESTION: "[Exact follow-up if first answer is too shallow]"
+
+=== POST-INTERVIEW EVALUATION PROMPT ===
+Write a complete evaluation prompt the AI runs after the interview ends. Include:
+- Instructions to review each answer against its rubric
+- How to spot contradictions or inconsistencies across answers
+- Specific red flags to note (per the ${role?.en} role)
+- The exact structured output format:
+
+CANDIDATE EVALUATION — ${role?.en?.toUpperCase()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RECOMMENDATION: [✅ PROCEED / ⚠️ REVIEW / ❌ DECLINE]
+OVERALL SCORE: [X.X / 5.0]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SKILL SCORES:
+[For each skill: skill name | score | 1-line justification]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STRENGTHS: [2–3 bullet points]
+AREAS OF CONCERN: [1–3 bullet points, or "None identified"]
+RED FLAGS: [any specific concerns, or "None identified"]
+SUGGESTED NEXT STEP: [one specific, actionable recommendation]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Write everything in ${outputLang}. Be thorough, specific, and production-ready.`;
+
+  try{
+    const res=await fetch("/api/generate",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        model:"gpt-5.2",
+        max_tokens:8192,
+        messages:[{role:"user",content:prompt}]
+      })
+    });
+    if(!res.ok){ const err=await res.json().catch(()=>({})); throw new Error(err.error||'API request failed'); }
+    const data=await res.json();
+    const text=data.choices?.[0]?.message?.content||'';
+    S.output=text;
+    S.step=6;
+    renderStep(6);
+  } catch(err){
+    loading.classList.remove('on');
+    genBtn.style.display='flex';
+    alert('Generation failed. Please try again.');
+  }
+}
+
+// ═══════════════════════════════
+//  OUTPUT RENDER
+// ═══════════════════════════════
+const SECTIONS=[
+  {key:'ROLE AND TONE',     icon:'🎭', label:{en:'Role & Tone',es:'Rol y Tono'},         tag:'type-blue'},
+  {key:'GLOBAL CRITICAL RULES', icon:'⚠️', label:{en:'Global Critical Rules',es:'Reglas Críticas Globales'}, tag:'type-orange'},
+  {key:'PACING AND LISTENING',  icon:'🎧', label:{en:'Pacing & Listening',es:'Ritmo y Escucha'},       tag:'type-blue'},
+  {key:'ACKNOWLEDGMENT GUIDELINES', icon:'💬', label:{en:'Acknowledgment Guidelines',es:'Guía de Reconocimientos'}, tag:'type-blue'},
+  {key:'OPENING',           icon:'👋', label:{en:'Opening Script',es:'Guión de Apertura'},         tag:'type-teal'},
+  {key:'BRIEF ROLE REMINDER', icon:'📋', label:{en:'Brief Role Reminder',es:'Recordatorio del Rol'}, tag:'type-teal'},
+  {key:'CANDIDATE QUESTIONS PROTOCOL', icon:'❓', label:{en:'Candidate Questions Protocol',es:'Protocolo de Preguntas'}, tag:'type-teal'},
+  {key:'IF CANDIDATE WANTS TO RESCHEDULE OR LEAVE', icon:'🚪', label:{en:'Reschedule / Leave Protocol',es:'Protocolo de Reprogramación'}, tag:'type-orange'},
+  {key:'QUESTION FLOW',     icon:'💭', label:{en:'Question Flow (All Paths)',es:'Flujo de Preguntas (Rutas)'},   tag:'type-teal'},
+  {key:'CLOSING',           icon:'🤝', label:{en:'Closing Script',es:'Guión de Cierre'},           tag:'type-green'},
+  {key:'EVALUATION SCHEMA', icon:'📊', label:{en:'Evaluation Schema',es:'Esquema de Evaluación'},      tag:'type-blue'},
+  {key:'POST-INTERVIEW EVALUATION PROMPT', icon:'🎯', label:{en:'Post-Interview Eval Prompt',es:'Prompt de Evaluación'}, tag:'type-green'},
+];
+
+function renderOutput(text){
+  const L=CUR.lang;
+  const parsed={};
+  SECTIONS.forEach((s,i)=>{
+    const start=text.indexOf(`=== ${s.key} ===`);
+    if(start===-1) return;
+    const nextSec=SECTIONS.slice(i+1).find(ns=>text.indexOf(`=== ${ns.key} ===`)>start);
+    const end=nextSec?text.indexOf(`=== ${nextSec.key} ===`):text.length;
+    parsed[s.key]=text.slice(start+s.key.length+8,end).trim();
+  });
+
+  document.getElementById('out-blocks').innerHTML=SECTIONS.map((s,i)=>{
+    const content=parsed[s.key]||'';
+    if(!content) return '';
+    const label=s.label[L]||s.label.en;
+    return `<div class="out-block">
+      <div class="out-block-head" onclick="toggleSec(${i})">
+        <div class="out-block-title">${s.icon} ${label} <span class="type-tag ${s.tag}">${s.tag.replace('type-','')}</span></div>
+        <div class="out-actions">
+          <button class="cp-btn" onclick="event.stopPropagation();cpSection(this,'oc-${i}')">${t('copy')}</button>
+          <button class="col-btn" id="col-${i}">−</button>
+        </div>
+      </div>
+      <div class="out-content" id="oc-${i}">${escHtml(content)}</div>
+    </div>`;
+  }).filter(Boolean).join('');
+}
+function toggleSec(i){
+  const c=document.getElementById(`oc-${i}`);
+  const b=document.getElementById(`col-${i}`);
+  if(c.classList.toggle('collapsed')) b.textContent='+';
+  else b.textContent='−';
+}
+function cpSection(btn,id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  navigator.clipboard.writeText(el.textContent||'').then(()=>{
+    btn.textContent=t('copied'); btn.classList.add('ok');
+    setTimeout(()=>{ btn.textContent=t('copy'); btn.classList.remove('ok'); },2000);
+  });
+}
+function copyAll(){
+  const blocks=document.querySelectorAll('.out-content');
+  const headers=document.querySelectorAll('.out-block-title');
+  const text=Array.from(blocks).map((el,i)=>`=== ${(headers[i]?.textContent||'').trim()} ===\n${el.textContent}`).join('\n\n');
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById('copy-all-txt');
+    const prev=btn.textContent;
+    btn.textContent=t('copied');
+    setTimeout(()=>btn.textContent=prev,2200);
+  });
+}
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function restart(){
+  Object.assign(S,{step:0,role:null,skills:[],qStyle:null,questions:[],selectedQs:[],persona:null,output:null});
+  const gl=document.getElementById('gen-loading');
+  const gb=document.getElementById('btn-gen');
+  if(gl) gl.classList.remove('on');
+  if(gb) gb.style.display='flex';
+  renderStep(0);
+}
+
+// ═══════════════════════════════
+//  INIT
+// ═══════════════════════════════
+refreshStaticText();
+renderStep(0);
+</script>
+</body>
+</html>

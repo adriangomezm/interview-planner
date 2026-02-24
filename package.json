@@ -1,0 +1,7 @@
+{
+  "name": "interview-planner",
+  "private": true,
+  "dependencies": {
+    "openai": "^4.78.0"
+  }
+}
