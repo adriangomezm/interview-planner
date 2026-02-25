@@ -2121,7 +2121,7 @@ Generate all 10 questions now:`;
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
-        model:"gpt-4o",
+        model:"gpt-5.2",
         max_completion_tokens:2048,
         messages:[{role:"user",content:prompt}]
       })
@@ -2642,7 +2642,7 @@ IMPORTANT REMINDERS:
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
-        model:"gpt-4o",
+        model:"gpt-5.2",
         max_completion_tokens:8192,
         messages:[{role:"user",content:prompt}]
       })
