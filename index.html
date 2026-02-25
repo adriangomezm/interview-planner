@@ -2853,12 +2853,12 @@ async function startTestInterview() {
       };
       sessionConfig.dynamicVariables = dynVars;
       if (voiceId) {
-        sessionConfig.overrides = { agent: { tts: { voiceId } } };
+        sessionConfig.overrides = { tts: { voiceId } };
       }
     } else {
-      const agentOverride = { prompt: { prompt: S.output } };
-      if (voiceId) agentOverride.tts = { voiceId };
-      sessionConfig.overrides = { agent: agentOverride };
+      const overrides = { agent: { prompt: { prompt: S.output } } };
+      if (voiceId) overrides.tts = { voiceId };
+      sessionConfig.overrides = overrides;
     }
 
     // Start the conversation session with dynamic variables (or fallback override)
