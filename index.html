@@ -3015,6 +3015,7 @@ function showReportToast(status, reportId) {
     iconSvg = '<svg class="report-toast-icon spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
     msg = t('reportToastGenerating');
     extraClass = '';
+    toastTimeout = setTimeout(() => hideReportToast(), 30000);
   } else if (status === 'ready') {
     iconSvg = '<svg class="report-toast-icon" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
     msg = t('reportToastReady');
@@ -3091,6 +3092,7 @@ function getReportById(id) {
 // ── BACKGROUND REPORT GENERATION ──
 
 async function generateReportInBackground(conversationId, role, candidateName, skills, lang, sections) {
+  console.log('[Report] Starting report generation for conversation:', conversationId);
   const reportId = 'rpt_' + Date.now();
   const report = {
     id: reportId,
@@ -3110,43 +3112,76 @@ async function generateReportInBackground(conversationId, role, candidateName, s
   showReportToast('generating');
 
   try {
-    // Step 1: Poll ElevenLabs for transcript
+    // Step 1: Poll ElevenLabs for transcript with exponential backoff
     let transcript = [];
     let callDuration = 0;
     let attempts = 0;
-    const maxAttempts = 20;
+    const maxAttempts = 40;
+    let lastPollingError = null;
 
     while (attempts < maxAttempts) {
       attempts++;
-      await new Promise(r => setTimeout(r, 3000));
+      // Exponential backoff: 3s (1-10), 5s (11-25), 8s (26-40)
+      const delay = attempts <= 10 ? 3000 : attempts <= 25 ? 5000 : 8000;
+      await new Promise(r => setTimeout(r, delay));
       try {
-        const res = await fetch(`/api/elevenlabs-report?conversationId=${conversationId}`);
-        if (!res.ok) continue;
+        console.log(`[Report] Poll attempt ${attempts}/${maxAttempts} for conversation ${conversationId}`);
+        const res = await fetch(`/api/elevenlabs-report?id=${conversationId}`);
+
+        // Permanent errors — no point retrying
+        if (res.status === 400 || res.status === 403 || res.status === 404) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(`ElevenLabs API error ${res.status}: ${errData.error || 'Request rejected'}`);
+        }
+
+        if (!res.ok) {
+          console.warn(`[Report] Poll attempt ${attempts} got status ${res.status}, retrying...`);
+          lastPollingError = `HTTP ${res.status}`;
+          continue;
+        }
         const data = await res.json();
+        console.log(`[Report] Poll attempt ${attempts} — ElevenLabs status: ${data.status}`);
+
         if (data.status === 'done' || data.status === 'completed') {
           transcript = data.transcript || [];
           callDuration = data.metadata?.call_duration_secs || 0;
+          console.log(`[Report] Transcript received (${transcript.length} messages, ${callDuration}s call)`);
           break;
         }
-        if (data.status === 'failed') throw new Error('ElevenLabs conversation failed');
+        if (data.status === 'failed') {
+          throw new Error('ElevenLabs conversation processing failed');
+        }
       } catch (pollErr) {
+        lastPollingError = pollErr.message;
+        // Re-throw permanent errors immediately
+        if (pollErr.message.includes('API error 4')) throw pollErr;
         if (attempts >= maxAttempts) throw pollErr;
+        console.warn(`[Report] Poll attempt ${attempts} error: ${pollErr.message}`);
       }
     }
 
-    if (attempts >= maxAttempts && transcript.length === 0) {
-      throw new Error('Transcript polling timed out');
+    if (transcript.length === 0) {
+      throw new Error(lastPollingError
+        ? `Transcript polling failed after ${maxAttempts} attempts: ${lastPollingError}`
+        : `Transcript polling timed out after ${maxAttempts} attempts`);
     }
 
     report.transcript = transcript;
     report.callDuration = callDuration;
     saveReport(report);
 
-    // Step 2: Call GPT for structured evaluation
-    const evaluation = await generateGPTEvaluation(transcript, sections, skills, role);
+    // Step 2: Call GPT for structured evaluation (with 120s timeout)
+    console.log('[Report] GPT evaluation started');
+    const evaluation = await Promise.race([
+      generateGPTEvaluation(transcript, sections, skills, role),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('GPT evaluation timed out after 120s')), 120000))
+    ]);
+    console.log('[Report] GPT evaluation complete');
+
     report.data = evaluation;
     report.status = 'done';
     saveReport(report);
+    console.log('[Report] Report saved with status: done');
     showReportToast('ready', reportId);
 
     // Refresh reports view if user is on step 7
@@ -3157,7 +3192,10 @@ async function generateReportInBackground(conversationId, role, candidateName, s
     report.error = err.message || 'Report generation failed';
     saveReport(report);
     showReportToast('error');
-    console.error('Report generation failed:', err);
+    console.error('[Report] Report generation failed:', err);
+
+    // Refresh reports view so error status shows
+    if (S.step === 7) renderStep(7);
   }
 }
 
@@ -3207,20 +3245,37 @@ Respond with this exact JSON structure:
   "candidate_feedback": "<notable candidate quote or observation>"
 }`;
 
-  const res = await fetch('/api/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      max_completion_tokens: 4000,
-      temperature: 0.3
-    })
-  });
+  const controller = new AbortController();
+  const fetchTimeout = setTimeout(() => controller.abort(), 90000);
 
-  if (!res.ok) throw new Error('GPT evaluation request failed');
+  let res;
+  try {
+    res = await fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      signal: controller.signal,
+      body: JSON.stringify({
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        max_completion_tokens: 4000,
+        temperature: 0.3
+      })
+    });
+  } catch (fetchErr) {
+    clearTimeout(fetchTimeout);
+    if (fetchErr.name === 'AbortError') {
+      throw new Error('GPT evaluation fetch timed out after 90s');
+    }
+    throw new Error(`GPT evaluation network error: ${fetchErr.message}`);
+  }
+  clearTimeout(fetchTimeout);
+
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => '');
+    throw new Error(`GPT evaluation failed (HTTP ${res.status}): ${errBody.slice(0, 200)}`);
+  }
   const result = await res.json();
   const content = result.choices?.[0]?.message?.content || '';
 

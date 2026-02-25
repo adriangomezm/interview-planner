@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const conversationId = req.query.id;
+  const conversationId = req.query.id || req.query.conversationId;
   if (!conversationId) {
     return res.status(400).json({ error: "Missing conversation ID" });
   }
