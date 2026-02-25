@@ -50,6 +50,11 @@
   font-display: swap;
 }
 :root {
+  --primary: #111115;
+  --primary-hover: rgba(17,17,21,0.85);
+  --accent: #F1C1F3;
+  --accent-light: rgba(241,193,243,0.15);
+  --accent-mid: rgba(241,193,243,0.25);
   --blue: #B8D4C8;
   --blue-dark: #8FBAAa;
   --blue-light: #EFF6F3;
@@ -74,8 +79,8 @@
   --shadow: none;
   --shadow-hover: none;
   --shadow-card: none;
-  --pink: #F0B8D0;
-  --pink-light: #FCF0F5;
+  --pink: #F1C1F3;
+  --pink-light: rgba(241,193,243,0.12);
   --lavender: #C5CAE9;
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -116,19 +121,19 @@ body {
 }
 .tp-logo-txt {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: var(--blue);
+  font-size: 18px; font-weight: 800; letter-spacing: -0.5px; color: #FFFFFF;
   line-height: 1;
 }
-.tp-logo-txt span { color: var(--teal); }
+.tp-logo-txt span { color: var(--accent); }
 .live-pill {
   display: inline-flex; align-items: center; gap: 7px;
-  background: rgba(184,212,200,0.12); border: 1px solid rgba(184,212,200,0.2);
+  background: var(--accent-light); border: 1px solid var(--accent-mid);
   border-radius: 100px; padding: 5px 12px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.4px;
-  text-transform: uppercase; color: var(--blue);
+  text-transform: uppercase; color: var(--accent);
 }
 .live-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--teal);
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
   animation: livepulse 2s infinite;
   flex-shrink: 0;
 }
@@ -142,7 +147,7 @@ body {
   border: 1px solid transparent;
 }
 .nav-item:hover:not(.locked) { background: rgba(255,255,255,0.06); }
-.nav-item.active { background: rgba(184,212,200,0.12); border-color: rgba(184,212,200,0.2); }
+.nav-item.active { background: var(--accent-light); border-color: var(--accent-mid); }
 .nav-item.locked { opacity: 0.35; cursor: not-allowed; }
 .nav-circle {
   width: 26px; height: 26px; min-width: 26px; border-radius: 50%;
@@ -151,10 +156,10 @@ body {
   font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
   transition: all 0.18s; flex-shrink: 0;
 }
-.nav-item.active .nav-circle { background: var(--blue); border-color: var(--blue); color: #fff; }
+.nav-item.active .nav-circle { background: var(--accent); border-color: var(--accent); color: var(--primary); }
 .nav-item.done .nav-circle { background: var(--teal); border-color: var(--teal); color: #fff; font-size: 13px; }
 .nav-label { font-size: 12.5px; font-weight: 500; color: rgba(255,255,255,0.55); transition: color 0.18s; }
-.nav-item.active .nav-label { color: var(--blue); font-weight: 600; }
+.nav-item.active .nav-label { color: var(--accent); font-weight: 600; }
 .nav-item.done .nav-label { color: rgba(255,255,255,0.85); }
 
 .sidebar-foot {
@@ -168,7 +173,7 @@ body {
   font-family: 'Polymath Text', 'DM Sans', sans-serif; cursor: pointer;
   border: none; background: transparent; color: rgba(255,255,255,0.45); transition: all 0.18s;
 }
-.lang-btn.active { background: var(--blue); color: #fff; }
+.lang-btn.active { background: var(--primary); color: #FFFFF5; }
 
 /* ── MAIN ── */
 .main { margin-left: 256px; flex: 1; min-height: 100vh; }
@@ -184,11 +189,11 @@ body {
 .step-pill {
   display: inline-flex; align-items: center; gap: 5px;
   font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
-  color: var(--blue); background: var(--blue-light); border-radius: 100px;
+  color: var(--text-mid); background: var(--pink-light); border-radius: 100px;
   padding: 4px 12px; margin-bottom: 12px;
 }
 .ptitle { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.4px; color: var(--text); margin-bottom: 6px; line-height: 1.25; }
-.ptitle em { font-style: normal; color: var(--blue); }
+.ptitle em { font-style: normal; color: var(--accent); }
 .pdesc { font-size: 13.5px; color: var(--muted); line-height: 1.6; max-width: 500px; }
 
 /* ── CARDS ── */
@@ -199,11 +204,11 @@ body {
   cursor: pointer; transition: all 0.18s; position: relative;
   box-shadow: var(--shadow-card);
 }
-.card:hover { border-color: var(--blue); }
-.card.sel { border-color: var(--blue); background: var(--blue-light); }
+.card:hover { border-color: var(--accent); }
+.card.sel { border-color: var(--accent); background: var(--pink-light); }
 .card.sel::after {
   content: '✓'; position: absolute; top: 9px; right: 10px;
-  background: var(--blue); color: #fff; width: 19px; height: 19px;
+  background: var(--primary); color: #FFFFF5; width: 19px; height: 19px;
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
   font-size: 10px; font-weight: 800;
 }
@@ -220,7 +225,7 @@ body {
 }
 .sp-count-col { flex-shrink: 0; }
 .sp-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 6px; }
-.sp-big { font-size: 48px; font-weight: 900; color: var(--blue); line-height: 1; letter-spacing: -3px; margin-bottom: 3px; }
+.sp-big { font-size: 48px; font-weight: 900; color: var(--primary); line-height: 1; letter-spacing: -3px; margin-bottom: 3px; }
 .sp-sub { font-size: 11px; color: var(--muted); }
 .sp-tiers-col { flex: 1; min-width: 250px; }
 .tiers { display: flex; flex-direction: column; gap: 5px; }
@@ -230,8 +235,8 @@ body {
   border: 1px solid var(--border); background: var(--surface2);
   transition: all 0.2s;
 }
-.tier-row.active { border-color: var(--blue); background: var(--blue-light); }
-.tier-badge { font-size: 11.5px; font-weight: 700; color: var(--blue); min-width: 68px; }
+.tier-row.active { border-color: var(--accent); background: var(--pink-light); }
+.tier-badge { font-size: 11.5px; font-weight: 700; color: var(--text); min-width: 68px; }
 .tier-detail { font-size: 11.5px; color: var(--muted); }
 .tier-detail b { color: var(--text); font-weight: 600; }
 
@@ -243,15 +248,15 @@ body {
   display: flex; align-items: flex-start; gap: 9px;
   box-shadow: var(--shadow-card);
 }
-.skill-chip:hover { border-color: var(--blue); }
-.skill-chip.sel { border-color: var(--blue); background: var(--blue-light); }
+.skill-chip:hover { border-color: var(--accent); }
+.skill-chip.sel { border-color: var(--accent); background: var(--pink-light); }
 .skill-checkbox {
   width: 17px; height: 17px; min-width: 17px;
   border: 2px solid var(--border-strong); border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
   margin-top: 1px; transition: all 0.18s;
 }
-.skill-chip.sel .skill-checkbox { background: var(--blue); border-color: var(--blue); }
+.skill-chip.sel .skill-checkbox { background: var(--primary); border-color: var(--primary); }
 .skill-check-mark { display: none; color: #fff; font-size: 9px; font-weight: 800; }
 .skill-chip.sel .skill-check-mark { display: block; }
 .sk-name { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
@@ -277,7 +282,7 @@ body {
 }
 .q-mini-spinner {
   width: 28px; height: 28px; border: 2px solid var(--blue-light);
-  border-top-color: var(--blue); border-radius: 50%;
+  border-top-color: var(--accent); border-radius: 50%;
   animation: spin 0.7s linear infinite;
 }
 .q-loading-text { font-size: 13px; }
@@ -288,16 +293,16 @@ body {
   border: 1px solid var(--border); background: var(--surface2);
   cursor: pointer; transition: all 0.18s;
 }
-.q-item:hover { border-color: var(--blue); background: var(--surface); }
-.q-item.sel { border-color: var(--blue); background: var(--blue-light); }
+.q-item:hover { border-color: var(--accent); background: var(--surface); }
+.q-item.sel { border-color: var(--accent); background: var(--pink-light); }
 .q-item.disabled { opacity: 0.38; cursor: not-allowed; pointer-events: none; }
 .q-num {
   width: 26px; height: 26px; min-width: 26px; border-radius: 50%;
-  background: var(--blue-light); color: var(--blue);
+  background: var(--pink-light); color: var(--text-mid);
   font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; margin-top: 1px; transition: all 0.18s;
 }
-.q-item.sel .q-num { background: var(--blue); color: #fff; }
+.q-item.sel .q-num { background: var(--primary); color: #FFFFF5; }
 .q-text { font-size: 12.5px; color: var(--text); line-height: 1.5; }
 .q-skill-tag {
   margin-top: 4px; display: inline-block;
@@ -311,7 +316,7 @@ body {
   border: 1px solid rgba(0,201,192,0.25); border-radius: 8px;
   margin-bottom: 14px; line-height: 1.55;
 }
-.numq-hint b { color: var(--blue); }
+.numq-hint b { color: var(--primary); }
 
 .q-select-footer {
   display: flex; align-items: center; justify-content: space-between;
@@ -319,7 +324,7 @@ body {
   flex-wrap: wrap; gap: 8px;
 }
 .q-sel-count { font-size: 12.5px; color: var(--muted); font-weight: 500; }
-.q-sel-count b { color: var(--blue); font-weight: 700; }
+.q-sel-count b { color: var(--primary); font-weight: 700; }
 
 /* ── PERSONA ── */
 .persona-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(192px,1fr)); gap: 9px; margin-bottom: 28px; }
@@ -328,11 +333,11 @@ body {
   border-radius: var(--radius); padding: 16px; cursor: pointer;
   transition: all 0.18s; position: relative; box-shadow: var(--shadow-card);
 }
-.persona-card:hover { border-color: var(--blue); }
-.persona-card.sel { border-color: var(--blue); background: var(--blue-light); }
+.persona-card:hover { border-color: var(--accent); }
+.persona-card.sel { border-color: var(--accent); background: var(--pink-light); }
 .persona-card.sel::after {
   content: '✓'; position: absolute; top: 9px; right: 10px;
-  background: var(--blue); color: #fff; width: 19px; height: 19px;
+  background: var(--primary); color: #FFFFF5; width: 19px; height: 19px;
   border-radius: 50%; display: flex; align-items: center; justify-content: center;
   font-size: 10px; font-weight: 800;
 }
@@ -363,11 +368,11 @@ body {
 /* ── BUTTONS ── */
 .btn-primary {
   display: inline-flex; align-items: center; gap: 7px;
-  background: var(--blue); border: none; border-radius: var(--radius);
-  padding: 11px 22px; color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
+  background: var(--primary); border: none; border-radius: var(--radius);
+  padding: 11px 22px; color: #FFFFF5; font-family: 'Polymath Text', 'DM Sans', sans-serif;
   font-size: 13.5px; font-weight: 700; cursor: pointer; transition: all 0.18s;
 }
-.btn-primary:hover { background: var(--blue-dark); }
+.btn-primary:hover { background: var(--primary-hover); }
 .btn-primary:disabled { opacity: 0.38; cursor: not-allowed; }
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 7px;
@@ -376,16 +381,16 @@ body {
   font-family: 'Polymath Text', 'DM Sans', sans-serif; font-size: 13.5px; font-weight: 700;
   cursor: pointer; transition: all 0.18s;
 }
-.btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+.btn-ghost:hover { border-color: var(--primary); color: var(--primary); }
 .step-nav { display: flex; justify-content: space-between; align-items: center; padding-top: 8px; }
 
 .btn-gen {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: 9px;
-  background: var(--blue); border: none; border-radius: var(--radius);
-  padding: 15px 28px; color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
+  background: var(--primary); border: none; border-radius: var(--radius);
+  padding: 15px 28px; color: #FFFFF5; font-family: 'Polymath Text', 'DM Sans', sans-serif;
   font-size: 14.5px; font-weight: 700; cursor: pointer; transition: all 0.22s;
 }
-.btn-gen:hover { background: var(--blue-dark); }
+.btn-gen:hover { background: var(--primary-hover); }
 .btn-gen:disabled { opacity: 0.38; cursor: not-allowed; }
 .btn-spin { width: 17px; height: 17px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
 .btn-gen.loading .btn-spin { display: block; }
@@ -403,7 +408,7 @@ body {
   border-radius: var(--radius); font-size: 12.5px; font-weight: 500; color: var(--text-mid);
   cursor: pointer; transition: all 0.18s; font-family: 'Polymath Text', 'DM Sans', sans-serif;
 }
-.restart-btn:hover { border-color: var(--blue); color: var(--blue); }
+.restart-btn:hover { border-color: var(--primary); color: var(--primary); }
 
 .out-blocks { display: flex; flex-direction: column; gap: 10px; }
 .out-block {
@@ -411,7 +416,7 @@ body {
   border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-card);
   transition: border-color 0.18s;
 }
-.out-block:hover { border-color: var(--blue); }
+.out-block:hover { border-color: var(--accent); }
 .out-block-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 11px 16px; background: var(--surface2);
@@ -422,7 +427,7 @@ body {
   font-size: 10px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase;
   padding: 2px 8px; border-radius: 4px;
 }
-.type-blue { background: var(--blue-light); color: var(--blue); }
+.type-blue { background: var(--pink-light); color: #9B5A9D; }
 .type-teal { background: var(--teal-light); color: var(--teal-dark); }
 .type-orange { background: var(--orange-light); color: var(--orange); }
 .type-green { background: var(--green-light); color: #3D7A5E; }
@@ -433,14 +438,14 @@ body {
   color: var(--muted); font-size: 11px; font-weight: 600; cursor: pointer;
   transition: all 0.18s; font-family: 'Polymath Text', 'DM Sans', sans-serif;
 }
-.cp-btn:hover { border-color: var(--blue); color: var(--blue); }
+.cp-btn:hover { border-color: var(--primary); color: var(--primary); }
 .cp-btn.ok { border-color: var(--teal); color: var(--teal-dark); }
 .col-btn {
   width: 22px; height: 22px; border-radius: 5px; border: 1px solid var(--border);
   background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
   font-size: 12px; color: var(--muted); transition: all 0.18s;
 }
-.col-btn:hover { border-color: var(--blue); color: var(--blue); }
+.col-btn:hover { border-color: var(--primary); color: var(--primary); }
 .out-content {
   padding: 16px 18px; font-size: 12.5px; line-height: 1.75; color: var(--text-mid);
   white-space: pre-wrap; word-break: break-word;
@@ -475,11 +480,11 @@ body {
 }
 .test-call-btn {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 14px 28px; background: var(--blue); border: none; border-radius: var(--radius);
-  color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
+  padding: 14px 28px; background: var(--primary); border: none; border-radius: var(--radius);
+  color: #FFFFF5; font-family: 'Polymath Text', 'DM Sans', sans-serif;
   font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.22s;
 }
-.test-call-btn:hover { background: var(--blue-dark); }
+.test-call-btn:hover { background: var(--primary-hover); }
 .test-call-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 .test-active {
   display: none; flex-direction: column; align-items: center; gap: 18px;
@@ -496,7 +501,7 @@ body {
   background: var(--muted); transition: background 0.2s;
 }
 .test-status-dot.connecting { background: var(--orange); animation: pulse 1s ease-in-out infinite; }
-.test-status-dot.listening { background: var(--blue); }
+.test-status-dot.listening { background: var(--accent); }
 .test-status-dot.speaking { background: var(--teal); animation: pulse 1s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
 .test-timer {
@@ -515,7 +520,7 @@ body {
   padding: 56px 20px;
 }
 .gen-loading.on { display: flex; }
-.gen-spin { width: 38px; height: 38px; border: 3px solid var(--blue-light); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; }
+.gen-spin { width: 38px; height: 38px; border: 3px solid var(--pink-light); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 .gen-txt { font-size: 13.5px; color: var(--muted); font-weight: 500; }
 
 /* ── Q STYLE ── */
@@ -538,8 +543,9 @@ body {
 <aside class="sidebar">
   <div class="sidebar-head">
     <div class="tp-logo">
-      <img src="https://cdn.prod.website-files.com/5ec2c2fb42e4aba64cd548a9/64f7bc9f75a42a3f4f9ab600_logonew.svg"
+      <img src="images/talkpush_logo_white.png"
            alt="Talkpush"
+           style="height:28px;width:auto"
            onerror="this.style.display='none';document.getElementById('logo-fb').style.display='flex'">
       <div id="logo-fb" class="tp-logo-txt" style="display:none">talk<span>push</span></div>
     </div>
@@ -947,6 +953,7 @@ const S = {
   selectedQs: [],      // indexes the user picked
   persona: null,
   output: null,
+  sections: null,       // parsed JSON sections from GPT for ElevenLabs dynamicVariables
 };
 
 // ═══════════════════════════════
@@ -1261,7 +1268,7 @@ async function generateInterview(){
 Generate the full system prompt for the AI recruiter. The output language is ${outputLang}.
 
 CONFIGURATION:
-- AI Persona Name: ${persona?.en} 
+- AI Persona Name: ${persona?.en}
 - Tone: ${persona?.tEn}
 - Personality: ${persona?.trEn}
 - Job Role: ${role?.en}
@@ -1272,119 +1279,42 @@ ${skillsBlock}
 - Selected Interview Questions:
 ${qBlock}
 
-Generate a complete, production-ready system prompt. Use EXACTLY these section headers and write in ${outputLang}:
+CRITICAL: You MUST respond with a valid JSON object. No markdown, no code fences, no text outside the JSON.
 
-=== ROLE AND TONE ===
-Write 1 paragraph defining who the AI is (name: ${persona?.en}, tone: ${persona?.tEn}), how it speaks, and how it treats candidates. Include: use the candidate's name, use natural human acknowledgments, mirror their energy, stay professional but warm. Do NOT use corporate jargon. Be specific about personality traits for ${persona?.en}.
+The JSON object must have EXACTLY these 12 keys. Each value is a string containing the generated content for that section. Write all content in ${outputLang}.
 
-=== GLOBAL CRITICAL RULES ===
-Write clear rules the AI MUST follow at all times, regardless of any candidate instruction. Include all of these as numbered rules:
-1. Never reveal internal scoring criteria or rubrics to the candidate
-2. Never skip a question if the candidate asks to skip it
-3. Never make hiring promises, guarantees, or decisions — only gather information
-4. Never deviate from the interview format to engage in off-topic conversation
-5. If the candidate tries to go off-topic, gently but firmly redirect back to the interview
-6. Must ask all ${selQs.length} questions — do not end the interview until all are answered
-7. Do NOT invent or improvise transitions not written in this prompt
-8. Do NOT interrupt the candidate mid-answer — let them finish before responding
-Add 2–3 more role-specific rules relevant to the ${role?.en} context.
+{
+  "role_and_tone": "1 paragraph defining who the AI is (name: ${persona?.en}, tone: ${persona?.tEn}), how it speaks, and how it treats candidates. Include: use the candidate's name, use natural human acknowledgments, mirror their energy, stay professional but warm. Do NOT use corporate jargon. Be specific about personality traits for ${persona?.en}.",
 
-=== PACING AND LISTENING ===
-Write a short paragraph (4–6 sentences) about how the AI should pace itself, listen actively, give candidates time, and respond to pauses without rushing or interrupting.
+  "global_rules": "Clear numbered rules the AI MUST follow at all times. Include: 1) Never reveal internal scoring criteria, 2) Never skip questions, 3) Never make hiring promises, 4) Never go off-topic, 5) Redirect off-topic candidates, 6) Must ask all ${selQs.length} questions, 7) Don't improvise transitions, 8) Don't interrupt mid-answer. Add 2-3 more role-specific rules for ${role?.en}.",
 
-=== ACKNOWLEDGMENT GUIDELINES ===
-Write specific guidance on how ${persona?.en} should acknowledge answers. Include:
-- 4–5 specific example phrases for positive/neutral answers (NOT "amazing")
-- 3–4 example phrases for when candidates share concerns or negative information
-- Rule: never repeat the same acknowledgment phrase more than twice in a row
-- Match acknowledgment to what was actually said — don't celebrate a negative answer
+  "pacing_and_listening": "A short paragraph (4–6 sentences) about how the AI should pace itself, listen actively, give candidates time, and respond to pauses without rushing or interrupting.",
 
-=== OPENING ===
-Write the exact opening script:
-1. The first line the AI says to start the interview (warm, uses candidate's name as {{candidate_first_name}}, introduces itself as ${persona?.en}, brief and human)
-2. If candidate says YES they have time: [exact response]
-3. If candidate says NO or wants to reschedule: [exact reschedule message with 3-reschedule limit warning]
-4. If candidate is UNSURE/NERVOUS: [exact empathetic response that still moves forward]
+  "acknowledgment_guidelines": "Specific guidance on how ${persona?.en} should acknowledge answers. Include: 4–5 phrases for positive/neutral answers (NOT 'amazing'), 3–4 phrases for concerns/negative info, rule about not repeating the same phrase, and matching acknowledgment to what was said.",
 
-=== BRIEF ROLE REMINDER ===
-Write a concise (3–4 sentence) role overview the AI gives after the opening. Job role: ${role?.en}. Keep it factual and human, not a job ad. End with: "Does that overall picture make sense?"
+  "opening_script": "The exact opening script: 1) First line (warm, uses {{candidate_first_name}}, introduces as ${persona?.en}), 2) If YES to having time, 3) If NO/reschedule (with 3-reschedule limit warning), 4) If UNSURE/NERVOUS (empathetic response that moves forward).",
 
-=== CANDIDATE QUESTIONS PROTOCOL ===
-Write a protocol for when the candidate asks questions during the interview:
-- Answer briefly and directly
-- Use: "Great question. [Short answer.] Does that help? … Let me get back to where we were."
-- Candidates can ask unlimited questions — never end the interview early because of this
-- Never give specific timelines for hiring decisions
-- Never promise employment
+  "brief_role_reminder": "A concise (3–4 sentence) role overview for ${role?.en}. Keep factual and human, not a job ad. End with: 'Does that overall picture make sense?'",
 
-=== IF CANDIDATE WANTS TO RESCHEDULE OR LEAVE ===
-Write exact verbatim scripts for:
-1. Candidate asks to reschedule: acknowledge → confirm rescheduling → warn about 3-reschedule max → warm close
-2. Candidate is no longer interested: acknowledge → warm close
-Both must feel human and non-pressuring.
+  "candidate_questions_protocol": "Protocol for when candidate asks questions: answer briefly, use 'Great question. [Short answer.] Does that help?', unlimited questions allowed, never give specific hiring timelines, never promise employment.",
 
-=== QUESTION FLOW ===
-For EACH of the ${selQs.length} selected questions, write the following (use this EXACT format):
+  "reschedule_leave_protocol": "Exact verbatim scripts for: 1) Candidate reschedules (acknowledge → confirm → 3-reschedule max warning → warm close), 2) Candidate no longer interested (acknowledge → warm close). Both must feel human and non-pressuring.",
 
-Q[N]: "[VERBATIM QUESTION TEXT]"
-Skill evaluated: [skill name]
+  "question_flow": "For EACH of the ${selQs.length} questions, write: Q[N]: '[VERBATIM QUESTION TEXT]' / Skill evaluated / Good Path (1-2 sentences, ${persona?.tEn} tone) / Shallow Path (gentle follow-up, 2 sentences) / Uncertain Path (reassure + rephrase, 2 sentences) / Redirect Path (1 sentence). End with FOLLOW-UP LOGIC: if still can't answer, affirm + move on.",
 
-→ IF CANDIDATE GIVES A STRONG, DETAILED ANSWER (Good Path):
-[Exact words ${persona?.en} says to acknowledge warmly and transition naturally to the next question. 1–2 sentences. Match ${persona?.tEn} tone.]
+  "closing_script": "Exact closing script after all ${selQs.length} questions: 1) Pre-close asking for candidate questions using {{candidate_first_name}}, 2) How to handle YES questions, 3) Final warm closing (no specific timelines), 4) Post-goodbye line.",
 
-→ IF ANSWER IS VAGUE, SHORT, OR LACKS DETAIL (Shallow Path):
-[Exact words ${persona?.en} says to gently invite more depth without making the candidate feel judged. End with a specific follow-up question. 2 sentences.]
+  "evaluation_schema": "For each skill: SKILL name, WHAT TO LISTEN FOR (3-4 behaviors), SCORING RUBRIC (1-5 with descriptions), RED FLAGS (1-2 patterns), PROBE QUESTION.",
 
-→ IF CANDIDATE IS CONFUSED, NERVOUS, OR UNSURE HOW TO ANSWER (Uncertain Path):
-[Exact words ${persona?.en} says to reassure, rephrase, or simplify. Should feel human and supportive. 2 sentences.]
+  "post_interview_evaluation": "Complete evaluation prompt for after interview. Include: review each answer vs rubric, spot contradictions, ${role?.en}-specific red flags, structured output format with RECOMMENDATION, OVERALL SCORE, SKILL SCORES, STRENGTHS, AREAS OF CONCERN, RED FLAGS, SUGGESTED NEXT STEP."
+}
 
-→ IF CANDIDATE GOES OFF-TOPIC OR DOESN'T ANSWER THE QUESTION (Redirect Path):
-[Exact words ${persona?.en} says to kindly bring the candidate back. 1 sentence.]
-
-FOLLOW-UP LOGIC (GLOBAL): After any follow-up, if the candidate still can't answer, say: "[Affirm attempt]. That's okay — let's move on." Then go to the next question.
-
-=== CLOSING ===
-Write the exact closing script ${persona?.en} delivers after all ${selQs.length} questions are answered:
-1. Pre-close: "Before we wrap up, {{candidate_first_name}}, do you have any questions for me?"
-2. If YES, questions: [how to handle — answer briefly, check understanding, continue until no more questions]
-3. Final closing statement: warm, professional, tells candidate what happens next (no specific timelines), uses candidate's name. End naturally.
-4. Post-goodbye line: a natural, short friendly goodbye (e.g., "Take care!" / "Have a great day!")
-
-=== EVALUATION SCHEMA ===
-For each skill being evaluated, write:
-SKILL: [name]
-WHAT TO LISTEN FOR: [3–4 specific observable behaviors or answer elements that indicate this skill]
-SCORING RUBRIC:
-  1 – [No evidence / actively negative indicator]
-  2 – [Weak — mentioned but not demonstrated]  
-  3 – [Solid — clear example given, meets expectations]
-  4 – [Strong — specific, reflective, shows growth]
-  5 – [Exceptional — detailed, proactive insight, role-specific depth]
-RED FLAGS: [1–2 specific answer patterns that should concern the hiring team]
-PROBE QUESTION: "[Exact follow-up if first answer is too shallow]"
-
-=== POST-INTERVIEW EVALUATION PROMPT ===
-Write a complete evaluation prompt the AI runs after the interview ends. Include:
-- Instructions to review each answer against its rubric
-- How to spot contradictions or inconsistencies across answers
-- Specific red flags to note (per the ${role?.en} role)
-- The exact structured output format:
-
-CANDIDATE EVALUATION — ${role?.en?.toUpperCase()}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-RECOMMENDATION: [✅ PROCEED / ⚠️ REVIEW / ❌ DECLINE]
-OVERALL SCORE: [X.X / 5.0]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SKILL SCORES:
-[For each skill: skill name | score | 1-line justification]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-STRENGTHS: [2–3 bullet points]
-AREAS OF CONCERN: [1–3 bullet points, or "None identified"]
-RED FLAGS: [any specific concerns, or "None identified"]
-SUGGESTED NEXT STEP: [one specific, actionable recommendation]
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-Write everything in ${outputLang}. Be thorough, specific, and production-ready.`;
+IMPORTANT REMINDERS:
+- Output ONLY the JSON object, nothing else
+- All values must be strings (escape any quotes inside values)
+- Write all content in ${outputLang}
+- Be thorough, specific, and production-ready for each section
+- For question_flow, include ALL ${selQs.length} questions with ALL paths`;
 
   try{
     const res=await fetch("/api/generate",{
@@ -1398,8 +1328,45 @@ Write everything in ${outputLang}. Be thorough, specific, and production-ready.`
     });
     if(!res.ok){ const err=await res.json().catch(()=>({})); throw new Error(err.error||'API request failed'); }
     const data=await res.json();
-    const text=data.choices?.[0]?.message?.content||'';
-    S.output=text;
+    let text=data.choices?.[0]?.message?.content||'';
+
+    // Parse JSON response into sections
+    let sections = null;
+    try {
+      // Strip markdown code fences if present
+      text = text.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim();
+      sections = JSON.parse(text);
+    } catch (parseErr) {
+      console.error('JSON parse failed, falling back to text:', parseErr);
+      // If JSON fails, store raw text as output and don't populate sections
+    }
+
+    if (sections && typeof sections === 'object') {
+      S.sections = sections;
+      // Reassemble into text with section headers for display
+      const SECTION_MAP = [
+        { key: 'role_and_tone',              header: 'ROLE AND TONE' },
+        { key: 'global_rules',               header: 'GLOBAL CRITICAL RULES' },
+        { key: 'pacing_and_listening',        header: 'PACING AND LISTENING' },
+        { key: 'acknowledgment_guidelines',   header: 'ACKNOWLEDGMENT GUIDELINES' },
+        { key: 'opening_script',              header: 'OPENING' },
+        { key: 'brief_role_reminder',         header: 'BRIEF ROLE REMINDER' },
+        { key: 'candidate_questions_protocol',header: 'CANDIDATE QUESTIONS PROTOCOL' },
+        { key: 'reschedule_leave_protocol',   header: 'IF CANDIDATE WANTS TO RESCHEDULE OR LEAVE' },
+        { key: 'question_flow',              header: 'QUESTION FLOW' },
+        { key: 'closing_script',              header: 'CLOSING' },
+        { key: 'evaluation_schema',           header: 'EVALUATION SCHEMA' },
+        { key: 'post_interview_evaluation',   header: 'POST-INTERVIEW EVALUATION PROMPT' },
+      ];
+      S.output = SECTION_MAP
+        .filter(m => sections[m.key])
+        .map(m => `=== ${m.header} ===\n${sections[m.key]}`)
+        .join('\n\n');
+    } else {
+      S.output = text;
+      S.sections = null;
+    }
+
     S.step=6;
     renderStep(6);
   } catch(err){
@@ -1482,7 +1449,7 @@ function copyAll(){
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function restart(){
   if(testConversation) endTestInterview();
-  Object.assign(S,{step:0,role:null,skills:[],qStyle:null,questions:[],selectedQs:[],persona:null,output:null});
+  Object.assign(S,{step:0,role:null,skills:[],qStyle:null,questions:[],selectedQs:[],persona:null,output:null,sections:null});
   const gl=document.getElementById('gen-loading');
   const gb=document.getElementById('btn-gen');
   if(gl) gl.classList.remove('on');
@@ -1534,16 +1501,29 @@ async function startTestInterview() {
     // Dynamically load the ElevenLabs SDK
     const { Conversation } = await import('https://esm.sh/@elevenlabs/client@latest');
 
-    // Start the conversation session with the generated prompt as override
+    // Build dynamic variables from parsed sections, or fall back to full prompt override
+    const sessionConfig = { signedUrl };
+    if (S.sections) {
+      sessionConfig.dynamicVariables = {
+        role_and_tone:               S.sections.role_and_tone || '',
+        pacing_and_listening:        S.sections.pacing_and_listening || '',
+        opening_script:              S.sections.opening_script || '',
+        brief_role_reminder:         S.sections.brief_role_reminder || '',
+        question_flow:               S.sections.question_flow || '',
+        closing_script:              S.sections.closing_script || '',
+        reschedule_leave_protocol:   S.sections.reschedule_leave_protocol || '',
+        acknowledgment_guidelines:   S.sections.acknowledgment_guidelines || '',
+        global_rules:                S.sections.global_rules || '',
+        candidate_questions_protocol:S.sections.candidate_questions_protocol || '',
+      };
+    } else {
+      // Fallback: if JSON parsing failed, send full output as prompt override
+      sessionConfig.overrides = { agent: { prompt: { prompt: S.output } } };
+    }
+
+    // Start the conversation session with dynamic variables (or fallback override)
     testConversation = await Conversation.startSession({
-      signedUrl,
-      overrides: {
-        agent: {
-          prompt: {
-            prompt: S.output
-          }
-        }
-      },
+      ...sessionConfig,
       onConnect: () => {
         // Show active call UI
         callBtn.style.display = 'none';
