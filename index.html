@@ -2866,10 +2866,15 @@ async function startTestInterview() {
         candidate_questions_protocol:S.sections.candidate_questions_protocol || '',
       };
       sessionConfig.dynamicVariables = dynVars;
-      // Note: voice_id overrides removed — ElevenLabs agent config does not allow them.
-      // To re-enable, toggle "Allow voice override" in the ElevenLabs dashboard for both agents.
+      const voiceId = getPersonaVoiceId();
+      if (voiceId) {
+        sessionConfig.overrides = { tts: { voiceId } };
+      }
     } else {
-      sessionConfig.overrides = { agent: { prompt: { prompt: S.output } } };
+      const overrides = { agent: { prompt: { prompt: S.output } } };
+      const voiceId = getPersonaVoiceId();
+      if (voiceId) overrides.tts = { voiceId };
+      sessionConfig.overrides = overrides;
     }
 
     // Start the conversation session with dynamic variables (or fallback override)
