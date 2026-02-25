@@ -498,34 +498,152 @@ body {
 }
 .test-call-btn:hover { background: var(--primary-hover); }
 .test-call-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.test-active {
-  display: none; flex-direction: column; align-items: center; gap: 18px;
-  padding: 28px 24px; background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+
+/* ── CALL MODAL OVERLAY ── */
+.call-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(20, 20, 25, 0.65); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+  animation: fadeIn 0.25s ease;
 }
-.test-active.on { display: flex; }
-.test-status {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; font-weight: 600; color: var(--text);
+.call-overlay.on { display: flex; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.call-modal {
+  width: 380px; max-width: 92vw; background: var(--surface);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.35);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.test-status-dot {
-  width: 10px; height: 10px; border-radius: 50%;
-  background: var(--muted); transition: background 0.2s;
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
-.test-status-dot.connecting { background: var(--orange); animation: pulse 1s ease-in-out infinite; }
-.test-status-dot.listening { background: var(--accent); }
-.test-status-dot.speaking { background: var(--teal); animation: pulse 1s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.test-timer {
-  font-size: 28px; font-weight: 700; color: var(--text);
-  font-family: 'Space Grotesk', sans-serif; letter-spacing: 1px;
+
+/* Gradient strip at top */
+.call-modal-strip {
+  height: 4px;
+  background: linear-gradient(90deg, var(--orange), var(--pink), var(--teal), var(--blue));
 }
-.test-end-btn {
-  padding: 10px 32px; background: #E57373; border: none; border-radius: var(--radius);
-  color: #fff; font-family: 'Polymath Text', 'DM Sans', sans-serif;
-  font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.18s;
+
+/* Modal body */
+.call-modal-body {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 36px 32px 32px; gap: 6px;
 }
-.test-end-btn:hover { background: #EF5350; }
+
+/* Agent avatar */
+.call-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 50%, var(--pink-light) 100%);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; margin-bottom: 8px;
+}
+.call-avatar-icon {
+  font-size: 32px; line-height: 1;
+}
+/* Animated ring around avatar */
+.call-avatar::before {
+  content: ''; position: absolute; inset: -6px;
+  border-radius: 50%; border: 2px solid transparent;
+  border-top-color: var(--blue); border-right-color: var(--teal);
+  animation: avatarSpin 2.5s linear infinite; opacity: 0;
+  transition: opacity 0.3s;
+}
+.call-overlay.speaking .call-avatar::before,
+.call-overlay.listening .call-avatar::before { opacity: 1; }
+.call-overlay.speaking .call-avatar::before { border-top-color: var(--teal); border-right-color: var(--blue); animation-duration: 1.5s; }
+@keyframes avatarSpin { to { transform: rotate(360deg); } }
+
+/* Pulse rings for speaking */
+.call-avatar::after {
+  content: ''; position: absolute; inset: -14px;
+  border-radius: 50%; border: 1.5px solid var(--teal); opacity: 0;
+  transition: opacity 0.3s;
+}
+.call-overlay.speaking .call-avatar::after {
+  opacity: 0.3; animation: pulseRing 1.2s ease-out infinite;
+}
+@keyframes pulseRing {
+  0%   { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+/* Agent label */
+.call-agent-label {
+  font-size: 17px; font-weight: 700; color: var(--text);
+  font-family: 'Space Grotesk', sans-serif; margin-top: 4px;
+}
+
+/* Status badge */
+.call-status-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  background: rgba(184,212,200,0.15); color: var(--blue);
+  transition: all 0.25s;
+}
+.call-overlay.connecting .call-status-badge { background: rgba(240,168,48,0.12); color: var(--orange); }
+.call-overlay.speaking .call-status-badge  { background: rgba(197,202,233,0.18); color: var(--teal); }
+.call-overlay.listening .call-status-badge { background: rgba(184,212,200,0.15); color: var(--blue); }
+
+.call-status-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor; transition: background 0.2s;
+}
+.call-overlay.connecting .call-status-dot { animation: pulse 1s ease-in-out infinite; }
+.call-overlay.speaking .call-status-dot   { animation: pulse 0.8s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+/* Timer */
+.call-timer {
+  font-size: 44px; font-weight: 700; color: var(--text);
+  font-family: 'Space Grotesk', sans-serif; letter-spacing: 2px;
+  margin: 16px 0 4px;
+}
+
+/* Waveform visualizer bar */
+.call-wave {
+  display: flex; align-items: center; gap: 3px; height: 24px; margin: 8px 0 12px;
+}
+.call-wave-bar {
+  width: 3px; border-radius: 2px;
+  background: var(--blue); opacity: 0.25;
+  transition: height 0.15s, opacity 0.15s;
+  height: 6px;
+}
+.call-overlay.speaking .call-wave-bar,
+.call-overlay.listening .call-wave-bar { opacity: 0.7; }
+.call-overlay.speaking .call-wave-bar { animation: waveBar 0.6s ease-in-out infinite alternate; }
+.call-overlay.listening .call-wave-bar { animation: waveBarSlow 1.2s ease-in-out infinite alternate; }
+.call-wave-bar:nth-child(1) { animation-delay: 0s; }
+.call-wave-bar:nth-child(2) { animation-delay: 0.08s; }
+.call-wave-bar:nth-child(3) { animation-delay: 0.16s; }
+.call-wave-bar:nth-child(4) { animation-delay: 0.24s; }
+.call-wave-bar:nth-child(5) { animation-delay: 0.32s; }
+.call-wave-bar:nth-child(6) { animation-delay: 0.24s; }
+.call-wave-bar:nth-child(7) { animation-delay: 0.16s; }
+.call-wave-bar:nth-child(8) { animation-delay: 0.08s; }
+.call-wave-bar:nth-child(9) { animation-delay: 0s; }
+@keyframes waveBar {
+  0%   { height: 4px; }
+  100% { height: 22px; }
+}
+@keyframes waveBarSlow {
+  0%   { height: 4px; }
+  100% { height: 12px; }
+}
+
+/* End call button */
+.call-end-btn {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #E57373; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; margin-top: 4px;
+  box-shadow: 0 4px 16px rgba(229,115,115,0.3);
+}
+.call-end-btn:hover { background: #EF5350; transform: scale(1.06); box-shadow: 0 6px 20px rgba(229,115,115,0.45); }
+.call-end-btn svg { width: 24px; height: 24px; fill: #fff; }
 
 .gen-loading {
   display: none; flex-direction: column; align-items: center; gap: 14px;
@@ -727,13 +845,37 @@ body {
     <button class="test-call-btn" id="test-call-btn" onclick="startTestInterview()">
       <span id="test-call-txt">📞 Start Test Interview</span>
     </button>
-    <div class="test-active" id="test-active" style="display:none">
-      <div class="test-status" id="test-status">
-        <span class="test-status-dot connecting" id="test-dot"></span>
-        <span id="test-status-txt">Connecting…</span>
+  </div>
+
+  <!-- Call Modal Overlay (outside test-section) -->
+  <div class="call-overlay" id="call-overlay">
+    <div class="call-modal">
+      <div class="call-modal-strip"></div>
+      <div class="call-modal-body">
+        <div class="call-avatar">
+          <span class="call-avatar-icon">🎙️</span>
+        </div>
+        <div class="call-agent-label" id="call-agent-label">AI Interviewer</div>
+        <div class="call-status-badge" id="call-status-badge">
+          <span class="call-status-dot" id="call-status-dot"></span>
+          <span id="call-status-txt">Connecting…</span>
+        </div>
+        <div class="call-timer" id="call-timer">00:00</div>
+        <div class="call-wave">
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+          <div class="call-wave-bar"></div>
+        </div>
+        <button class="call-end-btn" id="call-end-btn" onclick="endTestInterview()" title="End Call">
+          <svg viewBox="0 0 24 24"><path d="M12 9c-1.6 0-3.15.25-4.6.72v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.956.956 0 0 1-.29-.7c0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .28-.11.53-.29.71l-2.48 2.48c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28-.79-.73-1.68-1.36-2.66-1.85a.994.994 0 0 1-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/></svg>
+        </button>
       </div>
-      <div class="test-timer" id="test-timer">00:00</div>
-      <button class="test-end-btn" id="test-end-btn" onclick="endTestInterview()">End Call</button>
     </div>
   </div>
 </div>
@@ -784,6 +926,7 @@ const T = {
     testEndBtn:'End Call',
     testError:'Call failed. Please try again.',
     testMicDenied:'Microphone access is required for the test call.',
+    callAgentLabel:'AI Interviewer',
   },
   es: {
     live: 'Demo en Vivo',
@@ -821,6 +964,7 @@ const T = {
     testEndBtn:'Finalizar Llamada',
     testError:'La llamada falló. Inténtalo de nuevo.',
     testMicDenied:'Se requiere acceso al micrófono para la llamada de prueba.',
+    callAgentLabel:'Entrevistador IA',
   }
 };
 function t(k,...a){ const v=T[CUR.lang][k]; return typeof v==='function'?v(...a):v; }
@@ -1039,14 +1183,14 @@ function renderStep(n){
     if(desc) desc.textContent=sd.desc;
   }
   // update static labels
-  ['spSel','spDepth','sumHeading','genBtn','genLoading','outDone','restart','copyAll','qGenTitle','qLoading','testTitle','testDesc','testNameLabel','testCallBtn','testEndBtn'].forEach(k=>{
+  ['spSel','spDepth','sumHeading','genBtn','genLoading','outDone','restart','copyAll','qGenTitle','qLoading','testTitle','testDesc','testNameLabel','testCallBtn','callAgentLabel'].forEach(k=>{
     const el=document.getElementById({
       spSel:'sp-sel-lbl',spDepth:'sp-depth-lbl',sumHeading:'sum-heading',
       genBtn:'btn-gen-txt',genLoading:'gen-loading-txt',outDone:'out-done-badge',
       restart:'restart-txt',copyAll:'copy-all-txt',qGenTitle:'qs-title-txt',
       qLoading:'q-loading-txt',
       testTitle:'test-title',testDesc:'test-desc',testNameLabel:'test-name-label',
-      testCallBtn:'test-call-txt',testEndBtn:'test-end-btn',
+      testCallBtn:'test-call-txt',callAgentLabel:'call-agent-label',
     }[k]);
     if(el) el.textContent=t(k);
   });
@@ -1501,9 +1645,8 @@ async function getSignedUrl() {
 
 async function startTestInterview() {
   const callBtn = document.getElementById('test-call-btn');
-  const activePanel = document.getElementById('test-active');
-  const dot = document.getElementById('test-dot');
-  const statusTxt = document.getElementById('test-status-txt');
+  const overlay = document.getElementById('call-overlay');
+  const statusTxt = document.getElementById('call-status-txt');
 
   // Disable button while connecting
   callBtn.disabled = true;
@@ -1518,6 +1661,12 @@ async function startTestInterview() {
     alert(t('testMicDenied'));
     return;
   }
+
+  // Show overlay immediately in "connecting" state
+  overlay.classList.remove('speaking', 'listening');
+  overlay.classList.add('on', 'connecting');
+  statusTxt.textContent = t('testConnecting');
+  document.getElementById('call-agent-label').textContent = t('callAgentLabel');
 
   try {
     // Get signed URL from our proxy
@@ -1544,58 +1693,40 @@ async function startTestInterview() {
         candidate_questions_protocol:S.sections.candidate_questions_protocol || '',
       };
       sessionConfig.dynamicVariables = dynVars;
-
-      // Debug: log variable sizes
-      const totalChars = Object.values(dynVars).reduce((sum,v) => sum + v.length, 0);
-      console.log('[ElevenLabs] Using dynamicVariables, total chars:', totalChars);
-      Object.entries(dynVars).forEach(([k,v]) => console.log(`  ${k}: ${v.length} chars`));
     } else {
-      // Fallback: if JSON parsing failed, send full output as prompt override
       sessionConfig.overrides = { agent: { prompt: { prompt: S.output } } };
-      console.log('[ElevenLabs] Fallback: using prompt override, chars:', S.output?.length);
     }
-
-    console.log('[ElevenLabs] Starting session with config keys:', Object.keys(sessionConfig));
 
     // Start the conversation session with dynamic variables (or fallback override)
     testConversation = await Conversation.startSession({
       ...sessionConfig,
-      onConnect: ({ conversationId } = {}) => {
-        console.log('[ElevenLabs] Connected, conversationId:', conversationId);
-        // Show active call UI
-        callBtn.style.display = 'none';
-        activePanel.style.display = 'flex';
-        dot.className = 'test-status-dot listening';
+      onConnect: () => {
+        overlay.classList.remove('connecting');
+        overlay.classList.add('listening');
         statusTxt.textContent = t('testListening');
         startTimer();
       },
-      onDisconnect: (details) => {
-        console.log('[ElevenLabs] Disconnected, details:', details);
+      onDisconnect: () => {
         cleanupCall();
       },
-      onError: (error, context) => {
-        console.error('[ElevenLabs] Error:', error, 'Context:', context);
+      onError: () => {
         cleanupCall();
         alert(t('testError'));
       },
-      onMessage: (message) => {
-        console.log('[ElevenLabs] Message:', message);
-      },
       onModeChange: ({ mode }) => {
-        console.log('[ElevenLabs] Mode changed to:', mode);
+        overlay.classList.remove('connecting', 'speaking', 'listening');
         if (mode === 'speaking') {
-          dot.className = 'test-status-dot speaking';
+          overlay.classList.add('speaking');
           statusTxt.textContent = t('testSpeaking');
         } else {
-          dot.className = 'test-status-dot listening';
+          overlay.classList.add('listening');
           statusTxt.textContent = t('testListening');
         }
       }
     });
   } catch (err) {
     console.error('Test interview error:', err);
-    callBtn.disabled = false;
-    callBtn.style.opacity = '1';
+    cleanupCall();
     alert(t('testError'));
   }
 }
@@ -1612,14 +1743,13 @@ function cleanupCall() {
   stopTimer();
   testConversation = null;
   const callBtn = document.getElementById('test-call-btn');
-  const activePanel = document.getElementById('test-active');
+  const overlay = document.getElementById('call-overlay');
   if (callBtn) {
-    callBtn.style.display = '';
     callBtn.disabled = false;
     callBtn.style.opacity = '1';
   }
-  if (activePanel) activePanel.style.display = 'none';
-  document.getElementById('test-timer').textContent = '00:00';
+  if (overlay) overlay.classList.remove('on','connecting','speaking','listening');
+  document.getElementById('call-timer').textContent = '00:00';
 }
 
 function startTimer() {
@@ -1640,7 +1770,7 @@ function updateTimerDisplay() {
   const elapsed = Math.floor((Date.now() - testStartTime) / 1000);
   const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
   const s = String(elapsed % 60).padStart(2, '0');
-  document.getElementById('test-timer').textContent = `${m}:${s}`;
+  document.getElementById('call-timer').textContent = `${m}:${s}`;
 }
 
 // ═══════════════════════════════
