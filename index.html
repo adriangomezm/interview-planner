@@ -694,6 +694,162 @@ body {
 .call-info-btn:hover { background: rgba(255,255,255,0.3); }
 .call-info-btn svg { width: 18px; height: 18px; fill: rgba(255,255,255,0.7); }
 
+/* ── REPORT STATE: Processing ── */
+.call-overlay.processing .call-center,
+.call-overlay.processing .call-bottombar { display: none; }
+.call-overlay.processing .call-report { display: flex; }
+.call-overlay.report .call-center,
+.call-overlay.report .call-bottombar { display: none; }
+.call-overlay.report .call-report { display: flex; }
+
+.call-report {
+  display: none; flex: 1; flex-direction: column; align-items: center;
+  justify-content: center; padding: 40px 20px; overflow-y: auto;
+}
+
+/* Processing spinner */
+.report-processing {
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+}
+.report-spinner {
+  width: 48px; height: 48px;
+  border: 4px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.report-processing-txt {
+  font-size: 16px; color: rgba(255,255,255,0.9); font-weight: 500;
+}
+
+/* Report card */
+.report-card {
+  display: none; width: 100%; max-width: 680px;
+  background: rgba(255,255,255,0.95); border-radius: 16px;
+  overflow: hidden; max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+.call-overlay.report .report-card { display: block; }
+.call-overlay.report .report-processing { display: none; }
+
+.report-header {
+  padding: 24px 28px; border-bottom: 1px solid #eee;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.report-header h2 {
+  font-family: 'Space Grotesk', sans-serif; font-size: 20px;
+  font-weight: 700; color: #1A1A1A; margin: 0;
+}
+.report-duration {
+  font-size: 13px; color: #8A8A8A; font-weight: 500;
+  background: #f5f2ed; padding: 4px 12px; border-radius: 20px;
+}
+
+.report-body { padding: 24px 28px; }
+
+.report-section { margin-bottom: 24px; }
+.report-section:last-child { margin-bottom: 0; }
+.report-section-title {
+  font-family: 'Space Grotesk', sans-serif; font-size: 14px;
+  font-weight: 700; color: #8A8A8A; text-transform: uppercase;
+  letter-spacing: 0.05em; margin-bottom: 12px;
+}
+.report-summary-text {
+  font-size: 14px; line-height: 1.7; color: #333;
+  background: #faf8f5; padding: 14px 18px; border-radius: 10px;
+  border-left: 3px solid var(--blue);
+}
+
+/* Transcript in report */
+.report-transcript-list {
+  display: flex; flex-direction: column; gap: 8px;
+  max-height: 300px; overflow-y: auto; padding: 4px;
+}
+.report-transcript-msg {
+  font-size: 13px; line-height: 1.6; padding: 8px 14px;
+  border-radius: 10px; max-width: 85%;
+}
+.report-transcript-msg.agent {
+  background: #e8f5e9; color: #2e7d32; align-self: flex-start;
+}
+.report-transcript-msg.user {
+  background: #e3f2fd; color: #1565c0; align-self: flex-end;
+}
+.report-transcript-msg .msg-role {
+  font-weight: 700; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.04em; display: block; margin-bottom: 2px;
+}
+
+/* Extracted data */
+.report-data-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.report-data-item {
+  background: #faf8f5; padding: 12px 16px; border-radius: 10px;
+  border: 1px solid #eee;
+}
+.report-data-label {
+  font-size: 11px; font-weight: 700; color: #8A8A8A;
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;
+}
+.report-data-value { font-size: 14px; color: #1A1A1A; font-weight: 500; word-break: break-word; }
+
+/* Evaluation */
+.report-eval-list { display: flex; flex-direction: column; gap: 8px; }
+.report-eval-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 16px; background: #faf8f5; border-radius: 10px;
+  border: 1px solid #eee;
+}
+.report-eval-badge {
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+}
+.report-eval-badge.pass { background: #d4edda; color: #155724; }
+.report-eval-badge.fail { background: #f8d7da; color: #721c24; }
+.report-eval-content { flex: 1; }
+.report-eval-name { font-size: 14px; font-weight: 600; color: #1A1A1A; margin-bottom: 2px; }
+.report-eval-rationale { font-size: 12px; color: #666; line-height: 1.5; }
+
+/* Report footer */
+.report-footer {
+  padding: 16px 28px; border-top: 1px solid #eee;
+  display: flex; justify-content: center; gap: 12px;
+}
+.report-close-btn {
+  padding: 10px 32px; border-radius: 10px; border: none;
+  background: var(--blue); color: #fff; font-weight: 700;
+  font-size: 14px; cursor: pointer; transition: all 0.2s;
+}
+.report-close-btn:hover { background: #9ac4b4; transform: scale(1.02); }
+
+/* Report error */
+.report-error {
+  display: none; flex-direction: column; align-items: center;
+  gap: 16px; text-align: center;
+}
+.report-error-txt {
+  font-size: 15px; color: rgba(255,255,255,0.9); max-width: 340px; line-height: 1.5;
+}
+.report-retry-btn {
+  padding: 10px 28px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.5);
+  background: transparent; color: #fff; font-weight: 700;
+  font-size: 14px; cursor: pointer; transition: all 0.2s;
+}
+.report-retry-btn:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
+.report-error-close {
+  padding: 8px 24px; border-radius: 10px; border: none;
+  background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
+  font-weight: 600; font-size: 13px; cursor: pointer;
+}
+.report-error-close:hover { background: rgba(255,255,255,0.3); }
+
+@media (max-width: 600px) {
+  .report-data-grid { grid-template-columns: 1fr; }
+  .report-card { border-radius: 12px; }
+  .report-header, .report-body, .report-footer { padding-left: 20px; padding-right: 20px; }
+}
+
 .gen-loading {
   display: none; flex-direction: column; align-items: center; gap: 14px;
   padding: 56px 20px;
@@ -943,6 +1099,34 @@ body {
         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
       </button>
     </div>
+
+    <!-- Report Section (shown after call ends) -->
+    <div class="call-report" id="call-report">
+      <!-- Processing state -->
+      <div class="report-processing" id="report-processing">
+        <div class="report-spinner"></div>
+        <div class="report-processing-text" id="report-processing-text">Analyzing interview…</div>
+      </div>
+      <!-- Report card -->
+      <div class="report-card" id="report-card" style="display:none">
+        <div class="report-header">
+          <h2 class="report-title" id="report-title">Interview Report</h2>
+          <span class="report-duration-badge" id="report-duration-badge"></span>
+        </div>
+        <div class="report-body" id="report-body"></div>
+        <div class="report-footer">
+          <button class="report-close-btn" id="report-close-btn" onclick="closeReport()">Close Report</button>
+        </div>
+      </div>
+      <!-- Error state -->
+      <div class="report-error" id="report-error" style="display:none">
+        <div class="report-error-icon">⚠️</div>
+        <div class="report-error-text" id="report-error-text">Could not load report.</div>
+        <button class="report-retry-btn" onclick="retryReport()">Retry</button>
+        <button class="report-close-btn" style="margin-top:8px" onclick="closeReport()">Close</button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -995,6 +1179,19 @@ const T = {
     callAgentLabel:'AI Interviewer',
     callTopbarRole:'AI Interviewer',
     callPoweredBy:'Powered by talkpush',
+    reportProcessing:'Analyzing interview…',
+    reportTitle:'Interview Report',
+    reportTranscript:'Transcript',
+    reportExtracted:'Extracted Data',
+    reportEvaluation:'Evaluation',
+    reportSummary:'Summary',
+    reportDuration:'Duration',
+    reportClose:'Close Report',
+    reportError:'Could not load report. Please try again.',
+    reportRetry:'Retry',
+    reportPassed:'Passed',
+    reportFailed:'Failed',
+    reportNoData:'No data available',
   },
   es: {
     live: 'Demo en Vivo',
@@ -1035,6 +1232,19 @@ const T = {
     callAgentLabel:'Entrevistador IA',
     callTopbarRole:'Entrevistador IA',
     callPoweredBy:'Desarrollado por talkpush',
+    reportProcessing:'Analizando entrevista…',
+    reportTitle:'Reporte de Entrevista',
+    reportTranscript:'Transcripción',
+    reportExtracted:'Datos Extraídos',
+    reportEvaluation:'Evaluación',
+    reportSummary:'Resumen',
+    reportDuration:'Duración',
+    reportClose:'Cerrar Reporte',
+    reportError:'No se pudo cargar el reporte. Inténtalo de nuevo.',
+    reportRetry:'Reintentar',
+    reportPassed:'Aprobado',
+    reportFailed:'No Aprobado',
+    reportNoData:'Sin datos disponibles',
   }
 };
 function t(k,...a){ const v=T[CUR.lang][k]; return typeof v==='function'?v(...a):v; }
@@ -1703,6 +1913,7 @@ function restart(){
 let testConversation = null;
 let testTimerInterval = null;
 let testStartTime = null;
+let lastConversationId = null;
 
 async function getSignedUrl() {
   const res = await fetch(`/api/elevenlabs-signed-url?lang=${CUR.lang}`);
@@ -1774,14 +1985,17 @@ async function startTestInterview() {
     // Start the conversation session with dynamic variables (or fallback override)
     testConversation = await Conversation.startSession({
       ...sessionConfig,
-      onConnect: () => {
+      onConnect: ({conversationId}) => {
+        lastConversationId = conversationId;
         overlay.classList.remove('connecting');
         overlay.classList.add('listening');
         statusTxt.textContent = t('testListening');
         startTimer();
       },
       onDisconnect: () => {
-        cleanupCall();
+        stopTimer();
+        testConversation = null;
+        showReportView();
       },
       onError: () => {
         cleanupCall();
@@ -1830,7 +2044,8 @@ async function endTestInterview() {
     try { await testConversation.endSession(); } catch (e) { /* ignore */ }
     testConversation = null;
   }
-  cleanupCall();
+  stopTimer();
+  showReportView();
 }
 
 let micMuted = false;
@@ -1855,16 +2070,26 @@ function toggleMic() {
 function cleanupCall() {
   stopTimer();
   testConversation = null;
+  lastConversationId = null;
   const callBtn = document.getElementById('test-call-btn');
   const overlay = document.getElementById('call-overlay');
   if (callBtn) {
     callBtn.disabled = false;
     callBtn.style.opacity = '1';
   }
-  if (overlay) overlay.classList.remove('on','connecting','speaking','listening');
+  if (overlay) overlay.classList.remove('on','connecting','speaking','listening','processing','report');
   document.getElementById('call-timer').textContent = '00:00';
   const transcript = document.getElementById('call-transcript');
   if (transcript) transcript.innerHTML = '';
+  // Reset report state
+  const reportEl = document.getElementById('call-report');
+  const reportProcessing = document.getElementById('report-processing');
+  const reportCard = document.getElementById('report-card');
+  const reportError = document.getElementById('report-error');
+  if (reportEl) reportEl.style.display = '';
+  if (reportProcessing) reportProcessing.style.display = '';
+  if (reportCard) { reportCard.style.display = 'none'; document.getElementById('report-body').innerHTML = ''; }
+  if (reportError) reportError.style.display = 'none';
   // Reset mic state
   micMuted = false;
   const micBtn = document.getElementById('call-mic-btn');
@@ -1892,6 +2117,203 @@ function updateTimerDisplay() {
   const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
   const s = String(elapsed % 60).padStart(2, '0');
   document.getElementById('call-timer').textContent = `${m}:${s}`;
+}
+
+// ═══════════════════════════════
+//  POST-CALL REPORT
+// ═══════════════════════════════
+
+function showReportView() {
+  const overlay = document.getElementById('call-overlay');
+  if (!overlay) return;
+  // Transition overlay to processing state (hides call UI, shows report area)
+  overlay.classList.remove('connecting','speaking','listening');
+  overlay.classList.add('processing');
+  // Update processing text with i18n
+  document.getElementById('report-processing-text').textContent = t('reportProcessing');
+  // Reset report elements
+  document.getElementById('report-processing').style.display = '';
+  document.getElementById('report-card').style.display = 'none';
+  document.getElementById('report-error').style.display = 'none';
+  document.getElementById('report-body').innerHTML = '';
+
+  if (lastConversationId) {
+    fetchReport(lastConversationId);
+  } else {
+    showReportError(t('reportError'));
+  }
+}
+
+async function fetchReport(conversationId, attempt = 1) {
+  const maxAttempts = 20;
+  const pollInterval = 3000; // 3 seconds
+
+  try {
+    const res = await fetch(`/api/elevenlabs-report?id=${encodeURIComponent(conversationId)}`);
+    if (!res.ok) {
+      throw new Error(`API returned ${res.status}`);
+    }
+    const data = await res.json();
+
+    if (data.status === 'done') {
+      renderReport(data);
+      return;
+    }
+
+    // Still processing — poll again if under max attempts
+    if (attempt < maxAttempts) {
+      setTimeout(() => fetchReport(conversationId, attempt + 1), pollInterval);
+    } else {
+      showReportError(t('reportError'));
+    }
+  } catch (err) {
+    console.error('Report fetch error:', err);
+    if (attempt < maxAttempts) {
+      setTimeout(() => fetchReport(conversationId, attempt + 1), pollInterval);
+    } else {
+      showReportError(t('reportError'));
+    }
+  }
+}
+
+function renderReport(data) {
+  const overlay = document.getElementById('call-overlay');
+  overlay.classList.remove('processing');
+  overlay.classList.add('report');
+
+  // Set title
+  document.getElementById('report-title').textContent = t('reportTitle');
+  document.getElementById('report-close-btn').textContent = t('reportClose');
+
+  // Duration badge
+  const durationSecs = data.metadata?.call_duration_secs || 0;
+  const badge = document.getElementById('report-duration-badge');
+  badge.textContent = `${t('reportDuration')}: ${formatCallTime(durationSecs)}`;
+
+  const body = document.getElementById('report-body');
+  body.innerHTML = '';
+
+  // 1. Summary section
+  const summary = data.analysis?.transcript_summary;
+  if (summary) {
+    const sec = document.createElement('div');
+    sec.className = 'report-section';
+    sec.innerHTML = `<div class="report-section-title">${escHtml(t('reportSummary'))}</div>
+      <div class="report-summary-text">${escHtml(summary)}</div>`;
+    body.appendChild(sec);
+  }
+
+  // 2. Transcript section
+  if (data.transcript && data.transcript.length > 0) {
+    const sec = document.createElement('div');
+    sec.className = 'report-section';
+    let html = `<div class="report-section-title">${escHtml(t('reportTranscript'))}</div>
+      <div class="report-transcript-list">`;
+    data.transcript.forEach(msg => {
+      const isAgent = msg.role === 'agent';
+      const label = isAgent ? '🤖' : '🎤';
+      const cls = isAgent ? 'agent' : 'user';
+      const timeStr = typeof msg.time_in_call_secs === 'number' ? formatCallTime(msg.time_in_call_secs) : '';
+      html += `<div class="report-transcript-msg ${cls}">
+        <span class="report-transcript-label">${label}</span>
+        <span class="report-transcript-text">${escHtml(msg.message || '')}</span>
+        ${timeStr ? `<span class="report-transcript-time">${timeStr}</span>` : ''}
+      </div>`;
+    });
+    html += '</div>';
+    sec.innerHTML = html;
+    body.appendChild(sec);
+  }
+
+  // 3. Extracted Data section (data_collection_results)
+  const dcr = data.analysis?.data_collection_results;
+  if (dcr && typeof dcr === 'object' && Object.keys(dcr).length > 0) {
+    const sec = document.createElement('div');
+    sec.className = 'report-section';
+    let html = `<div class="report-section-title">${escHtml(t('reportExtracted'))}</div>
+      <div class="report-data-grid">`;
+    for (const [key, val] of Object.entries(dcr)) {
+      const displayKey = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const displayVal = typeof val === 'object' ? (val.value ?? JSON.stringify(val)) : String(val);
+      html += `<div class="report-data-item">
+        <div class="report-data-key">${escHtml(displayKey)}</div>
+        <div class="report-data-val">${escHtml(displayVal)}</div>
+      </div>`;
+    }
+    html += '</div>';
+    sec.innerHTML = html;
+    body.appendChild(sec);
+  }
+
+  // 4. Evaluation section (evaluation_criteria_results)
+  const ecr = data.analysis?.evaluation_criteria_results;
+  if (ecr && typeof ecr === 'object' && Object.keys(ecr).length > 0) {
+    const sec = document.createElement('div');
+    sec.className = 'report-section';
+    let html = `<div class="report-section-title">${escHtml(t('reportEvaluation'))}</div>
+      <div class="report-eval-list">`;
+    for (const [key, val] of Object.entries(ecr)) {
+      const displayKey = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const passed = val.result === 'pass' || val.result === true || val.result === 'success';
+      const badgeClass = passed ? 'pass' : 'fail';
+      const badgeText = passed ? t('reportPassed') : t('reportFailed');
+      const rationale = val.rationale || '';
+      html += `<div class="report-eval-item">
+        <div class="report-eval-header">
+          <span class="report-eval-name">${escHtml(displayKey)}</span>
+          <span class="report-eval-badge ${badgeClass}">${escHtml(badgeText)}</span>
+        </div>
+        ${rationale ? `<div class="report-eval-rationale">${escHtml(rationale)}</div>` : ''}
+      </div>`;
+    }
+    html += '</div>';
+    sec.innerHTML = html;
+    body.appendChild(sec);
+  }
+
+  // If no data at all, show placeholder
+  if (body.children.length === 0) {
+    body.innerHTML = `<div class="report-section"><div class="report-summary-text">${escHtml(t('reportNoData'))}</div></div>`;
+  }
+
+  // Show the card, hide processing
+  document.getElementById('report-processing').style.display = 'none';
+  document.getElementById('report-card').style.display = '';
+}
+
+function formatCallTime(secs) {
+  const totalSecs = Math.round(secs);
+  const m = String(Math.floor(totalSecs / 60)).padStart(2, '0');
+  const s = String(totalSecs % 60).padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function showReportError(msg) {
+  const overlay = document.getElementById('call-overlay');
+  overlay.classList.remove('processing');
+  overlay.classList.add('report');
+  document.getElementById('report-processing').style.display = 'none';
+  document.getElementById('report-card').style.display = 'none';
+  document.getElementById('report-error').style.display = '';
+  document.getElementById('report-error-text').textContent = msg || t('reportError');
+}
+
+function retryReport() {
+  if (!lastConversationId) {
+    showReportError(t('reportError'));
+    return;
+  }
+  const overlay = document.getElementById('call-overlay');
+  overlay.classList.remove('report');
+  overlay.classList.add('processing');
+  document.getElementById('report-processing').style.display = '';
+  document.getElementById('report-card').style.display = 'none';
+  document.getElementById('report-error').style.display = 'none';
+  fetchReport(lastConversationId);
+}
+
+function closeReport() {
+  cleanupCall();
 }
 
 // ═══════════════════════════════

@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/api/generate", "destination": "/api/generate" },
-    { "source": "/api/elevenlabs-signed-url", "destination": "/api/elevenlabs-signed-url" }
+    { "source": "/api/elevenlabs-signed-url", "destination": "/api/elevenlabs-signed-url" },
+    { "source": "/api/elevenlabs-report", "destination": "/api/elevenlabs-report" }
   ]
 }
