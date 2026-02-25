@@ -1504,7 +1504,7 @@ async function startTestInterview() {
     // Build dynamic variables from parsed sections, or fall back to full prompt override
     const sessionConfig = { signedUrl };
     if (S.sections) {
-      sessionConfig.dynamicVariables = {
+      const dynVars = {
         role_and_tone:               S.sections.role_and_tone || '',
         pacing_and_listening:        S.sections.pacing_and_listening || '',
         opening_script:              S.sections.opening_script || '',
@@ -1516,15 +1516,25 @@ async function startTestInterview() {
         global_rules:                S.sections.global_rules || '',
         candidate_questions_protocol:S.sections.candidate_questions_protocol || '',
       };
+      sessionConfig.dynamicVariables = dynVars;
+
+      // Debug: log variable sizes
+      const totalChars = Object.values(dynVars).reduce((sum,v) => sum + v.length, 0);
+      console.log('[ElevenLabs] Using dynamicVariables, total chars:', totalChars);
+      Object.entries(dynVars).forEach(([k,v]) => console.log(`  ${k}: ${v.length} chars`));
     } else {
       // Fallback: if JSON parsing failed, send full output as prompt override
       sessionConfig.overrides = { agent: { prompt: { prompt: S.output } } };
+      console.log('[ElevenLabs] Fallback: using prompt override, chars:', S.output?.length);
     }
+
+    console.log('[ElevenLabs] Starting session with config keys:', Object.keys(sessionConfig));
 
     // Start the conversation session with dynamic variables (or fallback override)
     testConversation = await Conversation.startSession({
       ...sessionConfig,
-      onConnect: () => {
+      onConnect: ({ conversationId } = {}) => {
+        console.log('[ElevenLabs] Connected, conversationId:', conversationId);
         // Show active call UI
         callBtn.style.display = 'none';
         activePanel.style.display = 'flex';
@@ -1532,15 +1542,20 @@ async function startTestInterview() {
         statusTxt.textContent = t('testListening');
         startTimer();
       },
-      onDisconnect: () => {
+      onDisconnect: (details) => {
+        console.log('[ElevenLabs] Disconnected, details:', details);
         cleanupCall();
       },
-      onError: (error) => {
-        console.error('ElevenLabs error:', error);
+      onError: (error, context) => {
+        console.error('[ElevenLabs] Error:', error, 'Context:', context);
         cleanupCall();
         alert(t('testError'));
       },
+      onMessage: (message) => {
+        console.log('[ElevenLabs] Message:', message);
+      },
       onModeChange: ({ mode }) => {
+        console.log('[ElevenLabs] Mode changed to:', mode);
         if (mode === 'speaking') {
           dot.className = 'test-status-dot speaking';
           statusTxt.textContent = t('testSpeaking');
