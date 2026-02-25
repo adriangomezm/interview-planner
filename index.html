@@ -694,162 +694,6 @@ body {
 .call-info-btn:hover { background: rgba(255,255,255,0.3); }
 .call-info-btn svg { width: 18px; height: 18px; fill: rgba(255,255,255,0.7); }
 
-/* ── REPORT STATE: Processing ── */
-.call-overlay.processing .call-center,
-.call-overlay.processing .call-bottombar { display: none; }
-.call-overlay.processing .call-report { display: flex; }
-.call-overlay.report .call-center,
-.call-overlay.report .call-bottombar { display: none; }
-.call-overlay.report .call-report { display: flex; }
-
-.call-report {
-  display: none; flex: 1; flex-direction: column; align-items: center;
-  justify-content: center; padding: 40px 20px; overflow-y: auto;
-}
-
-/* Processing spinner */
-.report-processing {
-  display: flex; flex-direction: column; align-items: center; gap: 20px;
-}
-.report-spinner {
-  width: 48px; height: 48px;
-  border: 4px solid rgba(255,255,255,0.25);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-.report-processing-txt {
-  font-size: 16px; color: rgba(255,255,255,0.9); font-weight: 500;
-}
-
-/* Report card */
-.report-card {
-  display: none; width: 100%; max-width: 680px;
-  background: rgba(255,255,255,0.95); border-radius: 16px;
-  overflow: hidden; max-height: calc(100vh - 140px);
-  overflow-y: auto;
-}
-.call-overlay.report .report-card { display: block; }
-.call-overlay.report .report-processing { display: none; }
-
-.report-header {
-  padding: 24px 28px; border-bottom: 1px solid #eee;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.report-header h2 {
-  font-family: 'Space Grotesk', sans-serif; font-size: 20px;
-  font-weight: 700; color: #1A1A1A; margin: 0;
-}
-.report-duration {
-  font-size: 13px; color: #8A8A8A; font-weight: 500;
-  background: #f5f2ed; padding: 4px 12px; border-radius: 20px;
-}
-
-.report-body { padding: 24px 28px; }
-
-.report-section { margin-bottom: 24px; }
-.report-section:last-child { margin-bottom: 0; }
-.report-section-title {
-  font-family: 'Space Grotesk', sans-serif; font-size: 14px;
-  font-weight: 700; color: #8A8A8A; text-transform: uppercase;
-  letter-spacing: 0.05em; margin-bottom: 12px;
-}
-.report-summary-text {
-  font-size: 14px; line-height: 1.7; color: #333;
-  background: #faf8f5; padding: 14px 18px; border-radius: 10px;
-  border-left: 3px solid var(--blue);
-}
-
-/* Transcript in report */
-.report-transcript-list {
-  display: flex; flex-direction: column; gap: 8px;
-  max-height: 300px; overflow-y: auto; padding: 4px;
-}
-.report-transcript-msg {
-  font-size: 13px; line-height: 1.6; padding: 8px 14px;
-  border-radius: 10px; max-width: 85%;
-}
-.report-transcript-msg.agent {
-  background: #e8f5e9; color: #2e7d32; align-self: flex-start;
-}
-.report-transcript-msg.user {
-  background: #e3f2fd; color: #1565c0; align-self: flex-end;
-}
-.report-transcript-msg .msg-role {
-  font-weight: 700; font-size: 11px; text-transform: uppercase;
-  letter-spacing: 0.04em; display: block; margin-bottom: 2px;
-}
-
-/* Extracted data */
-.report-data-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-}
-.report-data-item {
-  background: #faf8f5; padding: 12px 16px; border-radius: 10px;
-  border: 1px solid #eee;
-}
-.report-data-label {
-  font-size: 11px; font-weight: 700; color: #8A8A8A;
-  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px;
-}
-.report-data-value { font-size: 14px; color: #1A1A1A; font-weight: 500; word-break: break-word; }
-
-/* Evaluation */
-.report-eval-list { display: flex; flex-direction: column; gap: 8px; }
-.report-eval-item {
-  display: flex; align-items: flex-start; gap: 10px;
-  padding: 12px 16px; background: #faf8f5; border-radius: 10px;
-  border: 1px solid #eee;
-}
-.report-eval-badge {
-  font-size: 11px; font-weight: 700; padding: 3px 10px;
-  border-radius: 20px; white-space: nowrap; flex-shrink: 0;
-}
-.report-eval-badge.pass { background: #d4edda; color: #155724; }
-.report-eval-badge.fail { background: #f8d7da; color: #721c24; }
-.report-eval-content { flex: 1; }
-.report-eval-name { font-size: 14px; font-weight: 600; color: #1A1A1A; margin-bottom: 2px; }
-.report-eval-rationale { font-size: 12px; color: #666; line-height: 1.5; }
-
-/* Report footer */
-.report-footer {
-  padding: 16px 28px; border-top: 1px solid #eee;
-  display: flex; justify-content: center; gap: 12px;
-}
-.report-close-btn {
-  padding: 10px 32px; border-radius: 10px; border: none;
-  background: var(--blue); color: #fff; font-weight: 700;
-  font-size: 14px; cursor: pointer; transition: all 0.2s;
-}
-.report-close-btn:hover { background: #9ac4b4; transform: scale(1.02); }
-
-/* Report error */
-.report-error {
-  display: none; flex-direction: column; align-items: center;
-  gap: 16px; text-align: center;
-}
-.report-error-txt {
-  font-size: 15px; color: rgba(255,255,255,0.9); max-width: 340px; line-height: 1.5;
-}
-.report-retry-btn {
-  padding: 10px 28px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.5);
-  background: transparent; color: #fff; font-weight: 700;
-  font-size: 14px; cursor: pointer; transition: all 0.2s;
-}
-.report-retry-btn:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
-.report-error-close {
-  padding: 8px 24px; border-radius: 10px; border: none;
-  background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
-  font-weight: 600; font-size: 13px; cursor: pointer;
-}
-.report-error-close:hover { background: rgba(255,255,255,0.3); }
-
-@media (max-width: 600px) {
-  .report-data-grid { grid-template-columns: 1fr; }
-  .report-card { border-radius: 12px; }
-  .report-header, .report-body, .report-footer { padding-left: 20px; padding-right: 20px; }
-}
-
 .gen-loading {
   display: none; flex-direction: column; align-items: center; gap: 14px;
   padding: 56px 20px;
@@ -868,6 +712,657 @@ body {
   .sidebar { transform: translateX(-100%); }
   .main { margin-left: 0; }
   .main-inner { padding: 24px 18px 60px; }
+}
+
+/* ── TOAST NOTIFICATIONS ── */
+.report-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--blue);
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  color: var(--text);
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.35s ease;
+  pointer-events: none;
+  max-width: 380px;
+}
+.report-toast.on {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.report-toast.error { border-left-color: #E57373; }
+.report-toast.success { border-left-color: var(--blue); }
+.report-toast-icon {
+  width: 20px; height: 20px; flex-shrink: 0;
+}
+.report-toast-icon.spin { animation: spin 1s linear infinite; }
+.report-toast-msg { flex: 1; font-weight: 500; }
+.report-toast-action {
+  background: none; border: none; cursor: pointer;
+  color: var(--blue); font-weight: 600; font-size: 13px;
+  padding: 4px 8px; border-radius: var(--radius);
+  white-space: nowrap;
+}
+.report-toast-action:hover { background: rgba(184,212,200,0.15); }
+.report-toast-close {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 18px; line-height: 1;
+  padding: 2px 4px;
+}
+.report-toast-close:hover { color: var(--text); }
+
+/* ── REPORTS: NAV BADGE ── */
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--blue);
+  color: white;
+  font-size: 10.5px;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* ── REPORTS LIST VIEW ── */
+.reports-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.reports-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.reports-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.reports-table thead tr {
+  background: #F5F2ED;
+}
+.reports-table th {
+  padding: 11px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.reports-table th:last-child {
+  text-align: center;
+  width: 90px;
+}
+.reports-row {
+  transition: background 0.15s;
+}
+.reports-row.clickable { cursor: pointer; }
+.reports-row.clickable:hover { background: #FAF8F5; }
+.reports-cell {
+  padding: 13px 16px;
+  border-bottom: 1px solid #F0EDE8;
+  color: var(--text);
+  vertical-align: middle;
+}
+.reports-cell.actions {
+  text-align: center;
+  white-space: nowrap;
+}
+.reports-row:last-child .reports-cell { border-bottom: none; }
+
+/* Badges */
+.report-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.report-badge.generating {
+  background: #FFF3E0;
+  color: #E65100;
+  animation: pulse-badge 1.8s ease-in-out infinite;
+}
+.report-badge.ready {
+  background: rgba(184,212,200,0.25);
+  color: #2E7D59;
+}
+.report-badge.error {
+  background: #FFEBEE;
+  color: #C62828;
+}
+@keyframes pulse-badge {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.report-score-mini {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  background: rgba(184,212,200,0.2);
+  color: #2E7D59;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Action buttons in table */
+.report-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--muted);
+  transition: all 0.15s;
+  margin: 0 2px;
+}
+.report-action-btn:hover {
+  border-color: var(--text);
+  color: var(--text);
+}
+.report-action-btn.delete:hover {
+  border-color: #E57373;
+  color: #E57373;
+  background: #FFF5F5;
+}
+.report-action-btn.retry:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+  background: rgba(184,212,200,0.1);
+}
+
+/* Empty state */
+.reports-empty {
+  text-align: center;
+  padding: 80px 32px;
+  color: var(--muted);
+}
+.reports-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+.reports-empty h2 {
+  font-size: 20px;
+  color: var(--text);
+  margin: 0 0 8px;
+}
+.reports-empty p {
+  font-size: 14px;
+  max-width: 360px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ── REPORT DETAIL VIEW ── */
+.report-detail {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* Action bar */
+.report-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 12px;
+}
+.report-action-bar.bottom {
+  margin-top: 32px;
+  margin-bottom: 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.report-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.report-back-btn:hover {
+  border-color: var(--text);
+  background: #FAF8F5;
+}
+.report-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--blue);
+  color: white;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.report-download-btn:hover { background: #9DC4B4; }
+
+/* Report header */
+.report-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 28px 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+.report-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+.report-date {
+  font-size: 13px;
+  color: var(--muted);
+}
+.report-rec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.rec-advance {
+  background: rgba(184,212,200,0.25);
+  color: #2E7D59;
+}
+.rec-hold {
+  background: #FFF3E0;
+  color: #E65100;
+}
+.rec-reject {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+/* Report sections */
+.report-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+.report-section h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* Candidate profile */
+.report-candidate {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.candidate-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.candidate-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+}
+.candidate-role {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+.candidate-meta {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+/* Score section (ring + bar chart side by side) */
+.report-score-section {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+.report-score-left {
+  flex: 0 0 180px;
+  text-align: center;
+}
+.report-score-left .score-ring { margin: 8px auto 10px; display: block; }
+.score-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  text-align: center;
+}
+.report-score-right {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Bar chart */
+.bar-chart { display: flex; flex-direction: column; gap: 10px; }
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.bar-label {
+  flex: 0 0 130px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--text);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bar-track {
+  flex: 1;
+  height: 10px;
+  background: #F0EDE8;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.6s ease;
+}
+.bar-value {
+  flex: 0 0 32px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Summary card */
+.summary-card {
+  padding: 18px 22px;
+  background: #FAF8F5;
+  border: 1px solid #F0EDE8;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Skill cards grid */
+.skill-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+.skill-card {
+  background: #FAF8F5;
+  border: 1px solid #F0EDE8;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.skill-card-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text);
+}
+.skill-card-score {
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.skill-card-eval {
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+/* Sentiment */
+.sentiment-wrap {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.sentiment-svg {
+  flex: 1;
+  max-height: 120px;
+}
+.sentiment-avg {
+  text-align: center;
+  flex-shrink: 0;
+}
+.sentiment-avg-num {
+  display: block;
+  font-size: 28px;
+  font-weight: 800;
+}
+.sentiment-avg-lbl {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Strengths / Concerns / Red Flags list cards */
+.list-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.list-card {
+  padding: 12px 18px;
+  border-radius: var(--radius);
+  font-size: 13.5px;
+  line-height: 1.5;
+  border-left: 4px solid;
+}
+.list-card.strength {
+  background: rgba(184,212,200,0.12);
+  border-left-color: var(--blue);
+  color: #2E7D59;
+}
+.list-card.concern {
+  background: #FFF8E1;
+  border-left-color: var(--orange);
+  color: #E65100;
+}
+.list-card.flag {
+  background: #FFEBEE;
+  border-left-color: #E57373;
+  color: #C62828;
+}
+
+/* Candidate feedback */
+.feedback-card {
+  padding: 18px 22px;
+  background: rgba(197,202,233,0.12);
+  border: 1px solid rgba(197,202,233,0.3);
+  border-left: 4px solid var(--lavender);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* Transcript accordion */
+.transcript-accordion {
+  border: none;
+  background: none;
+  padding: 0;
+}
+.transcript-toggle {
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 10px 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.transcript-toggle::-webkit-details-marker { display: none; }
+.transcript-toggle::before {
+  content: '▶';
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+details[open] .transcript-toggle::before { transform: rotate(90deg); }
+.transcript-body {
+  margin-top: 12px;
+  max-height: 500px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 8px;
+}
+.transcript-msg {
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  line-height: 1.55;
+}
+.transcript-msg.agent {
+  background: #F0EDE8;
+  color: var(--text);
+  align-self: flex-start;
+  max-width: 85%;
+}
+.transcript-msg.user {
+  background: rgba(184,212,200,0.18);
+  color: var(--text);
+  align-self: flex-end;
+  max-width: 85%;
+}
+.transcript-speaker {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--muted);
+}
+.transcript-text { word-wrap: break-word; }
+
+/* ── PRINT / PDF EXPORT ── */
+@media print {
+  /* Hide everything except the report detail */
+  body * { visibility: hidden; }
+  .report-detail, .report-detail * { visibility: visible; }
+  .report-detail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 24px;
+  }
+
+  /* Hide interactive elements */
+  .report-action-bar, .report-toast, .sidebar, .top-bar, .shell > *:not(main) {
+    display: none !important;
+  }
+
+  /* Clean white background */
+  body, html { background: white !important; }
+  .report-section { break-inside: avoid; border: 1px solid #ddd; }
+  .report-header { break-inside: avoid; }
+
+  /* Expand transcript */
+  .transcript-body { max-height: none !important; overflow: visible !important; }
+  .transcript-accordion[open] .transcript-body { max-height: none !important; }
+
+  /* Score ring adjustments */
+  .report-score-section { break-inside: avoid; }
+
+  /* Remove hover effects */
+  .report-back-btn, .report-download-btn { display: none !important; }
+
+  /* Page settings */
+  @page {
+    margin: 0.75in;
+    size: A4;
+  }
+}
+
+/* ── RESPONSIVE ADJUSTMENTS ── */
+@media (max-width: 700px) {
+  .report-score-section { flex-direction: column; }
+  .report-score-left { flex: none; }
+  .bar-label { flex: 0 0 90px; font-size: 11.5px; }
+  .skill-cards-grid { grid-template-columns: 1fr; }
+  .report-header { flex-direction: column; }
+  .sentiment-wrap { flex-direction: column; }
 }
 </style>
 </head>
@@ -1100,34 +1595,12 @@ body {
       </button>
     </div>
 
-    <!-- Report Section (shown after call ends) -->
-    <div class="call-report" id="call-report">
-      <!-- Processing state -->
-      <div class="report-processing" id="report-processing">
-        <div class="report-spinner"></div>
-        <div class="report-processing-text" id="report-processing-text">Analyzing interview…</div>
-      </div>
-      <!-- Report card -->
-      <div class="report-card" id="report-card" style="display:none">
-        <div class="report-header">
-          <h2 class="report-title" id="report-title">Interview Report</h2>
-          <span class="report-duration-badge" id="report-duration-badge"></span>
-        </div>
-        <div class="report-body" id="report-body"></div>
-        <div class="report-footer">
-          <button class="report-close-btn" id="report-close-btn" onclick="closeReport()">Close Report</button>
-        </div>
-      </div>
-      <!-- Error state -->
-      <div class="report-error" id="report-error" style="display:none">
-        <div class="report-error-icon">⚠️</div>
-        <div class="report-error-text" id="report-error-text">Could not load report.</div>
-        <button class="report-retry-btn" onclick="retryReport()">Retry</button>
-        <button class="report-close-btn" style="margin-top:8px" onclick="closeReport()">Close</button>
-      </div>
-    </div>
-
   </div>
+</div>
+
+<!-- ── STEP 7: Reports ── -->
+<div class="step" id="step-7">
+  <div id="reports-container"></div>
 </div>
 
 </div>
@@ -1143,7 +1616,7 @@ const T = {
   en: {
     live: 'Live Demo',
     langLbl: 'Lang',
-    navLabels: ['Job Role','Soft Skills','Q. Style','Questions','Persona','Generate','Output'],
+    navLabels: ['Job Role','Soft Skills','Q. Style','Questions','Persona','Generate','Output','Reports'],
     steps: [
       { pill:'Step 1 of 6', title:'Choose the <em>Job Role</em>', desc:'What position is this AI interview designed to screen for?' },
       { pill:'Step 2 of 6', title:'Select <em>Soft Skills</em>', desc:'Choose the skills the AI will evaluate. More skills = deeper interview.' },
@@ -1179,24 +1652,46 @@ const T = {
     callAgentLabel:'AI Interviewer',
     callTopbarRole:'AI Interviewer',
     callPoweredBy:'Powered by talkpush',
-    reportProcessing:'Analyzing interview…',
-    reportTitle:'Interview Report',
-    reportTranscript:'Transcript',
-    reportExtracted:'Extracted Data',
-    reportEvaluation:'Evaluation',
-    reportSummary:'Summary',
-    reportDuration:'Duration',
-    reportClose:'Close Report',
-    reportError:'Could not load report. Please try again.',
+    reportsNav:'Reports',
+    reportsTitle:'Interview Reports',
+    reportsEmpty:'No reports yet. Complete a test interview to generate your first report.',
+    reportsColRole:'Interview Type',
+    reportsColCandidate:'Candidate',
+    reportsColDate:'Date & Time',
+    reportsColStatus:'Status',
+    reportsColActions:'Actions',
+    reportStatusGenerating:'Generating...',
+    reportStatusReady:'Ready',
+    reportStatusError:'Error',
+    reportToastGenerating:'Generating interview report...',
+    reportToastReady:'Report ready!',
+    reportToastView:'View',
+    reportToastError:'Report generation failed',
+    reportDetailTitle:'Talkscore Assessment Report',
+    reportDetailBack:'Back to Reports',
+    reportDetailDownload:'Download PDF',
+    reportDetailOverall:'Overall Score',
+    reportDetailSummary:'Assessment Summary',
+    reportDetailSkills:'Skill Assessment',
+    reportDetailSentiment:'Sentiment Analysis',
+    reportDetailStrengths:'Strengths',
+    reportDetailConcerns:'Areas of Concern',
+    reportDetailRedFlags:'Red Flags',
+    reportDetailFeedback:'Candidate Feedback',
+    reportDetailTranscript:'Transcript',
+    reportDetailRecommend:'Recommendation',
+    reportDeleteConfirm:'Delete this report?',
     reportRetry:'Retry',
-    reportPassed:'Passed',
-    reportFailed:'Failed',
-    reportNoData:'No data available',
+    reportDetailCandidate:'Candidate Profile',
+    reportDetailDuration:'Call Duration',
+    reportAdvance:'Advance',
+    reportHold:'Hold',
+    reportReject:'Reject',
   },
   es: {
     live: 'Demo en Vivo',
     langLbl: 'Idioma',
-    navLabels: ['Puesto','Habilidades','Estilo','Preguntas','Persona','Generar','Resultado'],
+    navLabels: ['Puesto','Habilidades','Estilo','Preguntas','Persona','Generar','Resultado','Reportes'],
     steps: [
       { pill:'Paso 1 de 6', title:'Elige el <em>Puesto</em>', desc:'¿Para qué rol está diseñada esta entrevista de IA?' },
       { pill:'Paso 2 de 6', title:'Selecciona <em>Habilidades Blandas</em>', desc:'Las habilidades elegidas determinan la profundidad de la entrevista.' },
@@ -1232,19 +1727,41 @@ const T = {
     callAgentLabel:'Entrevistador IA',
     callTopbarRole:'Entrevistador IA',
     callPoweredBy:'Desarrollado por talkpush',
-    reportProcessing:'Analizando entrevista…',
-    reportTitle:'Reporte de Entrevista',
-    reportTranscript:'Transcripción',
-    reportExtracted:'Datos Extraídos',
-    reportEvaluation:'Evaluación',
-    reportSummary:'Resumen',
-    reportDuration:'Duración',
-    reportClose:'Cerrar Reporte',
-    reportError:'No se pudo cargar el reporte. Inténtalo de nuevo.',
+    reportsNav:'Reportes',
+    reportsTitle:'Reportes de Entrevista',
+    reportsEmpty:'Sin reportes. Completa una entrevista de prueba para generar tu primer reporte.',
+    reportsColRole:'Tipo de Entrevista',
+    reportsColCandidate:'Candidato',
+    reportsColDate:'Fecha y Hora',
+    reportsColStatus:'Estado',
+    reportsColActions:'Acciones',
+    reportStatusGenerating:'Generando...',
+    reportStatusReady:'Listo',
+    reportStatusError:'Error',
+    reportToastGenerating:'Generando reporte de entrevista...',
+    reportToastReady:'¡Reporte listo!',
+    reportToastView:'Ver',
+    reportToastError:'Error al generar reporte',
+    reportDetailTitle:'Reporte de Evaluacion Talkscore',
+    reportDetailBack:'Volver a Reportes',
+    reportDetailDownload:'Descargar PDF',
+    reportDetailOverall:'Puntuacion General',
+    reportDetailSummary:'Resumen de Evaluacion',
+    reportDetailSkills:'Evaluacion de Habilidades',
+    reportDetailSentiment:'Analisis de Sentimiento',
+    reportDetailStrengths:'Fortalezas',
+    reportDetailConcerns:'Areas de Mejora',
+    reportDetailRedFlags:'Senales de Alerta',
+    reportDetailFeedback:'Retroalimentacion del Candidato',
+    reportDetailTranscript:'Transcripcion',
+    reportDetailRecommend:'Recomendacion',
+    reportDeleteConfirm:'¿Eliminar este reporte?',
     reportRetry:'Reintentar',
-    reportPassed:'Aprobado',
-    reportFailed:'No Aprobado',
-    reportNoData:'Sin datos disponibles',
+    reportDetailCandidate:'Perfil del Candidato',
+    reportDetailDuration:'Duracion de Llamada',
+    reportAdvance:'Avanzar',
+    reportHold:'En espera',
+    reportReject:'Rechazar',
   }
 };
 function t(k,...a){ const v=T[CUR.lang][k]; return typeof v==='function'?v(...a):v; }
@@ -1432,10 +1949,21 @@ function refreshStaticText(){
 // ═══════════════════════════════
 function renderSidebar(){
   const labels=t('navLabels');
+  const reportCount = getReports().length;
   document.getElementById('sidebar-nav').innerHTML=labels.map((lbl,i)=>{
     let cls='nav-item';
     let num=i+1;
     let numStr=String(num);
+    // Step 7 (Reports) is always accessible
+    if(i===7){
+      cls += i===S.step ? ' active' : '';
+      numStr = '📊';
+      const badge = reportCount > 0 ? `<span class="nav-badge">${reportCount}</span>` : '';
+      return `<div class="${cls}" onclick="jumpTo(${i})" style="cursor:pointer">
+        <div class="nav-circle">${numStr}</div>
+        <div class="nav-label">${lbl}${badge}</div>
+      </div>`;
+    }
     if(i<S.step){cls+=' done';numStr='✓';}
     else if(i===S.step) cls+=' active';
     else cls+=' locked';
@@ -1445,7 +1973,7 @@ function renderSidebar(){
     </div>`;
   }).join('');
 }
-function jumpTo(i){ if(i<=S.step){ S.step=i; renderStep(i); } }
+function jumpTo(i){ if(i===7 || i<=S.step){ S.step=i; renderStep(i); } }
 
 // ═══════════════════════════════
 //  RENDER STEP
@@ -1478,7 +2006,7 @@ function renderStep(n){
   // update name input placeholder
   const nameInput=document.getElementById('test-candidate-name');
   if(nameInput) nameInput.placeholder=t('testNamePlaceholder');
-  const renderers=[r0,r1,r2,r3,r4,r5,r6];
+  const renderers=[r0,r1,r2,r3,r4,r5,r6,renderReportsView];
   if(renderers[n]) renderers[n]();
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1686,6 +2214,342 @@ function r5(){
 
 // ─── STEP 6: Output ───
 function r6(){ if(S.output) renderOutput(S.output); }
+
+// ═══════════════════════════════
+//  STEP 7: REPORTS
+// ═══════════════════════════════
+function renderReportsView(){
+  const container = document.getElementById('reports-container');
+  if(!container) return;
+  if(currentReportView === 'detail' && currentReportId){
+    const report = getReportById(currentReportId);
+    if(report){ renderReportDetail(report, container); return; }
+  }
+  currentReportView = 'list';
+  currentReportId = null;
+  renderReportsList(container);
+}
+
+function renderReportsList(container){
+  const reports = getReports();
+  const L = CUR.lang;
+
+  if(reports.length === 0){
+    container.innerHTML = `
+      <div class="reports-empty">
+        <div class="reports-empty-icon">📊</div>
+        <h2>${t('reportsTitle')}</h2>
+        <p>${t('reportsEmpty')}</p>
+      </div>`;
+    return;
+  }
+
+  const rows = reports.map(r => {
+    const roleName = typeof r.role === 'object' ? (r.role[L] || r.role.en || 'Interview') : (r.role || 'Interview');
+    const dateStr = new Date(r.timestamp).toLocaleString(L === 'es' ? 'es-ES' : 'en-US', {
+      month:'short', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit'
+    });
+    let statusBadge = '';
+    if(r.status === 'generating') statusBadge = `<span class="report-badge generating">${t('reportStatusGenerating')}</span>`;
+    else if(r.status === 'done') statusBadge = `<span class="report-badge ready">${t('reportStatusReady')}</span>`;
+    else if(r.status === 'error') statusBadge = `<span class="report-badge error">${t('reportStatusError')}</span>`;
+
+    const score = r.data?.overall_score ? `<span class="report-score-mini">${r.data.overall_score}/5</span>` : '';
+
+    const actions = r.status === 'error'
+      ? `<button class="report-action-btn retry" onclick="event.stopPropagation();retryReportGeneration('${r.id}')" title="${t('reportRetry')}">↻</button>`
+      : '';
+
+    return `<tr class="reports-row ${r.status === 'done' ? 'clickable' : ''}" ${r.status === 'done' ? `onclick="viewReport('${r.id}')"` : ''}>
+      <td class="reports-cell">${roleName}</td>
+      <td class="reports-cell">${r.candidateName || '—'} ${score}</td>
+      <td class="reports-cell">${dateStr}</td>
+      <td class="reports-cell">${statusBadge}</td>
+      <td class="reports-cell actions">
+        ${actions}
+        <button class="report-action-btn delete" onclick="event.stopPropagation();confirmDeleteReport('${r.id}')" title="Delete">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="reports-header">
+      <h2>${t('reportsTitle')}</h2>
+    </div>
+    <div class="reports-table-wrap">
+      <table class="reports-table">
+        <thead>
+          <tr>
+            <th>${t('reportsColRole')}</th>
+            <th>${t('reportsColCandidate')}</th>
+            <th>${t('reportsColDate')}</th>
+            <th>${t('reportsColStatus')}</th>
+            <th>${t('reportsColActions')}</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function viewReport(id){
+  currentReportView = 'detail';
+  currentReportId = id;
+  renderReportsView();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function backToReportsList(){
+  currentReportView = 'list';
+  currentReportId = null;
+  renderReportsView();
+}
+
+function confirmDeleteReport(id){
+  if(confirm(t('reportDeleteConfirm'))){
+    deleteReport(id);
+    renderReportsView();
+    renderSidebar();
+  }
+}
+
+function retryReportGeneration(id){
+  const report = getReportById(id);
+  if(!report) return;
+  report.status = 'generating';
+  report.error = null;
+  saveReport(report);
+  renderReportsView();
+  generateReportInBackground(report.conversationId, report.role, report.candidateName, report.skills, report.lang, S.sections);
+}
+
+function formatDuration(secs){
+  if(!secs) return '—';
+  const m = Math.floor(secs/60);
+  const s = Math.floor(secs%60);
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+
+function getScoreColor(score){
+  if(score <= 2) return '#E57373';
+  if(score === 3) return '#F0A830';
+  return '#B8D4C8';
+}
+
+function getScoreLabel(score){
+  const labels = {1:'Low Proficiency',2:'Below Average',3:'Average',4:'High Proficiency',5:'Exceptional'};
+  return labels[score] || 'N/A';
+}
+
+function renderScoreRing(score, maxScore){
+  const pct = (score / maxScore) * 100;
+  const color = getScoreColor(score);
+  const r = 54, c = 2 * Math.PI * r;
+  const offset = c - (pct / 100) * c;
+  return `<svg class="score-ring" viewBox="0 0 120 120" width="140" height="140">
+    <circle cx="60" cy="60" r="${r}" fill="none" stroke="#E8E4DF" stroke-width="10"/>
+    <circle cx="60" cy="60" r="${r}" fill="none" stroke="${color}" stroke-width="10"
+      stroke-dasharray="${c}" stroke-dashoffset="${offset}"
+      stroke-linecap="round" transform="rotate(-90 60 60)"
+      style="transition:stroke-dashoffset 0.8s ease"/>
+    <text x="60" y="54" text-anchor="middle" font-size="28" font-weight="700" fill="var(--text)">${score}</text>
+    <text x="60" y="72" text-anchor="middle" font-size="12" fill="var(--muted)">/ ${maxScore}</text>
+  </svg>`;
+}
+
+function renderBarChart(skillScores){
+  if(!skillScores || !skillScores.length) return '<p style="color:var(--muted)">No skill data</p>';
+  return skillScores.map(s => {
+    const pct = (s.score / 5) * 100;
+    const color = getScoreColor(s.score);
+    return `<div class="bar-row">
+      <div class="bar-label">${s.skill}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${pct}%;background:${color}"></div>
+      </div>
+      <div class="bar-value">${s.score}/5</div>
+    </div>`;
+  }).join('');
+}
+
+function renderSentimentChart(trajectory){
+  if(!trajectory || !trajectory.length) return '<p style="color:var(--muted)">No sentiment data</p>';
+  const w = 400, h = 120, pad = 20;
+  const n = trajectory.length;
+  const xStep = (w - pad*2) / Math.max(n-1, 1);
+  const yScale = (h - pad*2) / 4;
+  const points = trajectory.map((v, i) => {
+    const x = pad + i * xStep;
+    const y = h - pad - (v - 1) * yScale;
+    return `${x},${y}`;
+  });
+  const polyline = points.join(' ');
+  const areaPoints = `${pad},${h-pad} ${polyline} ${pad + (n-1)*xStep},${h-pad}`;
+  const avg = (trajectory.reduce((a,b)=>a+b,0)/n).toFixed(1);
+  const avgColor = getScoreColor(Math.round(avg));
+
+  return `<div class="sentiment-wrap">
+    <svg class="sentiment-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+      <defs><linearGradient id="sentGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${avgColor}" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="${avgColor}" stop-opacity="0.02"/>
+      </linearGradient></defs>
+      <polygon points="${areaPoints}" fill="url(#sentGrad)"/>
+      <polyline points="${polyline}" fill="none" stroke="${avgColor}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${trajectory.map((v,i)=>{
+        const x=pad+i*xStep, y=h-pad-(v-1)*yScale;
+        return `<circle cx="${x}" cy="${y}" r="4" fill="${avgColor}" stroke="white" stroke-width="1.5"/>`;
+      }).join('')}
+    </svg>
+    <div class="sentiment-avg">
+      <span class="sentiment-avg-num" style="color:${avgColor}">${avg}</span>
+      <span class="sentiment-avg-lbl">/5 avg</span>
+    </div>
+  </div>`;
+}
+
+function renderReportDetail(report, container){
+  const d = report.data;
+  const L = report.lang || CUR.lang;
+  const roleName = typeof report.role === 'object' ? (report.role[L] || report.role.en || '') : (report.role || '');
+  const dateStr = new Date(report.timestamp).toLocaleString(L === 'es' ? 'es-ES' : 'en-US', {
+    weekday:'long', month:'long', day:'numeric', year:'numeric', hour:'2-digit', minute:'2-digit'
+  });
+
+  // Candidate initials
+  const parts = (report.candidateName || 'C').split(' ');
+  const initials = parts.map(p=>p.charAt(0).toUpperCase()).slice(0,2).join('');
+
+  // Recommendation badge
+  const recMap = {Advance:{cls:'rec-advance',icon:'✓'},Hold:{cls:'rec-hold',icon:'⏸'},Reject:{cls:'rec-reject',icon:'✕'}};
+  const rec = recMap[d?.recommendation] || recMap.Hold;
+  const recLabel = d?.recommendation === 'Advance' ? t('reportAdvance') : d?.recommendation === 'Reject' ? t('reportReject') : t('reportHold');
+
+  // Skill assessment cards
+  const skillCards = (d?.skill_scores || []).map(s => `
+    <div class="skill-card">
+      <div class="skill-card-header">
+        <span class="skill-card-name">${s.skill}</span>
+        <span class="skill-card-score" style="background:${getScoreColor(s.score)}20;color:${getScoreColor(s.score)}">${s.score}/5</span>
+      </div>
+      <p class="skill-card-eval">${s.evaluation || ''}</p>
+    </div>`).join('');
+
+  // Strengths, concerns, red flags
+  const listItems = (arr, cls) => (arr || []).map(item => `<div class="list-card ${cls}">${item}</div>`).join('');
+
+  // Transcript
+  const transcriptHtml = (report.transcript || []).map(msg => {
+    const isAgent = msg.role === 'agent';
+    return `<div class="transcript-msg ${isAgent ? 'agent' : 'user'}">
+      <div class="transcript-speaker">${isAgent ? '🤖 Interviewer' : '👤 Candidate'}</div>
+      <div class="transcript-text">${msg.message || ''}</div>
+    </div>`;
+  }).join('');
+
+  container.innerHTML = `
+    <div class="report-detail" id="report-detail-view">
+      <!-- Action bar top -->
+      <div class="report-action-bar">
+        <button class="report-back-btn" onclick="backToReportsList()">← ${t('reportDetailBack')}</button>
+        <button class="report-download-btn" onclick="printReport()">🖨 ${t('reportDetailDownload')}</button>
+      </div>
+
+      <!-- Header -->
+      <div class="report-header">
+        <div class="report-header-left">
+          <h1 class="report-title">${t('reportDetailTitle')}</h1>
+          <div class="report-date">${dateStr}</div>
+        </div>
+        <div class="report-header-right">
+          <div class="report-rec-badge ${rec.cls}">${rec.icon} ${recLabel}</div>
+        </div>
+      </div>
+
+      <!-- Candidate Profile -->
+      <div class="report-section report-candidate">
+        <div class="candidate-avatar">${initials}</div>
+        <div class="candidate-info">
+          <div class="candidate-name">${report.candidateName || 'Candidate'}</div>
+          <div class="candidate-role">${roleName}</div>
+          <div class="candidate-meta">${t('reportDetailDuration')}: ${formatDuration(report.callDuration)}</div>
+        </div>
+      </div>
+
+      <!-- Overall Score + Skill Bar Chart -->
+      <div class="report-section report-score-section">
+        <div class="report-score-left">
+          <h3>${t('reportDetailOverall')}</h3>
+          ${renderScoreRing(d?.overall_score || 0, 5)}
+          <div class="score-label" style="color:${getScoreColor(d?.overall_score||0)}">${d?.overall_label || getScoreLabel(d?.overall_score||0)}</div>
+        </div>
+        <div class="report-score-right">
+          <h3>${t('reportDetailSkills')}</h3>
+          <div class="bar-chart">${renderBarChart(d?.skill_scores)}</div>
+        </div>
+      </div>
+
+      <!-- Assessment Summary -->
+      <div class="report-section">
+        <h3>${t('reportDetailSummary')}</h3>
+        <div class="summary-card">${d?.assessment_summary || '—'}</div>
+      </div>
+
+      <!-- Skill Assessment Cards -->
+      <div class="report-section">
+        <h3>${t('reportDetailSkills')}</h3>
+        <div class="skill-cards-grid">${skillCards || '<p style="color:var(--muted)">No skills data</p>'}</div>
+      </div>
+
+      <!-- Sentiment Analysis -->
+      <div class="report-section">
+        <h3>${t('reportDetailSentiment')}</h3>
+        ${renderSentimentChart(d?.sentiment_trajectory)}
+      </div>
+
+      <!-- Strengths -->
+      ${(d?.strengths?.length) ? `<div class="report-section">
+        <h3>${t('reportDetailStrengths')}</h3>
+        <div class="list-cards">${listItems(d.strengths, 'strength')}</div>
+      </div>` : ''}
+
+      <!-- Areas of Concern -->
+      ${(d?.areas_of_concern?.length) ? `<div class="report-section">
+        <h3>${t('reportDetailConcerns')}</h3>
+        <div class="list-cards">${listItems(d.areas_of_concern, 'concern')}</div>
+      </div>` : ''}
+
+      <!-- Red Flags -->
+      ${(d?.red_flags?.length) ? `<div class="report-section">
+        <h3>${t('reportDetailRedFlags')}</h3>
+        <div class="list-cards">${listItems(d.red_flags, 'flag')}</div>
+      </div>` : ''}
+
+      <!-- Candidate Feedback -->
+      ${d?.candidate_feedback ? `<div class="report-section">
+        <h3>${t('reportDetailFeedback')}</h3>
+        <div class="feedback-card">"${d.candidate_feedback}"</div>
+      </div>` : ''}
+
+      <!-- Transcript -->
+      <div class="report-section">
+        <details class="transcript-accordion">
+          <summary class="transcript-toggle">${t('reportDetailTranscript')} (${(report.transcript||[]).length} messages)</summary>
+          <div class="transcript-body">${transcriptHtml || '<p style="color:var(--muted)">No transcript available</p>'}</div>
+        </details>
+      </div>
+
+      <!-- Bottom action bar -->
+      <div class="report-action-bar bottom">
+        <button class="report-back-btn" onclick="backToReportsList()">← ${t('reportDetailBack')}</button>
+        <button class="report-download-btn" onclick="printReport()">🖨 ${t('reportDetailDownload')}</button>
+      </div>
+    </div>`;
+}
+
+function printReport(){
+  window.print();
+}
 
 // ═══════════════════════════════
 //  NAVIGATION
@@ -1914,6 +2778,8 @@ let testConversation = null;
 let testTimerInterval = null;
 let testStartTime = null;
 let lastConversationId = null;
+let currentReportView = 'list';
+let currentReportId = null;
 
 async function getSignedUrl() {
   const res = await fetch(`/api/elevenlabs-signed-url?lang=${CUR.lang}`);
@@ -1994,8 +2860,13 @@ async function startTestInterview() {
       },
       onDisconnect: () => {
         stopTimer();
+        const convId = lastConversationId;
         testConversation = null;
-        showReportView();
+        cleanupCall();
+        if (convId && S.sections) {
+          const cName = (document.getElementById('test-candidate-name')?.value || 'Test Candidate').trim();
+          generateReportInBackground(convId, S.role || 'Interview', cName, S.skills || [], CUR.lang, S.sections);
+        }
       },
       onError: () => {
         cleanupCall();
@@ -2040,12 +2911,17 @@ async function startTestInterview() {
 }
 
 async function endTestInterview() {
+  const convId = lastConversationId;
   if (testConversation) {
     try { await testConversation.endSession(); } catch (e) { /* ignore */ }
     testConversation = null;
   }
   stopTimer();
-  showReportView();
+  cleanupCall();
+  if (convId && S.sections) {
+    const cName = (document.getElementById('test-candidate-name')?.value || 'Test Candidate').trim();
+    generateReportInBackground(convId, S.role || 'Interview', cName, S.skills || [], CUR.lang, S.sections);
+  }
 }
 
 let micMuted = false;
@@ -2077,19 +2953,10 @@ function cleanupCall() {
     callBtn.disabled = false;
     callBtn.style.opacity = '1';
   }
-  if (overlay) overlay.classList.remove('on','connecting','speaking','listening','processing','report');
+  if (overlay) overlay.classList.remove('on','connecting','speaking','listening');
   document.getElementById('call-timer').textContent = '00:00';
   const transcript = document.getElementById('call-transcript');
   if (transcript) transcript.innerHTML = '';
-  // Reset report state
-  const reportEl = document.getElementById('call-report');
-  const reportProcessing = document.getElementById('report-processing');
-  const reportCard = document.getElementById('report-card');
-  const reportError = document.getElementById('report-error');
-  if (reportEl) reportEl.style.display = '';
-  if (reportProcessing) reportProcessing.style.display = '';
-  if (reportCard) { reportCard.style.display = 'none'; document.getElementById('report-body').innerHTML = ''; }
-  if (reportError) reportError.style.display = 'none';
   // Reset mic state
   micMuted = false;
   const micBtn = document.getElementById('call-mic-btn');
@@ -2120,166 +2987,8 @@ function updateTimerDisplay() {
 }
 
 // ═══════════════════════════════
-//  POST-CALL REPORT
+//  HELPERS
 // ═══════════════════════════════
-
-function showReportView() {
-  const overlay = document.getElementById('call-overlay');
-  if (!overlay) return;
-  // Transition overlay to processing state (hides call UI, shows report area)
-  overlay.classList.remove('connecting','speaking','listening');
-  overlay.classList.add('processing');
-  // Update processing text with i18n
-  document.getElementById('report-processing-text').textContent = t('reportProcessing');
-  // Reset report elements
-  document.getElementById('report-processing').style.display = '';
-  document.getElementById('report-card').style.display = 'none';
-  document.getElementById('report-error').style.display = 'none';
-  document.getElementById('report-body').innerHTML = '';
-
-  if (lastConversationId) {
-    fetchReport(lastConversationId);
-  } else {
-    showReportError(t('reportError'));
-  }
-}
-
-async function fetchReport(conversationId, attempt = 1) {
-  const maxAttempts = 20;
-  const pollInterval = 3000; // 3 seconds
-
-  try {
-    const res = await fetch(`/api/elevenlabs-report?id=${encodeURIComponent(conversationId)}`);
-    if (!res.ok) {
-      throw new Error(`API returned ${res.status}`);
-    }
-    const data = await res.json();
-
-    if (data.status === 'done') {
-      renderReport(data);
-      return;
-    }
-
-    // Still processing — poll again if under max attempts
-    if (attempt < maxAttempts) {
-      setTimeout(() => fetchReport(conversationId, attempt + 1), pollInterval);
-    } else {
-      showReportError(t('reportError'));
-    }
-  } catch (err) {
-    console.error('Report fetch error:', err);
-    if (attempt < maxAttempts) {
-      setTimeout(() => fetchReport(conversationId, attempt + 1), pollInterval);
-    } else {
-      showReportError(t('reportError'));
-    }
-  }
-}
-
-function renderReport(data) {
-  const overlay = document.getElementById('call-overlay');
-  overlay.classList.remove('processing');
-  overlay.classList.add('report');
-
-  // Set title
-  document.getElementById('report-title').textContent = t('reportTitle');
-  document.getElementById('report-close-btn').textContent = t('reportClose');
-
-  // Duration badge
-  const durationSecs = data.metadata?.call_duration_secs || 0;
-  const badge = document.getElementById('report-duration-badge');
-  badge.textContent = `${t('reportDuration')}: ${formatCallTime(durationSecs)}`;
-
-  const body = document.getElementById('report-body');
-  body.innerHTML = '';
-
-  // 1. Summary section
-  const summary = data.analysis?.transcript_summary;
-  if (summary) {
-    const sec = document.createElement('div');
-    sec.className = 'report-section';
-    sec.innerHTML = `<div class="report-section-title">${escHtml(t('reportSummary'))}</div>
-      <div class="report-summary-text">${escHtml(summary)}</div>`;
-    body.appendChild(sec);
-  }
-
-  // 2. Transcript section
-  if (data.transcript && data.transcript.length > 0) {
-    const sec = document.createElement('div');
-    sec.className = 'report-section';
-    let html = `<div class="report-section-title">${escHtml(t('reportTranscript'))}</div>
-      <div class="report-transcript-list">`;
-    data.transcript.forEach(msg => {
-      const isAgent = msg.role === 'agent';
-      const label = isAgent ? '🤖' : '🎤';
-      const cls = isAgent ? 'agent' : 'user';
-      const timeStr = typeof msg.time_in_call_secs === 'number' ? formatCallTime(msg.time_in_call_secs) : '';
-      html += `<div class="report-transcript-msg ${cls}">
-        <span class="report-transcript-label">${label}</span>
-        <span class="report-transcript-text">${escHtml(msg.message || '')}</span>
-        ${timeStr ? `<span class="report-transcript-time">${timeStr}</span>` : ''}
-      </div>`;
-    });
-    html += '</div>';
-    sec.innerHTML = html;
-    body.appendChild(sec);
-  }
-
-  // 3. Extracted Data section (data_collection_results)
-  const dcr = data.analysis?.data_collection_results;
-  if (dcr && typeof dcr === 'object' && Object.keys(dcr).length > 0) {
-    const sec = document.createElement('div');
-    sec.className = 'report-section';
-    let html = `<div class="report-section-title">${escHtml(t('reportExtracted'))}</div>
-      <div class="report-data-grid">`;
-    for (const [key, val] of Object.entries(dcr)) {
-      const displayKey = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      const displayVal = typeof val === 'object' ? (val.value ?? JSON.stringify(val)) : String(val);
-      html += `<div class="report-data-item">
-        <div class="report-data-key">${escHtml(displayKey)}</div>
-        <div class="report-data-val">${escHtml(displayVal)}</div>
-      </div>`;
-    }
-    html += '</div>';
-    sec.innerHTML = html;
-    body.appendChild(sec);
-  }
-
-  // 4. Evaluation section (evaluation_criteria_results)
-  const ecr = data.analysis?.evaluation_criteria_results;
-  if (ecr && typeof ecr === 'object' && Object.keys(ecr).length > 0) {
-    const sec = document.createElement('div');
-    sec.className = 'report-section';
-    let html = `<div class="report-section-title">${escHtml(t('reportEvaluation'))}</div>
-      <div class="report-eval-list">`;
-    for (const [key, val] of Object.entries(ecr)) {
-      const displayKey = key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      const passed = val.result === 'pass' || val.result === true || val.result === 'success';
-      const badgeClass = passed ? 'pass' : 'fail';
-      const badgeText = passed ? t('reportPassed') : t('reportFailed');
-      const rationale = val.rationale || '';
-      html += `<div class="report-eval-item">
-        <div class="report-eval-header">
-          <span class="report-eval-name">${escHtml(displayKey)}</span>
-          <span class="report-eval-badge ${badgeClass}">${escHtml(badgeText)}</span>
-        </div>
-        ${rationale ? `<div class="report-eval-rationale">${escHtml(rationale)}</div>` : ''}
-      </div>`;
-    }
-    html += '</div>';
-    sec.innerHTML = html;
-    body.appendChild(sec);
-  }
-
-  // If no data at all, show placeholder
-  if (body.children.length === 0) {
-    body.innerHTML = `<div class="report-section"><div class="report-summary-text">${escHtml(t('reportNoData'))}</div></div>`;
-  }
-
-  // Show the card, hide processing
-  document.getElementById('report-processing').style.display = 'none';
-  document.getElementById('report-card').style.display = '';
-}
 
 function formatCallTime(secs) {
   const totalSecs = Math.round(secs);
@@ -2288,32 +2997,237 @@ function formatCallTime(secs) {
   return `${m}:${s}`;
 }
 
-function showReportError(msg) {
-  const overlay = document.getElementById('call-overlay');
-  overlay.classList.remove('processing');
-  overlay.classList.add('report');
-  document.getElementById('report-processing').style.display = 'none';
-  document.getElementById('report-card').style.display = 'none';
-  document.getElementById('report-error').style.display = '';
-  document.getElementById('report-error-text').textContent = msg || t('reportError');
-}
+// ── TOAST NOTIFICATIONS ──
 
-function retryReport() {
-  if (!lastConversationId) {
-    showReportError(t('reportError'));
-    return;
+let toastTimeout = null;
+
+function showReportToast(status, reportId) {
+  const el = document.getElementById('report-toast');
+  if (!el) return;
+  clearTimeout(toastTimeout);
+
+  let iconSvg = '';
+  let msg = '';
+  let actionHtml = '';
+  let extraClass = '';
+
+  if (status === 'generating') {
+    iconSvg = '<svg class="report-toast-icon spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>';
+    msg = t('reportToastGenerating');
+    extraClass = '';
+  } else if (status === 'ready') {
+    iconSvg = '<svg class="report-toast-icon" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>';
+    msg = t('reportToastReady');
+    extraClass = 'success';
+    if (reportId) {
+      actionHtml = `<button class="report-toast-action" onclick="viewReportFromToast('${reportId}')">${t('reportToastView')}</button>`;
+    }
+    toastTimeout = setTimeout(() => hideReportToast(), 8000);
+  } else if (status === 'error') {
+    iconSvg = '<svg class="report-toast-icon" viewBox="0 0 24 24" fill="none" stroke="#E57373" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>';
+    msg = t('reportToastError');
+    extraClass = 'error';
+    toastTimeout = setTimeout(() => hideReportToast(), 6000);
   }
-  const overlay = document.getElementById('call-overlay');
-  overlay.classList.remove('report');
-  overlay.classList.add('processing');
-  document.getElementById('report-processing').style.display = '';
-  document.getElementById('report-card').style.display = 'none';
-  document.getElementById('report-error').style.display = 'none';
-  fetchReport(lastConversationId);
+
+  el.className = 'report-toast ' + extraClass;
+  el.innerHTML = iconSvg +
+    '<span class="report-toast-msg">' + msg + '</span>' +
+    actionHtml +
+    '<button class="report-toast-close" onclick="hideReportToast()">&times;</button>';
+
+  requestAnimationFrame(() => {
+    el.classList.add('on');
+  });
 }
 
-function closeReport() {
-  cleanupCall();
+function hideReportToast() {
+  clearTimeout(toastTimeout);
+  const el = document.getElementById('report-toast');
+  if (!el) return;
+  el.classList.remove('on');
+}
+
+function viewReportFromToast(reportId) {
+  hideReportToast();
+  currentReportView = 'detail';
+  currentReportId = reportId;
+  S.step = 7;
+  renderStep(7);
+  updateNav();
+}
+
+// ── LOCALSTORAGE REPORT PERSISTENCE ──
+
+const REPORTS_KEY = 'talkscore_interview_reports';
+
+function getReports() {
+  try {
+    return JSON.parse(localStorage.getItem(REPORTS_KEY)) || [];
+  } catch { return []; }
+}
+
+function saveReport(report) {
+  try {
+    const reports = getReports();
+    const idx = reports.findIndex(r => r.id === report.id);
+    if (idx >= 0) reports[idx] = report;
+    else reports.unshift(report);
+    localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
+  } catch (e) {
+    console.warn('Failed to save report:', e);
+  }
+}
+
+function deleteReport(id) {
+  const reports = getReports().filter(r => r.id !== id);
+  localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
+}
+
+function getReportById(id) {
+  return getReports().find(r => r.id === id) || null;
+}
+
+// ── BACKGROUND REPORT GENERATION ──
+
+async function generateReportInBackground(conversationId, role, candidateName, skills, lang, sections) {
+  const reportId = 'rpt_' + Date.now();
+  const report = {
+    id: reportId,
+    conversationId: conversationId,
+    status: 'generating',
+    role: typeof role === 'object' ? role : { en: role, es: role },
+    candidateName: candidateName || 'Candidate',
+    timestamp: Date.now(),
+    lang: lang,
+    callDuration: 0,
+    skills: skills || [],
+    data: null,
+    transcript: [],
+    error: null
+  };
+  saveReport(report);
+  showReportToast('generating');
+
+  try {
+    // Step 1: Poll ElevenLabs for transcript
+    let transcript = [];
+    let callDuration = 0;
+    let attempts = 0;
+    const maxAttempts = 20;
+
+    while (attempts < maxAttempts) {
+      attempts++;
+      await new Promise(r => setTimeout(r, 3000));
+      try {
+        const res = await fetch(`/api/elevenlabs-report?conversationId=${conversationId}`);
+        if (!res.ok) continue;
+        const data = await res.json();
+        if (data.status === 'done' || data.status === 'completed') {
+          transcript = data.transcript || [];
+          callDuration = data.metadata?.call_duration_secs || 0;
+          break;
+        }
+        if (data.status === 'failed') throw new Error('ElevenLabs conversation failed');
+      } catch (pollErr) {
+        if (attempts >= maxAttempts) throw pollErr;
+      }
+    }
+
+    if (attempts >= maxAttempts && transcript.length === 0) {
+      throw new Error('Transcript polling timed out');
+    }
+
+    report.transcript = transcript;
+    report.callDuration = callDuration;
+    saveReport(report);
+
+    // Step 2: Call GPT for structured evaluation
+    const evaluation = await generateGPTEvaluation(transcript, sections, skills, role);
+    report.data = evaluation;
+    report.status = 'done';
+    saveReport(report);
+    showReportToast('ready', reportId);
+
+    // Refresh reports view if user is on step 7
+    if (S.step === 7) renderStep(7);
+
+  } catch (err) {
+    report.status = 'error';
+    report.error = err.message || 'Report generation failed';
+    saveReport(report);
+    showReportToast('error');
+    console.error('Report generation failed:', err);
+  }
+}
+
+async function generateGPTEvaluation(transcript, sections, skills, role) {
+  const roleName = typeof role === 'object' ? (role.en || role.es || 'Unknown Role') : (role || 'Unknown Role');
+  const skillsList = (skills || []).join(', ');
+
+  const transcriptText = transcript.map(msg => {
+    const speaker = msg.role === 'agent' ? 'Interviewer' : 'Candidate';
+    return `${speaker}: ${msg.message}`;
+  }).join('\n');
+
+  const evalSchema = sections?.evaluation_schema || '';
+  const postInterviewEval = sections?.post_interview_evaluation || '';
+
+  const systemPrompt = `You are an expert interview evaluator for Talkscore, an AI-powered recruitment assessment platform.
+You analyze interview transcripts and provide structured evaluations with numerical scores (1-5 scale).
+Always respond with valid JSON only, no markdown or extra text.`;
+
+  const userPrompt = `Evaluate this interview transcript and provide a structured assessment.
+
+**Role:** ${roleName}
+**Skills Assessed:** ${skillsList}
+
+**Evaluation Schema:**
+${evalSchema}
+
+**Post-Interview Evaluation Instructions:**
+${postInterviewEval}
+
+**Transcript:**
+${transcriptText}
+
+Respond with this exact JSON structure:
+{
+  "overall_score": <number 1-5>,
+  "overall_label": "<text label: Low Proficiency / Below Average / Average / High Proficiency / Exceptional>",
+  "recommendation": "<Advance | Hold | Reject>",
+  "assessment_summary": "<2-3 paragraph assessment>",
+  "skill_scores": [
+    { "skill": "<skill name>", "score": <1-5>, "evaluation": "<2-3 sentence evaluation>" }
+  ],
+  "strengths": ["<strength 1>", "<strength 2>", "<strength 3>"],
+  "areas_of_concern": ["<concern 1>", "<concern 2>"],
+  "red_flags": ["<red flag if any, or empty array>"],
+  "sentiment_trajectory": [<array of 1-5 scores per question>],
+  "candidate_feedback": "<notable candidate quote or observation>"
+}`;
+
+  const res = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      max_completion_tokens: 4000,
+      temperature: 0.3
+    })
+  });
+
+  if (!res.ok) throw new Error('GPT evaluation request failed');
+  const result = await res.json();
+  const content = result.choices?.[0]?.message?.content || '';
+
+  // Parse JSON, stripping markdown code fences if present
+  const cleaned = content.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+  const evaluation = JSON.parse(cleaned);
+  return evaluation;
 }
 
 // ═══════════════════════════════
@@ -2322,5 +3236,6 @@ function closeReport() {
 refreshStaticText();
 renderStep(0);
 </script>
+<div id="report-toast" class="report-toast"></div>
 </body>
 </html>
