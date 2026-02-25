@@ -2117,17 +2117,16 @@ Respond ONLY with a valid JSON array. No markdown, no explanation, no extra text
 
 Generate all 10 questions now:`;
 
-    const res=await fetch("/api/generate",{
+    const data=await fetchWithRetry("/api/generate",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         model:"gpt-5.2",
         max_completion_tokens:2048,
+        temperature:0.3,
         messages:[{role:"user",content:prompt}]
       })
     });
-    if(!res.ok){ const err=await res.json().catch(()=>({})); throw new Error(err.error||'API request failed'); }
-    const data=await res.json();
     const raw=data.choices?.[0]?.message?.content||'[]';
     const clean=raw.replace(/```json|```/g,'').trim();
     const parsed=JSON.parse(clean);
@@ -2638,17 +2637,16 @@ IMPORTANT REMINDERS:
 - For question_flow, include ALL ${selQs.length} questions with ALL paths`;
 
   try{
-    const res=await fetch("/api/generate",{
+    const data=await fetchWithRetry("/api/generate",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
         model:"gpt-5.2",
         max_completion_tokens:8192,
+        temperature:0.3,
         messages:[{role:"user",content:prompt}]
       })
     });
-    if(!res.ok){ const err=await res.json().catch(()=>({})); throw new Error(err.error||'API request failed'); }
-    const data=await res.json();
     let text=data.choices?.[0]?.message?.content||'';
 
     // Parse JSON response into sections
@@ -2768,6 +2766,23 @@ function copyAll(){
   });
 }
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+async function fetchWithRetry(url, opts, maxRetries = 2) {
+  let lastErr;
+  for (let i = 0; i <= maxRetries; i++) {
+    try {
+      const res = await fetch(url, opts);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'API request failed');
+      }
+      return await res.json();
+    } catch (e) {
+      lastErr = e;
+      if (i < maxRetries) await new Promise(r => setTimeout(r, 1000));
+    }
+  }
+  throw lastErr;
+}
 function restart(){
   if(testConversation) endTestInterview();
   Object.assign(S,{step:0,role:null,skills:[],qStyle:null,questions:[],selectedQs:[],persona:null,output:null,sections:null});
