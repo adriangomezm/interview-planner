@@ -2850,8 +2850,7 @@ async function startTestInterview() {
 
     // Build dynamic variables from parsed sections, or fall back to full prompt override
     const candidateName = (document.getElementById('test-candidate-name')?.value || 'Test Candidate').trim();
-    const voiceId = getPersonaVoiceId();
-    const sessionConfig = { signedUrl, connectionType: "websocket" };
+    const sessionConfig = { signedUrl };
     if (S.sections) {
       const dynVars = {
         candidate_first_name:        candidateName,
@@ -2867,19 +2866,17 @@ async function startTestInterview() {
         candidate_questions_protocol:S.sections.candidate_questions_protocol || '',
       };
       sessionConfig.dynamicVariables = dynVars;
-      if (voiceId) {
-        sessionConfig.overrides = { tts: { voiceId } };
-      }
+      // Note: voice_id overrides removed — ElevenLabs agent config does not allow them.
+      // To re-enable, toggle "Allow voice override" in the ElevenLabs dashboard for both agents.
     } else {
-      const overrides = { agent: { prompt: { prompt: S.output } } };
-      if (voiceId) overrides.tts = { voiceId };
-      sessionConfig.overrides = overrides;
+      sessionConfig.overrides = { agent: { prompt: { prompt: S.output } } };
     }
 
     // Start the conversation session with dynamic variables (or fallback override)
     testConversation = await Conversation.startSession({
       ...sessionConfig,
-      onConnect: () => {
+      onConnect: ({conversationId}) => {
+        lastConversationId = conversationId;
         overlay.classList.remove('connecting');
         overlay.classList.add('listening');
         statusTxt.textContent = t('testListening');
@@ -2930,10 +2927,6 @@ async function startTestInterview() {
         transcript.scrollTop = transcript.scrollHeight;
       }
     });
-    // Get conversationId from the session instance (SDK 0.15+ API)
-    if (testConversation && typeof testConversation.getId === 'function') {
-      lastConversationId = testConversation.getId();
-    }
   } catch (err) {
     console.error('Test interview error:', err);
     cleanupCall();
