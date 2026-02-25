@@ -2846,12 +2846,12 @@ async function startTestInterview() {
     const signedUrl = await getSignedUrl();
 
     // Dynamically load the ElevenLabs SDK
-    const { Conversation } = await import('https://esm.sh/@elevenlabs/client@latest');
+    const { Conversation } = await import('https://esm.sh/@elevenlabs/client@0.15.0');
 
     // Build dynamic variables from parsed sections, or fall back to full prompt override
     const candidateName = (document.getElementById('test-candidate-name')?.value || 'Test Candidate').trim();
     const voiceId = getPersonaVoiceId();
-    const sessionConfig = { signedUrl };
+    const sessionConfig = { signedUrl, connectionType: "websocket" };
     if (S.sections) {
       const dynVars = {
         candidate_first_name:        candidateName,
@@ -2879,8 +2879,7 @@ async function startTestInterview() {
     // Start the conversation session with dynamic variables (or fallback override)
     testConversation = await Conversation.startSession({
       ...sessionConfig,
-      onConnect: ({conversationId}) => {
-        lastConversationId = conversationId;
+      onConnect: () => {
         overlay.classList.remove('connecting');
         overlay.classList.add('listening');
         statusTxt.textContent = t('testListening');
@@ -2931,6 +2930,10 @@ async function startTestInterview() {
         transcript.scrollTop = transcript.scrollHeight;
       }
     });
+    // Get conversationId from the session instance (SDK 0.15+ API)
+    if (testConversation && typeof testConversation.getId === 'function') {
+      lastConversationId = testConversation.getId();
+    }
   } catch (err) {
     console.error('Test interview error:', err);
     cleanupCall();
