@@ -478,6 +478,18 @@ body {
 .test-desc {
   font-size: 12px; color: var(--muted); margin-bottom: 18px; line-height: 1.5;
 }
+.test-name-row {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+.test-name-label {
+  font-size: 12.5px; font-weight: 600; color: var(--text); white-space: nowrap;
+}
+.test-name-input {
+  flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 13px; font-family: 'Polymath Text', 'DM Sans', sans-serif;
+  color: var(--text); background: var(--surface); transition: border-color 0.2s;
+}
+.test-name-input:focus { outline: none; border-color: var(--accent); }
 .test-call-btn {
   width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
   padding: 14px 28px; background: var(--primary); border: none; border-radius: var(--radius);
@@ -708,6 +720,10 @@ body {
       <div class="test-title" id="test-title">🎙️ Test Your Interview</div>
       <div class="test-desc" id="test-desc">Try a live voice call with the AI interviewer using the prompt you just built.</div>
     </div>
+    <div class="test-name-row">
+      <label class="test-name-label" id="test-name-label" for="test-candidate-name">Candidate Name:</label>
+      <input class="test-name-input" id="test-candidate-name" type="text" value="Test Candidate" placeholder="Enter candidate name…" />
+    </div>
     <button class="test-call-btn" id="test-call-btn" onclick="startTestInterview()">
       <span id="test-call-txt">📞 Start Test Interview</span>
     </button>
@@ -759,6 +775,8 @@ const T = {
     qCountBadge:(n)=>`${n} selected`,
     testTitle:'🎙️ Test Your Interview',
     testDesc:'Try a live voice call with the AI interviewer using the prompt you just built.',
+    testNameLabel:'Candidate Name:',
+    testNamePlaceholder:'Enter candidate name…',
     testCallBtn:'📞 Start Test Interview',
     testConnecting:'Connecting…',
     testListening:'Listening…',
@@ -794,6 +812,8 @@ const T = {
     qCountBadge:(n)=>`${n} seleccionadas`,
     testTitle:'🎙️ Prueba tu Entrevista',
     testDesc:'Realiza una llamada de voz en vivo con el entrevistador IA usando el prompt que acabas de crear.',
+    testNameLabel:'Nombre del Candidato:',
+    testNamePlaceholder:'Ingresa el nombre del candidato…',
     testCallBtn:'📞 Iniciar Entrevista de Prueba',
     testConnecting:'Conectando…',
     testListening:'Escuchando…',
@@ -1019,15 +1039,20 @@ function renderStep(n){
     if(desc) desc.textContent=sd.desc;
   }
   // update static labels
-  ['spSel','spDepth','sumHeading','genBtn','genLoading','outDone','restart','copyAll','qGenTitle','qLoading'].forEach(k=>{
+  ['spSel','spDepth','sumHeading','genBtn','genLoading','outDone','restart','copyAll','qGenTitle','qLoading','testTitle','testDesc','testNameLabel','testCallBtn','testEndBtn'].forEach(k=>{
     const el=document.getElementById({
       spSel:'sp-sel-lbl',spDepth:'sp-depth-lbl',sumHeading:'sum-heading',
       genBtn:'btn-gen-txt',genLoading:'gen-loading-txt',outDone:'out-done-badge',
       restart:'restart-txt',copyAll:'copy-all-txt',qGenTitle:'qs-title-txt',
       qLoading:'q-loading-txt',
+      testTitle:'test-title',testDesc:'test-desc',testNameLabel:'test-name-label',
+      testCallBtn:'test-call-txt',testEndBtn:'test-end-btn',
     }[k]);
     if(el) el.textContent=t(k);
   });
+  // update name input placeholder
+  const nameInput=document.getElementById('test-candidate-name');
+  if(nameInput) nameInput.placeholder=t('testNamePlaceholder');
   const renderers=[r0,r1,r2,r3,r4,r5,r6];
   if(renderers[n]) renderers[n]();
   window.scrollTo({top:0,behavior:'smooth'});
@@ -1502,9 +1527,11 @@ async function startTestInterview() {
     const { Conversation } = await import('https://esm.sh/@elevenlabs/client@latest');
 
     // Build dynamic variables from parsed sections, or fall back to full prompt override
+    const candidateName = (document.getElementById('test-candidate-name')?.value || 'Test Candidate').trim();
     const sessionConfig = { signedUrl };
     if (S.sections) {
       const dynVars = {
+        candidate_first_name:        candidateName,
         role_and_tone:               S.sections.role_and_tone || '',
         pacing_and_listening:        S.sections.pacing_and_listening || '',
         opening_script:              S.sections.opening_script || '',
