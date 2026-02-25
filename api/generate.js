@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await client.chat.completions.create({
-      model: model || "gpt-5.2",
+      model: model || "gpt-4o",
       max_completion_tokens: max_completion_tokens || max_tokens || 4096,
       messages,
     });
